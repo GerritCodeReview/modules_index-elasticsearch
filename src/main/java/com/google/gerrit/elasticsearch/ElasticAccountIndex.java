@@ -32,6 +32,7 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.account.AccountField;
 import com.google.gerrit.server.index.account.AccountIndex;
+import com.google.gerrit.server.index.options.EnsureReadsConsistentWithWrite;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -64,8 +65,9 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
       SitePaths sitePaths,
       Provider<AccountCache> accountCache,
       ElasticRestClientProvider client,
-      @Assisted Schema<AccountState> schema) {
-    super(cfg, sitePaths, schema, client, ACCOUNTS);
+      @Assisted Schema<AccountState> schema,
+      EnsureReadsConsistentWithWrite ensureReadsConsistentWithWrite) {
+    super(cfg, sitePaths, schema, client, ACCOUNTS, ensureReadsConsistentWithWrite);
     this.accountCache = accountCache;
     this.mapping = new AccountMapping(schema, client.adapter());
     this.schema = schema;
