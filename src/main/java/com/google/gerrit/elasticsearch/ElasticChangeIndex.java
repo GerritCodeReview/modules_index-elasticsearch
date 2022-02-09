@@ -37,6 +37,7 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndex;
+import com.google.gerrit.server.index.options.EnsureReadsConsistentWithWrite;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -51,6 +52,7 @@ import org.elasticsearch.client.Response;
 /** Secondary index implementation using Elasticsearch. */
 class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     implements ChangeIndex {
+
   static class ChangeMapping {
     final MappingProperties changes;
     final MappingProperties openChanges;
@@ -79,8 +81,9 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
       SitePaths sitePaths,
       ElasticRestClientProvider clientBuilder,
       @GerritServerConfig Config gerritConfig,
-      @Assisted Schema<ChangeData> schema) {
-    super(cfg, sitePaths, schema, clientBuilder, CHANGES);
+      @Assisted Schema<ChangeData> schema,
+      EnsureReadsConsistentWithWrite ensureReadsConsistentWithWrite) {
+    super(cfg, sitePaths, schema, clientBuilder, CHANGES, ensureReadsConsistentWithWrite);
     this.changeDataFactory = changeDataFactory;
     this.schema = schema;
     this.mapping = new ChangeMapping(schema, client.adapter());
@@ -96,7 +99,6 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
   public void replace(ChangeData cd) {
     BulkRequest bulk =
         new IndexRequest(getId(cd), indexName).add(new UpdateRequest<>(schema, cd, skipFields));
-
     String uri = getURI(BULK);
     Response response = postRequest(uri, bulk, getRefreshParam());
     int statusCode = response.getStatusLine().getStatusCode();

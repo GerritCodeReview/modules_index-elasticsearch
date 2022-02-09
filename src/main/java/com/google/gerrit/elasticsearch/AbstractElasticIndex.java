@@ -49,6 +49,7 @@ import com.google.gerrit.index.query.ResultSet;
 import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexUtils;
+import com.google.gerrit.server.index.options.EnsureReadsConsistentWithWrite;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -134,13 +135,15 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   protected final String indexName;
   protected final Gson gson;
   protected final ElasticQueryBuilder queryBuilder;
+  private final EnsureReadsConsistentWithWrite ensureReadsConsistentWithWrite;
 
   AbstractElasticIndex(
       ElasticConfiguration config,
       SitePaths sitePaths,
       Schema<V> schema,
       ElasticRestClientProvider client,
-      String indexName) {
+      String indexName,
+      EnsureReadsConsistentWithWrite ensureReadsConsistentWithWrite) {
     this.config = config;
     this.sitePaths = sitePaths;
     this.schema = schema;
@@ -149,6 +152,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     this.indexName = config.getIndexName(indexName, schema.getVersion());
     this.indexNameRaw = indexName;
     this.client = client;
+    this.ensureReadsConsistentWithWrite = ensureReadsConsistentWithWrite;
   }
 
   @Override
@@ -284,7 +288,11 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
   protected Map<String, String> getRefreshParam() {
     Map<String, String> params = new HashMap<>();
-    params.put("refresh", "true");
+    params.put(
+        "refresh",
+        ensureReadsConsistentWithWrite.equals(ensureReadsConsistentWithWrite.TRUE)
+            ? "true"
+            : "false");
     return params;
   }
 
