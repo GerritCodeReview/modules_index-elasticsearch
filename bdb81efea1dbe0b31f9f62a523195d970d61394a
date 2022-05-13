@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80273fa0_c0a28842",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-13T17:37:22Z",
+      "side": 1,
+      "message": "@Davido can you review if my adaptation to the Bazel build files is correct?",
+      "revId": "bdb81efea1dbe0b31f9f62a523195d970d61394a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
