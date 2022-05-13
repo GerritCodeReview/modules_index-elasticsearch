@@ -8,32 +8,12 @@ load(
     "gerrit_plugin",
 )
 
-gerrit_plugin   (
+gerrit_plugin(
     name = "index-elasticsearch",
     srcs = glob(["src/main/java/**/*.java"]),
     deps = [
-        "//java/com/google/gerrit/common:annotations",
-        "//java/com/google/gerrit/entities",
-        "//java/com/google/gerrit/exceptions",
-        "//java/com/google/gerrit/extensions:api",
-        "//java/com/google/gerrit/index",
-        "//java/com/google/gerrit/index:query_exception",
-        "//java/com/google/gerrit/index/project",
-        "//java/com/google/gerrit/lifecycle",
-        "//java/com/google/gerrit/proto",
-        "//java/com/google/gerrit/server",
-        "//lib:gson",
-        "//lib:guava",
-        "//lib:jgit",
-        "//lib:protobuf",
-        "//lib/commons:lang",
         "@elasticsearch-rest-client//jar",
-        "//lib/flogger:api",
-        "//lib/guice",
-        "//lib/guice:guice-assistedinject",
         "@httpasyncclient//jar",
-        "//lib/httpcomponents:httpclient",
-        "//lib/httpcomponents:httpcore",
         "@httpcore-nio//jar",
         "@jackson-core//jar",
     ],
@@ -44,19 +24,19 @@ java_library(
     testonly = True,
     srcs = [],
     visibility = ["//visibility:public"],
-    deps = [
+    runtime_deps = [
+        ":index-elasticsearch__plugin",
         "//java/com/google/gerrit/index",
         "//lib:guava",
         "//lib:jgit",
         "//lib:junit",
         "//lib/guice",
         "//lib/httpcomponents:httpcore",
-        "//lib/jackson:jackson-annotations",
-        "//lib/testcontainers",
-        "//lib/testcontainers:docker-java-api",
-        "//lib/testcontainers:docker-java-transport",
+        "@docker-java-api//jar",
+        "@docker-java-transport//jar",
+        "@jackson-annotations//jar",
         "@testcontainers-elasticsearch//jar",
-        ":index-elasticsearch__plugin",
+        "@testcontainers//jar",
     ],
 )
 
@@ -99,6 +79,7 @@ junit_tests(
     ),
     tags = ["elastic"],
     deps = PLUGIN_DEPS + PLUGIN_TEST_DEPS + [
+        ":index-elasticsearch__plugin",
         "//java/com/google/gerrit/testing:gerrit-test-util",
         "//lib:guava",
         "//lib:jgit",
