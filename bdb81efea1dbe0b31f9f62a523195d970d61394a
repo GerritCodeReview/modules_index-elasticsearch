@@ -16,6 +16,69 @@
       "message": "@Davido can you review if my adaptation to the Bazel build files is correct?",
       "revId": "bdb81efea1dbe0b31f9f62a523195d970d61394a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "285c6f9a_79f5f5de",
+        "filename": "BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-13T23:58:53Z",
+      "side": 1,
+      "message": "Here is a small complication, as this dependency is directly used and thus Bazel requires to specify it. Given that this transitively depends on Java protobuf library, it would add another 1 MB to the final artifact.\n\nOne way to solve it, is to add neverlink rule to gerrit:\n\n```\ndiff --git a/java/com/google/gerrit/proto/BUILD b/java/com/google/gerrit/proto/BUILD\nindex 98558c54f0..7142ec21ef 100644\n--- a/java/com/google/gerrit/proto/BUILD\n+++ b/java/com/google/gerrit/proto/BUILD\n@@ -8,3 +8,13 @@ java_library(\n         \"//lib:protobuf\",\n     ],\n )\n+\n+java_library(\n+    name \u003d \"proto-neverlink\",\n+    srcs \u003d [\"Protos.java\"],\n+    neverlink \u003d True,\n+    visibility \u003d [\"//visibility:public\"],\n+    deps \u003d [\n+        \"//lib:protobuf\",\n+    ],\n+)\n```\n\nAnd then specify it here like this:\n\n```\ngerrit_plugin(\n    name \u003d \"index-elasticsearch\",\n    srcs \u003d glob([\"src/main/java/**/*.java\"]),\n    deps \u003d [\n\t\"//java/com/google/gerrit/proto:proto-neverlink\",\n        \"@elasticsearch-rest-client//jar\",\n        \"@httpasyncclient//jar\",\n        \"@httpcore-nio//jar\",\n        \"@jackson-core//jar\",\n    ],\n)\n```",
+      "range": {
+        "startLine": 23,
+        "startChar": 8,
+        "endLine": 23,
+        "endChar": 41
+      },
+      "revId": "bdb81efea1dbe0b31f9f62a523195d970d61394a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d189151d_24770e05",
+        "filename": "BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-13T23:58:53Z",
+      "side": 1,
+      "message": "Remove this. All these dependencies are included in plugin-api, that is linked with neverlink in this target. Specifying them all in addition ends up in shaded plugin jar (50 MB). Without them the size reduced from 50 MB to 2 MB.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 40
+      },
+      "revId": "bdb81efea1dbe0b31f9f62a523195d970d61394a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed7fd186_029123b0",
+        "filename": "BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-13T23:58:53Z",
+      "side": 1,
+      "message": "Is there a way to test it? Some other changes for testing ES lib modules are still pending for review?",
+      "revId": "bdb81efea1dbe0b31f9f62a523195d970d61394a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
