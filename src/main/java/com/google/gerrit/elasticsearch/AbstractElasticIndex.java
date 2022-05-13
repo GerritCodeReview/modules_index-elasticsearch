@@ -152,6 +152,11 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   }
 
   @Override
+  public void insert(V obj) {
+    replace(obj);
+  }
+
+  @Override
   public Schema<V> getSchema() {
     return schema;
   }
