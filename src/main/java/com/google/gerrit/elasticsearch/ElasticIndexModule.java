@@ -14,15 +14,21 @@
 
 package com.google.gerrit.elasticsearch;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.index.project.ProjectIndex;
+import com.google.gerrit.server.ModuleImpl;
 import com.google.gerrit.server.index.AbstractIndexModule;
 import com.google.gerrit.server.index.VersionManager;
 import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.group.GroupIndex;
+import com.google.inject.Inject;
 import java.util.Map;
 
+@ModuleImpl(name = AbstractIndexModule.INDEX_MODULE)
 public class ElasticIndexModule extends AbstractIndexModule {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   public static ElasticIndexModule singleVersionWithExplicitVersions(
       Map<String, Integer> versions, int threads, boolean slave) {
     return new ElasticIndexModule(versions, threads, slave);
@@ -32,12 +38,18 @@ public class ElasticIndexModule extends AbstractIndexModule {
     return new ElasticIndexModule(null, 0, slave);
   }
 
-  private ElasticIndexModule(Map<String, Integer> singleVersions, int threads, boolean slave) {
+  protected ElasticIndexModule(Map<String, Integer> singleVersions, int threads, boolean slave) {
     super(singleVersions, threads, slave);
+  }
+
+  @Inject
+  public ElasticIndexModule() {
+    this(null, 0, false);
   }
 
   @Override
   public void configure() {
+    logger.atInfo().log("Gerrit index backend set to ElasticSearch");
     super.configure();
     install(ElasticRestClientProvider.module());
   }

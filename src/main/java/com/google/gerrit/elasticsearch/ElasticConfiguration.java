@@ -32,7 +32,7 @@ import org.eclipse.jgit.lib.Config;
 import org.elasticsearch.client.RestClientBuilder;
 
 @Singleton
-class ElasticConfiguration {
+public class ElasticConfiguration {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   static final String SECTION_ELASTICSEARCH = "elasticsearch";
@@ -50,7 +50,7 @@ class ElasticConfiguration {
   static final String DEFAULT_USERNAME = "elastic";
   static final int DEFAULT_NUMBER_OF_SHARDS = 1;
   static final int DEFAULT_NUMBER_OF_REPLICAS = 1;
-  static final int DEFAULT_MAX_RESULT_WINDOW = 10000;
+  static final int DEFAULT_MAX_RESULT_WINDOW = Integer.MAX_VALUE;
   static final int DEFAULT_CONNECT_TIMEOUT = RestClientBuilder.DEFAULT_CONNECT_TIMEOUT_MILLIS;
   static final int DEFAULT_SOCKET_TIMEOUT = RestClientBuilder.DEFAULT_SOCKET_TIMEOUT_MILLIS;
 
