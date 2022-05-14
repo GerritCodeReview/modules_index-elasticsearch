@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "38f7b80f_cc303b12",
+        "filename": "BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-14T16:06:12Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "6d8d6335_62f64dcf",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 71,
+        "endChar": 1
+      },
+      "revId": "1e4f05d9e6eeb172fa2534c9cdc7c30b4cee1cd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b2bf9f77_3293fb82",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-05-14T09:10:41Z",
       "side": 1,
       "message": "There are only two tests, that do not depend on Docker.\n\n```\n-rw-r--r-- 1 davido users 4983 May 14 00:55 ElasticConfigurationTest.java\n-rw-r--r-- 1 davido users 1818 May 14 00:55 ElasticVersionTest.java\n```",
+      "range": {
+        "startLine": 77,
+        "startChar": 9,
+        "endLine": 78,
+        "endChar": 46
+      },
+      "revId": "1e4f05d9e6eeb172fa2534c9cdc7c30b4cee1cd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db437daa_7b353d9b",
+        "filename": "BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-14T16:06:12Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b2bf9f77_3293fb82",
       "range": {
         "startLine": 77,
         "startChar": 9,

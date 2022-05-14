@@ -145,6 +145,24 @@
       "parentUuid": "ed7fd186_029123b0",
       "revId": "bdb81efea1dbe0b31f9f62a523195d970d61394a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e348cd7_741b51d7",
+        "filename": "BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-14T16:06:12Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d01c33a1_73f594b4",
+      "revId": "bdb81efea1dbe0b31f9f62a523195d970d61394a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
