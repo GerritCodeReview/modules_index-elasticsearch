@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab4a406e_352a3a08",
+        "filename": "BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-14T08:37:28Z",
+      "side": 1,
+      "message": "I exposed //java/com/google/gerrit/proto in plugin API in change 337231 and adapted the build here. Done.",
+      "parentUuid": "285c6f9a_79f5f5de",
+      "range": {
+        "startLine": 23,
+        "startChar": 8,
+        "endLine": 23,
+        "endChar": 41
+      },
+      "revId": "bdb81efea1dbe0b31f9f62a523195d970d61394a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d189151d_24770e05",
@@ -54,6 +78,30 @@
       "writtenOn": "2022-05-13T23:58:53Z",
       "side": 1,
       "message": "Remove this. All these dependencies are included in plugin-api, that is linked with neverlink in this target. Specifying them all in addition ends up in shaded plugin jar (50 MB). Without them the size reduced from 50 MB to 2 MB.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 40
+      },
+      "revId": "bdb81efea1dbe0b31f9f62a523195d970d61394a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4866682f_dc0a60fb",
+        "filename": "BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-14T08:37:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d189151d_24770e05",
       "range": {
         "startLine": 15,
         "startChar": 0,
