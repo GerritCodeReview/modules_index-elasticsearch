@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d8d6335_62f64dcf",
+        "filename": "BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-14T09:10:41Z",
+      "side": 1,
+      "message": "All this is currently unused. I removed it to simplify the build and to demonstrate, that the currently tests in repositories still succeed:\n\n```\n  $ bazelisk test modules/index-elasticsearch/...\n  [...]\n  INFO: Elapsed time: 0.677s, Critical Path: 0.51s\n  INFO: 1 process: 1 internal.\n  INFO: Build completed successfully, 1 total action\n  //modules/index-elasticsearch:index-elasticsearch_tests         (cached) PASSED in 0.6s\n```",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 71,
+        "endChar": 1
+      },
+      "revId": "1e4f05d9e6eeb172fa2534c9cdc7c30b4cee1cd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2bf9f77_3293fb82",
+        "filename": "BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-14T09:10:41Z",
+      "side": 1,
+      "message": "There are only two tests, that do not depend on Docker.\n\n```\n-rw-r--r-- 1 davido users 4983 May 14 00:55 ElasticConfigurationTest.java\n-rw-r--r-- 1 davido users 1818 May 14 00:55 ElasticVersionTest.java\n```",
+      "range": {
+        "startLine": 77,
+        "startChar": 9,
+        "endLine": 78,
+        "endChar": 46
+      },
+      "revId": "1e4f05d9e6eeb172fa2534c9cdc7c30b4cee1cd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

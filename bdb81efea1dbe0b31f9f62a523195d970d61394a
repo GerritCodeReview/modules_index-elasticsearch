@@ -127,6 +127,24 @@
       "message": "Is there a way to test it? Some other changes for testing ES lib modules are still pending for review?",
       "revId": "bdb81efea1dbe0b31f9f62a523195d970d61394a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d01c33a1_73f594b4",
+        "filename": "BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-14T09:10:41Z",
+      "side": 1,
+      "message": "All this docker dependencies are actually not used. Where is the setup code and are the Elasticsearch tests that depend on docker?",
+      "parentUuid": "ed7fd186_029123b0",
+      "revId": "bdb81efea1dbe0b31f9f62a523195d970d61394a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
