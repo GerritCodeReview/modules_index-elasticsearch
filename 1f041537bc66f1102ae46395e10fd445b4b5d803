@@ -16,6 +16,24 @@
       "message": "@Davido thanks for your feedback. Is this good enough for having an initial green build?",
       "revId": "1f041537bc66f1102ae46395e10fd445b4b5d803",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9d417cf_8ec5ffae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-15T10:34:35Z",
+      "side": 1,
+      "message": "Yes. We could eliminate dependency on \"//java/com/google/gerrit/proto\" dependency, once my change in gerrit core is merge. This change already reduces the size of final artifact from 50 MB to 2 MB.",
+      "parentUuid": "78811ae1_a9126014",
+      "revId": "1f041537bc66f1102ae46395e10fd445b4b5d803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
