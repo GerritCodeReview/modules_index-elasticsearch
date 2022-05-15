@@ -16,6 +16,24 @@
       "message": "This is failing for me with:\n```\nERROR: /Users/lucamilanesio/gerrithub/gerrit-3.5/plugins/index-elasticsearch/BUILD:110:12: no such package \u0027javatests/com/google/gerrit/server/query/%s\u0027: BUILD file not found in any of the following directories. Add a BUILD file to a directory to mark it as a package.\n```",
       "revId": "e7ae2e651e415ac59588f86db938069954c15b79",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a4c1eb4_9f8aeb42",
+        "filename": "BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-15T11:17:50Z",
+      "side": 1,
+      "message": "The build is now fixed. The dockerized ES query tests are still failing: there are guice binding issues that needs to be fixed to reflect that ES index implementation is now a lib module.",
+      "parentUuid": "70a333ad_cc8e5515",
+      "revId": "e7ae2e651e415ac59588f86db938069954c15b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
