@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d8407a5_3b1f7715",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-15T16:35:59Z",
+      "side": 1,
+      "message": "Why the verification is not troggered? I\u0027ve seen, that you added two new checkers ro build and code-",
+      "revId": "77367c1080c827663ab2595be919929103afd1e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

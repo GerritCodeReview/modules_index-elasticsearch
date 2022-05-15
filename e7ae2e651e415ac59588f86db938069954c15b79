@@ -34,6 +34,24 @@
       "parentUuid": "70a333ad_cc8e5515",
       "revId": "e7ae2e651e415ac59588f86db938069954c15b79",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "248e614b_b9ded36c",
+        "filename": "BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-15T16:35:59Z",
+      "side": 1,
+      "message": "To fix Guice binding for lib index module, Gerrit core must be adapted. I wrote this change 337232, and the tests are now passing, yay!",
+      "parentUuid": "2a4c1eb4_9f8aeb42",
+      "revId": "e7ae2e651e415ac59588f86db938069954c15b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
