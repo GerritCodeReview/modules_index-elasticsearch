@@ -35,3 +35,19 @@ Example:
 ```sh
 bazelisk test plugins/index-elasticsearch/...
 ```
+
+This project can be imported into the Eclipse IDE.
+Add the plugin name to the `CUSTOM_PLUGINS` and to the
+`CUSTOM_PLUGINS_TEST_DEPS` set in Gerrit core in
+`tools/bzl/plugins.bzl`, and execute:
+
+```
+  ./tools/eclipse/project.py
+```
+
+More information about Bazel can be found in the [Gerrit
+documentation](../../../Documentation/dev-bazel.html).
+
+[Back to @PLUGIN@ documentation index][index]
+
+[index]: index.html
