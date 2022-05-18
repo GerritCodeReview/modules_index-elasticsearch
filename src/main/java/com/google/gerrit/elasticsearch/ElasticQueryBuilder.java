@@ -29,7 +29,6 @@ import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.RegexPredicate;
 import com.google.gerrit.index.query.TimestampRangePredicate;
-import java.time.Instant;
 
 public class ElasticQueryBuilder {
 
@@ -119,9 +118,8 @@ public class ElasticQueryBuilder {
   }
 
   private <T> QueryBuilder notTimestamp(TimestampRangePredicate<T> r) throws QueryParseException {
-    if (r.getMinTimestamp().getTime() == 0) {
-      return QueryBuilders.rangeQuery(r.getField().getName())
-          .gt(Instant.ofEpochMilli(r.getMaxTimestamp().getTime()));
+    if (r.getMinTimestamp().toEpochMilli() == 0) {
+      return QueryBuilders.rangeQuery(r.getField().getName()).gt(r.getMaxTimestamp());
     }
     throw new QueryParseException("cannot negate: " + r);
   }
@@ -129,15 +127,14 @@ public class ElasticQueryBuilder {
   private <T> QueryBuilder timestampQuery(IndexPredicate<T> p) throws QueryParseException {
     if (p instanceof TimestampRangePredicate) {
       TimestampRangePredicate<T> r = (TimestampRangePredicate<T>) p;
-      if (r.getMaxTimestamp().getTime() == Long.MAX_VALUE) {
+      if (r.getMaxTimestamp().toEpochMilli() == Long.MAX_VALUE) {
         // The time range only has the start value, search from the start to the max supported value
         // Long.MAX_VALUE
-        return QueryBuilders.rangeQuery(r.getField().getName())
-            .gte(Instant.ofEpochMilli(r.getMinTimestamp().getTime()));
+        return QueryBuilders.rangeQuery(r.getField().getName()).gte(r.getMinTimestamp());
       }
       return QueryBuilders.rangeQuery(r.getField().getName())
-          .gte(Instant.ofEpochMilli(r.getMinTimestamp().getTime()))
-          .lte(Instant.ofEpochMilli(r.getMaxTimestamp().getTime()));
+          .gte(r.getMinTimestamp())
+          .lte(r.getMaxTimestamp());
     }
     throw new QueryParseException("not a timestamp: " + p);
   }

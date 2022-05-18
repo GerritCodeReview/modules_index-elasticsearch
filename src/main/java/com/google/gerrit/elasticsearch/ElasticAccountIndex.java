@@ -91,15 +91,12 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
   @Override
   public DataSource<AccountState> getSource(Predicate<AccountState> p, QueryOptions opts)
       throws QueryParseException {
+    boolean useLegacyNumericFields = schema.hasField(AccountField.ID);
     JsonArray sortArray =
         getSortArray(
-            schema.useLegacyNumericFields()
-                ? AccountField.ID.getName()
-                : AccountField.ID_STR.getName());
+            useLegacyNumericFields ? AccountField.ID.getName() : AccountField.ID_STR.getName());
     return new ElasticQuerySource(
-        p,
-        opts.filterFields(o -> IndexUtils.accountFields(o, schema.useLegacyNumericFields())),
-        sortArray);
+        p, opts.filterFields(o -> IndexUtils.accountFields(o, useLegacyNumericFields)), sortArray);
   }
 
   @Override
@@ -129,7 +126,7 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
             source
                 .getAsJsonObject()
                 .get(
-                    schema.useLegacyNumericFields()
+                    schema.hasField(AccountField.ID)
                         ? AccountField.ID.getName()
                         : AccountField.ID_STR.getName())
                 .getAsInt());
