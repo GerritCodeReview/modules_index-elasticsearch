@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57e9fb72_5f4cacba",
+        "filename": "src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-09T16:36:25Z",
+      "side": 0,
+      "message": "unrelated change?",
+      "revId": "3e6de6fcb52ba8cf6820e694c0d0a4a10f1289d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
