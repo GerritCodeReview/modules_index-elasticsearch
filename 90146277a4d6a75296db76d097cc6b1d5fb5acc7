@@ -16,6 +16,24 @@
       "message": "unrelated change?",
       "revId": "90146277a4d6a75296db76d097cc6b1d5fb5acc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2066a6e2_b2e1099c",
+        "filename": "src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-06-09T16:42:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb51142a_a43f5979",
+      "revId": "90146277a4d6a75296db76d097cc6b1d5fb5acc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
