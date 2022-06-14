@@ -45,6 +45,29 @@
       },
       "revId": "b4673c18acf74be03af714740ba094dad4cac53c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "101deaf5_6d56db73",
+        "filename": "src/main/java/com/google/gerrit/elasticsearch/ElasticIndexModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-14T15:02:42Z",
+      "side": 1,
+      "message": "We are using actually string type:\n\n  params.put(\"refresh\", ensureReadsConsistentWithWrite.toString());\n\nso that we could already bind it in injector as String and avoid converting from Boolean to boolean to String on the usage sites.",
+      "range": {
+        "startLine": 71,
+        "startChar": 4,
+        "endLine": 74,
+        "endChar": 45
+      },
+      "revId": "b4673c18acf74be03af714740ba094dad4cac53c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
