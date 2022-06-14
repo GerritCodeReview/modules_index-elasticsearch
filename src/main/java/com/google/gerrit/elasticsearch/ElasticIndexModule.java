@@ -23,36 +23,53 @@ import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.inject.Inject;
+import com.google.inject.name.Names;
+
 import java.util.Map;
 
 @ModuleImpl(name = AbstractIndexModule.INDEX_MODULE)
 public class ElasticIndexModule extends AbstractIndexModule {
+	public static final String ES_READ_CONSISTENT_WITH_WRITE = "ElasticReadConsistentWithWrite";
+	
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+  
+  private boolean offlineReindex;
 
   public static ElasticIndexModule singleVersionWithExplicitVersions(
       Map<String, Integer> versions, int threads, boolean slave) {
-    return new ElasticIndexModule(versions, threads, slave);
+    return new ElasticIndexModule(versions, threads, slave, true);
   }
 
   public static ElasticIndexModule latestVersion(boolean slave) {
-    return new ElasticIndexModule(null, 0, slave);
+    return new ElasticIndexModule(null, 0, slave, false);
   }
 
   protected ElasticIndexModule(Map<String, Integer> singleVersions, int threads, boolean slave) {
-    super(singleVersions, threads, slave);
+    this(singleVersions, threads, slave, false);
   }
+  
+  protected ElasticIndexModule(Map<String, Integer> singleVersions, int threads, boolean slave, boolean offlineReindex) {
+	    super(singleVersions, threads, slave);
+	    
+	    this.offlineReindex = offlineReindex;
+	  }
 
   @Inject
   public ElasticIndexModule() {
     this(null, 0, false);
   }
 
-  @Override
-  public void configure() {
-    logger.atInfo().log("Gerrit index backend set to ElasticSearch");
-    super.configure();
-    install(ElasticRestClientProvider.module());
-  }
+	@Override
+	public void configure() {
+		logger.atInfo().log("Gerrit index backend set to ElasticSearch");
+
+		Boolean readConsistentWithWrite = !offlineReindex;
+		bind(Boolean.class).annotatedWith(Names.named(ES_READ_CONSISTENT_WITH_WRITE))
+		.toInstance(readConsistentWithWrite);
+
+		super.configure();
+		install(ElasticRestClientProvider.module());
+	}
 
   @Override
   protected Class<? extends AccountIndex> getAccountIndex() {

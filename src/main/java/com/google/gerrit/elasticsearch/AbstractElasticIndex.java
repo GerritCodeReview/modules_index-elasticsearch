@@ -134,13 +134,15 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   protected final String indexName;
   protected final Gson gson;
   protected final ElasticQueryBuilder queryBuilder;
+  private final Boolean ensureReadsConsistentWithWrite;
 
   AbstractElasticIndex(
       ElasticConfiguration config,
       SitePaths sitePaths,
       Schema<V> schema,
       ElasticRestClientProvider client,
-      String indexName) {
+      String indexName,
+      boolean ensureReadsConsistentWithWrite) {
     this.config = config;
     this.sitePaths = sitePaths;
     this.schema = schema;
@@ -149,6 +151,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     this.indexName = config.getIndexName(indexName, schema.getVersion());
     this.indexNameRaw = indexName;
     this.client = client;
+    this.ensureReadsConsistentWithWrite = ensureReadsConsistentWithWrite;
   }
 
   @Override
@@ -284,7 +287,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
   protected Map<String, String> getRefreshParam() {
     Map<String, String> params = new HashMap<>();
-    params.put("refresh", "true");
+    params.put("refresh", ensureReadsConsistentWithWrite.toString());
     return params;
   }
 
