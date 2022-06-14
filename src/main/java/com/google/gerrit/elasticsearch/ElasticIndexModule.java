@@ -15,6 +15,7 @@
 package com.google.gerrit.elasticsearch;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.elasticsearch.AbstractElasticIndex.RefreshAfterWriteParam;
 import com.google.gerrit.index.project.ProjectIndex;
 import com.google.gerrit.server.ModuleImpl;
 import com.google.gerrit.server.index.AbstractIndexModule;
@@ -29,17 +30,31 @@ import java.util.Map;
 public class ElasticIndexModule extends AbstractIndexModule {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  private final boolean offlineReindex;
+
   public static ElasticIndexModule singleVersionWithExplicitVersions(
       Map<String, Integer> versions, int threads, boolean slave) {
-    return new ElasticIndexModule(versions, threads, slave);
+    return new ElasticIndexModule(
+        versions,
+        threads,
+        slave,
+        versions.size()
+            == 1 /* Set offline reindex flag to 'true' because of being called by the Reindex site program */);
   }
 
   public static ElasticIndexModule latestVersion(boolean slave) {
-    return new ElasticIndexModule(null, 0, slave);
+    return new ElasticIndexModule(null, 0, slave, false);
   }
 
   protected ElasticIndexModule(Map<String, Integer> singleVersions, int threads, boolean slave) {
+    this(singleVersions, threads, slave, false);
+  }
+
+  protected ElasticIndexModule(
+      Map<String, Integer> singleVersions, int threads, boolean slave, boolean offlineReindex) {
     super(singleVersions, threads, slave);
+
+    this.offlineReindex = offlineReindex;
   }
 
   @Inject
@@ -50,6 +65,10 @@ public class ElasticIndexModule extends AbstractIndexModule {
   @Override
   public void configure() {
     logger.atInfo().log("Gerrit index backend set to ElasticSearch");
+
+    bind(RefreshAfterWriteParam.class)
+        .toInstance(offlineReindex ? RefreshAfterWriteParam.FALSE : RefreshAfterWriteParam.TRUE);
+
     super.configure();
     install(ElasticRestClientProvider.module());
   }

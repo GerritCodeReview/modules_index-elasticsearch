@@ -64,8 +64,9 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
       SitePaths sitePaths,
       Provider<AccountCache> accountCache,
       ElasticRestClientProvider client,
-      @Assisted Schema<AccountState> schema) {
-    super(cfg, sitePaths, schema, client, ACCOUNTS);
+      @Assisted Schema<AccountState> schema,
+      RefreshAfterWriteParam refreshAfterWrite) {
+    super(cfg, sitePaths, schema, client, ACCOUNTS, refreshAfterWrite);
     this.accountCache = accountCache;
     this.mapping = new AccountMapping(schema, client.adapter());
     this.schema = schema;

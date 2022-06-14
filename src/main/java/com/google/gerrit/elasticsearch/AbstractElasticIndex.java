@@ -64,7 +64,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.sql.Timestamp;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -89,6 +88,18 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   protected static final String UNMAPPED_TYPE = "unmapped_type";
   protected static final String SEARCH = "_search";
   protected static final String SETTINGS = "settings";
+
+  /**
+   * ES refresh policy after writes, see [1].
+   *
+   * <p>[1]
+   * https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-update.html#docs-update-api-query-params
+   */
+  static enum RefreshAfterWriteParam {
+    TRUE,
+    WAIT_FOR,
+    FALSE;
+  }
 
   static byte[] decodeBase64(String base64String) {
     return BaseEncoding.base64().decode(base64String);
@@ -134,13 +145,15 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   protected final String indexName;
   protected final Gson gson;
   protected final ElasticQueryBuilder queryBuilder;
+  private final RefreshAfterWriteParam refreshAfterWrite;
 
   AbstractElasticIndex(
       ElasticConfiguration config,
       SitePaths sitePaths,
       Schema<V> schema,
       ElasticRestClientProvider client,
-      String indexName) {
+      String indexName,
+      RefreshAfterWriteParam refreshAfterWrite) {
     this.config = config;
     this.sitePaths = sitePaths;
     this.schema = schema;
@@ -149,6 +162,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     this.indexName = config.getIndexName(indexName, schema.getVersion());
     this.indexNameRaw = indexName;
     this.client = client;
+    this.refreshAfterWrite = refreshAfterWrite;
   }
 
   @Override
@@ -282,10 +296,8 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     array.add(arrayElement);
   }
 
-  protected Map<String, String> getRefreshParam() {
-    Map<String, String> params = new HashMap<>();
-    params.put("refresh", "true");
-    return params;
+  protected RefreshAfterWriteParam getRefreshParam() {
+    return refreshAfterWrite;
   }
 
   protected String getSearch(SearchSourceBuilder searchSource, JsonArray sortArray) {
@@ -315,8 +327,9 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     return performRequest("POST", uri, payload);
   }
 
-  protected Response postRequest(String uri, Object payload, Map<String, String> params) {
-    return performRequest("POST", uri, payload, params);
+  protected Response postRequest(String uri, Object payload, RefreshAfterWriteParam refreshParam) {
+    return performRequest(
+        "POST", uri, payload, Map.of("refresh", refreshParam.toString().toLowerCase()));
   }
 
   private String concatJsonString(String target, String addition) {

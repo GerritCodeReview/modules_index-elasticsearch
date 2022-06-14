@@ -66,8 +66,9 @@ public class ElasticProjectIndex extends AbstractElasticIndex<Project.NameKey, P
       SitePaths sitePaths,
       Provider<ProjectCache> projectCache,
       ElasticRestClientProvider client,
-      @Assisted Schema<ProjectData> schema) {
-    super(cfg, sitePaths, schema, client, PROJECTS);
+      @Assisted Schema<ProjectData> schema,
+      RefreshAfterWriteParam refreshAfterWrite) {
+    super(cfg, sitePaths, schema, client, PROJECTS, refreshAfterWrite);
     this.projectCache = projectCache;
     this.schema = schema;
     this.mapping = new ProjectMapping(schema, client.adapter());

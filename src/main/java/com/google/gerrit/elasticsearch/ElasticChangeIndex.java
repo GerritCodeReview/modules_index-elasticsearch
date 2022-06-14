@@ -79,8 +79,9 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
       SitePaths sitePaths,
       ElasticRestClientProvider clientBuilder,
       @GerritServerConfig Config gerritConfig,
-      @Assisted Schema<ChangeData> schema) {
-    super(cfg, sitePaths, schema, clientBuilder, CHANGES);
+      @Assisted Schema<ChangeData> schema,
+      RefreshAfterWriteParam refreshAfterWrite) {
+    super(cfg, sitePaths, schema, clientBuilder, CHANGES, refreshAfterWrite);
     this.changeDataFactory = changeDataFactory;
     this.schema = schema;
     this.mapping = new ChangeMapping(schema, client.adapter());
