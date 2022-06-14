@@ -162,6 +162,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4dcea60e_c74be725",
+        "filename": "src/main/java/com/google/gerrit/elasticsearch/ElasticIndexModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-14T14:42:33Z",
+      "side": 1,
+      "message": "\u003e The Gerrit daemon doesn\u0027t call that method AFAIK when running it online, why should the test do it instead?\n\nI think the reason for it is that index tests covering two schema index versions: the latest and the previous. And that\u0027s exactly what this method is offering: activate index module for a specific schema index version.\n\n\u003e Can you propose a change for Gerrit master on it?\n\nYes, working on it right now.",
+      "parentUuid": "dc04318f_3b304d7c",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 65
+      },
+      "revId": "2d26699f10a5b88d3d99b96108d8378163128e6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3d76ff04_ac440e77",
         "filename": "src/main/java/com/google/gerrit/elasticsearch/ElasticIndexModule.java",
         "patchSetId": 2
@@ -232,6 +256,30 @@
       "side": 1,
       "message": "No, this is wanted instead: we are binding the config option ES_READ_CONSISTENT_WITH_WRITE to the boolean value \u0027true\u0027 if we are NOT in offline reindex.",
       "parentUuid": "efa9a321_eec68687",
+      "range": {
+        "startLine": 67,
+        "startChar": 4,
+        "endLine": 69,
+        "endChar": 45
+      },
+      "revId": "2d26699f10a5b88d3d99b96108d8378163128e6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6bc0f367_68858830",
+        "filename": "src/main/java/com/google/gerrit/elasticsearch/ElasticIndexModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-14T14:42:33Z",
+      "side": 1,
+      "message": "All right, I misread it.",
+      "parentUuid": "285bfc8e_8009d747",
       "range": {
         "startLine": 67,
         "startChar": 4,
