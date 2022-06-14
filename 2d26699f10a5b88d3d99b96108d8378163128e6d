@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "697ee7bf_2e7916d6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-14T10:08:47Z",
+      "side": 1,
+      "message": "Nice!",
+      "revId": "2d26699f10a5b88d3d99b96108d8378163128e6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "404cdb82_e24b7f6f",
+        "filename": "src/main/java/com/google/gerrit/elasticsearch/ElasticIndexModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-14T10:08:47Z",
+      "side": 1,
+      "message": "private final",
+      "range": {
+        "startLine": 35,
+        "startChar": 2,
+        "endLine": 35,
+        "endChar": 17
+      },
+      "revId": "2d26699f10a5b88d3d99b96108d8378163128e6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1602fffe_11054831",
+        "filename": "src/main/java/com/google/gerrit/elasticsearch/ElasticIndexModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-14T10:08:47Z",
+      "side": 1,
+      "message": "Another more explicit approach would be to pass in the Offline/Online mode indicator to the singleVersionWithExplicitVersions() function.",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 65
+      },
+      "revId": "2d26699f10a5b88d3d99b96108d8378163128e6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d76ff04_ac440e77",
+        "filename": "src/main/java/com/google/gerrit/elasticsearch/ElasticIndexModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-14T10:08:47Z",
+      "side": 1,
+      "message": "Add a comment that we relies on the fact, that this code path implicitly used only by the Reindex command?",
+      "revId": "2d26699f10a5b88d3d99b96108d8378163128e6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efa9a321_eec68687",
+        "filename": "src/main/java/com/google/gerrit/elasticsearch/ElasticIndexModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-14T10:08:47Z",
+      "side": 1,
+      "message": "Left over from previous attempt.",
+      "range": {
+        "startLine": 67,
+        "startChar": 4,
+        "endLine": 69,
+        "endChar": 45
+      },
+      "revId": "2d26699f10a5b88d3d99b96108d8378163128e6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
