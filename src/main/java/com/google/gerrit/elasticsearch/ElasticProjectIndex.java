@@ -39,6 +39,7 @@ import com.google.gson.JsonObject;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.name.Named;
 import java.util.Optional;
 import java.util.Set;
 import org.apache.http.HttpStatus;
@@ -66,8 +67,10 @@ public class ElasticProjectIndex extends AbstractElasticIndex<Project.NameKey, P
       SitePaths sitePaths,
       Provider<ProjectCache> projectCache,
       ElasticRestClientProvider client,
-      @Assisted Schema<ProjectData> schema) {
-    super(cfg, sitePaths, schema, client, PROJECTS);
+      @Assisted Schema<ProjectData> schema,
+      @Named(ElasticIndexModule.ES_READ_CONSISTENT_WITH_WRITE)
+          Boolean ensureReadsConsistentWithWrite) {
+    super(cfg, sitePaths, schema, client, PROJECTS, ensureReadsConsistentWithWrite);
     this.projectCache = projectCache;
     this.schema = schema;
     this.mapping = new ProjectMapping(schema, client.adapter());

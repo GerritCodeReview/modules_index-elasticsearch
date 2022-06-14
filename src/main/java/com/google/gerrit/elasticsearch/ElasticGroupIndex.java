@@ -38,6 +38,7 @@ import com.google.gson.JsonObject;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.name.Named;
 import java.util.Set;
 import org.apache.http.HttpStatus;
 import org.elasticsearch.client.Response;
@@ -64,8 +65,10 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, I
       SitePaths sitePaths,
       Provider<GroupCache> groupCache,
       ElasticRestClientProvider client,
-      @Assisted Schema<InternalGroup> schema) {
-    super(cfg, sitePaths, schema, client, GROUPS);
+      @Assisted Schema<InternalGroup> schema,
+      @Named(ElasticIndexModule.ES_READ_CONSISTENT_WITH_WRITE)
+          Boolean ensureReadsConsistentWithWrite) {
+    super(cfg, sitePaths, schema, client, GROUPS, ensureReadsConsistentWithWrite);
     this.groupCache = groupCache;
     this.mapping = new GroupMapping(schema, client.adapter());
     this.schema = schema;

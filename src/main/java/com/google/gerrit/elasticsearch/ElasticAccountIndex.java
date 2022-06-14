@@ -38,6 +38,7 @@ import com.google.gson.JsonObject;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.name.Named;
 import java.util.Set;
 import org.apache.http.HttpStatus;
 import org.elasticsearch.client.Response;
@@ -64,8 +65,10 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
       SitePaths sitePaths,
       Provider<AccountCache> accountCache,
       ElasticRestClientProvider client,
-      @Assisted Schema<AccountState> schema) {
-    super(cfg, sitePaths, schema, client, ACCOUNTS);
+      @Assisted Schema<AccountState> schema,
+      @Named(ElasticIndexModule.ES_READ_CONSISTENT_WITH_WRITE)
+          Boolean ensureReadsConsistentWithWrite) {
+    super(cfg, sitePaths, schema, client, ACCOUNTS, ensureReadsConsistentWithWrite);
     this.accountCache = accountCache;
     this.mapping = new AccountMapping(schema, client.adapter());
     this.schema = schema;

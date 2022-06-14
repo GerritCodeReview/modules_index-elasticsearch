@@ -43,6 +43,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.name.Named;
 import java.util.Set;
 import org.apache.http.HttpStatus;
 import org.eclipse.jgit.lib.Config;
@@ -79,8 +80,10 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
       SitePaths sitePaths,
       ElasticRestClientProvider clientBuilder,
       @GerritServerConfig Config gerritConfig,
-      @Assisted Schema<ChangeData> schema) {
-    super(cfg, sitePaths, schema, clientBuilder, CHANGES);
+      @Assisted Schema<ChangeData> schema,
+      @Named(ElasticIndexModule.ES_READ_CONSISTENT_WITH_WRITE)
+          Boolean ensureReadsConsistentWithWrite) {
+    super(cfg, sitePaths, schema, clientBuilder, CHANGES, ensureReadsConsistentWithWrite);
     this.changeDataFactory = changeDataFactory;
     this.schema = schema;
     this.mapping = new ChangeMapping(schema, client.adapter());
