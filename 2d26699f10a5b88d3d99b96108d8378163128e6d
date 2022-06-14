@@ -138,6 +138,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dc04318f_3b304d7c",
+        "filename": "src/main/java/com/google/gerrit/elasticsearch/ElasticIndexModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-06-14T14:11:12Z",
+      "side": 1,
+      "message": "\u003e One potential issue with implicitly inducing Ofline/Online mode from the fact that this specific method is called and not passing mode explicitly is that the current test setup is using this method as well, see: [1],\n\nGood point: I can still work out the difference for now, but on master I agree with you we need to pass the off-line reindexing option explicitly.\n\nCan you propose a change for Gerrit master on it?",
+      "parentUuid": "858623a4_4acde0f6",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 65
+      },
+      "revId": "2d26699f10a5b88d3d99b96108d8378163128e6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3d76ff04_ac440e77",
         "filename": "src/main/java/com/google/gerrit/elasticsearch/ElasticIndexModule.java",
         "patchSetId": 2
