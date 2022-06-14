@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef0e4279_5ee864a1",
+        "filename": "src/main/java/com/google/gerrit/elasticsearch/ElasticIndexModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-06-14T14:09:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "404cdb82_e24b7f6f",
+      "range": {
+        "startLine": 35,
+        "startChar": 2,
+        "endLine": 35,
+        "endChar": 17
+      },
+      "revId": "2d26699f10a5b88d3d99b96108d8378163128e6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1602fffe_11054831",
@@ -90,6 +114,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "858623a4_4acde0f6",
+        "filename": "src/main/java/com/google/gerrit/elasticsearch/ElasticIndexModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-06-14T14:09:12Z",
+      "side": 1,
+      "message": "\u003e One potential issue with implicitly inducing Ofline/Online mode from the fact that this specific method is called and not passing mode explicitly is that the current test setup is using this method as well, see: [1],\n\nGood point: actually I am puzzled on why it is called in the normal online use of the indexing backends. The Gerrit daemon doesn\u0027t call that method AFAIK when running it online, why should the test do it instead?\n\nLet me try removing it and see if there is any impact anywhere.",
+      "parentUuid": "961d2161_834b9fc7",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 65
+      },
+      "revId": "2d26699f10a5b88d3d99b96108d8378163128e6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3d76ff04_ac440e77",
         "filename": "src/main/java/com/google/gerrit/elasticsearch/ElasticIndexModule.java",
         "patchSetId": 2
@@ -101,6 +149,24 @@
       "writtenOn": "2022-06-14T10:08:47Z",
       "side": 1,
       "message": "Add a comment that we relies on the fact, that this code path implicitly used only by the Reindex command?",
+      "revId": "2d26699f10a5b88d3d99b96108d8378163128e6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ecd20b0e_bd086ff2",
+        "filename": "src/main/java/com/google/gerrit/elasticsearch/ElasticIndexModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-06-14T14:09:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d76ff04_ac440e77",
       "revId": "2d26699f10a5b88d3d99b96108d8378163128e6d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -118,6 +184,30 @@
       "writtenOn": "2022-06-14T10:08:47Z",
       "side": 1,
       "message": "Left over from previous attempt.",
+      "range": {
+        "startLine": 67,
+        "startChar": 4,
+        "endLine": 69,
+        "endChar": 45
+      },
+      "revId": "2d26699f10a5b88d3d99b96108d8378163128e6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "285bfc8e_8009d747",
+        "filename": "src/main/java/com/google/gerrit/elasticsearch/ElasticIndexModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-06-14T14:09:12Z",
+      "side": 1,
+      "message": "No, this is wanted instead: we are binding the config option ES_READ_CONSISTENT_WITH_WRITE to the boolean value \u0027true\u0027 if we are NOT in offline reindex.",
+      "parentUuid": "efa9a321_eec68687",
       "range": {
         "startLine": 67,
         "startChar": 4,
