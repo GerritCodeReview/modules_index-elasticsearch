@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ccf8bb7_9c5954af",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-14T16:04:54Z",
+      "side": 1,
+      "message": "(copied from I23bb1e8b73 for consistency)\n\nHi Luca, please read and respond to my comment on the core change in response to David: https://gerrit-review.googlesource.com/c/gerrit/+/339114/comments/f3344963_33d02879\n\nI specifically address the difference there between knowing offline reindex vs a desired index behavior. I do not believe they are the same, but please add comments there if you disagree.",
+      "revId": "b4673c18acf74be03af714740ba094dad4cac53c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aa397f1e_a323cb60",
