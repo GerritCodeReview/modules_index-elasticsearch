@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1aad16fb_210bf08e",
+        "filename": "src/main/java/com/google/gerrit/elasticsearch/ElasticIndexModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-06-14T14:12:36Z",
+      "side": 1,
+      "message": "This is hack and needs a different solution for master: we need an additional parameter to specify that the instantiation was done for an offline reindexing.\n\nAlternatively, we could have a different module altogether for offline, as also the objects needed for the runtime could be different (e.g. there is no lifecycle listeners or others)",
+      "range": {
+        "startLine": 43,
+        "startChar": 1,
+        "endLine": 45,
+        "endChar": 0
+      },
+      "revId": "b4673c18acf74be03af714740ba094dad4cac53c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
