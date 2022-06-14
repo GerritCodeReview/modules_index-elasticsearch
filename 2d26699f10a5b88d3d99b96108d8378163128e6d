@@ -66,6 +66,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "961d2161_834b9fc7",
+        "filename": "src/main/java/com/google/gerrit/elasticsearch/ElasticIndexModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-14T11:34:47Z",
+      "side": 1,
+      "message": "One potential issue with implicitly inducing Ofline/Online mode from the fact that this specific method is called and not passing mode explicitly is that the current test setup is using this method as well, see: [1], and the offline mode could be erroneously set during tests execution in dedicated secondary index backends.\n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/testing/InMemoryModule.java#340",
+      "parentUuid": "1602fffe_11054831",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 65
+      },
+      "revId": "2d26699f10a5b88d3d99b96108d8378163128e6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3d76ff04_ac440e77",
         "filename": "src/main/java/com/google/gerrit/elasticsearch/ElasticIndexModule.java",
         "patchSetId": 2
