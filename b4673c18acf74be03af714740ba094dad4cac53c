@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ba13622e_b3cbc158",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-15T01:51:13Z",
+      "side": 1,
+      "message": "\u003e Thanks for the pointer, answered.\n\u003e \n\u003e I agree with you that it isn\u0027t a boolean but an enum, according to [1].\n\u003e Also, I\u0027m not sure that when working online the \u0027true\u0027 value is right, but it should rather be \u0027wait_for\u0027.\n\nNo, `true` is correct. See below.\n\n\u003e \n\u003e Note that there are a lot more parameters we may need to add, apart from the refresh one.\n\nWhich of those do you think are interesting to Gerrit use cases?\n\n\u003e \n\u003e In a nutshell, the enum is correct and needs the following values:\n\u003e \u0027true\u0027 - refresh the shards but don\u0027t wait for the refresh to complete\n\u003e \u0027wait_for\u0027 - refresh the shards *AND* wait for the refresh to complete\n\u003e \u0027false\u0027 - do not refresh the shards\n\nThis isn\u0027t what [1] says, but we were confused by its wording at first too.\n\nFrom [1]:\nIf `true`, Elasticsearch refreshes the affected shards to make this operation\nvisible to search, if `wait_for` then wait for a refresh to make this operation\nvisible to search, if `false` do nothing with refreshes.\n\nWe followed up with the ES list [2] to confirm that behavior when `refresh\u003dtrue`.\n\n[2] https://discuss.elastic.co/t/refresh-setting-for-a-bulk-update-request/295641/7\n\n\u003e \n\u003e P.S. All of them are specific to the way ES manages its sharding policy hence makes sense in this project.\n\nI agree this implementation makes sense in this project. If you\u0027re implying that EnsureReadsConsistentWithWrite in core is somehow leaking the ES sharding policy into core, I disagree. Using a Gerrit-index policy specifier like EnsureReadsConsistentWithWrite is protection against that while allowing ES to correctly implement the desired policy.\n\n\u003e [1] https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-update.html#docs-update-api-query-params",
+      "parentUuid": "f3d6c469_c8d8f766",
+      "revId": "b4673c18acf74be03af714740ba094dad4cac53c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "aa397f1e_a323cb60",
         "filename": "src/main/java/com/google/gerrit/elasticsearch/ElasticIndexModule.java",
         "patchSetId": 3
