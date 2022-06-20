@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60447f0d_8db3f071",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1117824
+      },
+      "writtenOn": "2022-06-20T15:08:16Z",
+      "side": 1,
+      "message": "missing Release-Note footer",
+      "revId": "efcfa02cae744f23eb572add7d4938670430e108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
