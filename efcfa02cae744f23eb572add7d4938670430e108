@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "867c7548_54cb5048",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-20T23:46:48Z",
+      "side": 1,
+      "message": "Can you move this change to stable-3.5 and rebase it on top of https://gerrit.googlesource.com/modules/index-elasticsearch/+/3e6de6fcb52ba8cf6820e694c0d0a4a10f1289d2 ?",
+      "range": {
+        "startLine": 1,
+        "startChar": 12,
+        "endLine": 1,
+        "endChar": 20
+      },
+      "revId": "efcfa02cae744f23eb572add7d4938670430e108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "60447f0d_8db3f071",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -14,6 +37,24 @@
       "writtenOn": "2022-06-20T15:08:16Z",
       "side": 1,
       "message": "missing Release-Note footer",
+      "revId": "efcfa02cae744f23eb572add7d4938670430e108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3fc8e5b6_e126e6ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-20T23:46:48Z",
+      "side": 1,
+      "message": "Not required for non-core changes.",
+      "parentUuid": "60447f0d_8db3f071",
       "revId": "efcfa02cae744f23eb572add7d4938670430e108",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
