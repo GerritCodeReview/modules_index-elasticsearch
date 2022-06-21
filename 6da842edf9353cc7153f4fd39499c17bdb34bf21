@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e3f6342_47140eda",
+        "filename": "src/main/java/com/google/gerrit/elasticsearch/ElasticQueryBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-21T08:33:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fee1e65_7e9e153d",
+      "range": {
+        "startLine": 121,
+        "startChar": 8,
+        "endLine": 121,
+        "endChar": 47
+      },
+      "revId": "6da842edf9353cc7153f4fd39499c17bdb34bf21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7f70a42e_a480135f",
@@ -64,6 +88,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "104daa44_3912bbf2",
+        "filename": "src/test/java/com/google/gerrit/elasticsearch/ElasticV7QueryChangesTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-21T08:33:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f70a42e_a480135f",
+      "range": {
+        "startLine": 92,
+        "startChar": 2,
+        "endLine": 92,
+        "endChar": 11
+      },
+      "revId": "6da842edf9353cc7153f4fd39499c17bdb34bf21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d2b84eac_f3192607",
@@ -77,6 +125,30 @@
       "writtenOn": "2022-06-17T10:17:13Z",
       "side": 1,
       "message": "change3 does not have a topic starting with \u0027feature\u0027 and therefore should be removed from the output.\n\nI see why ES finds it anyway, that is mainly due to the way ES tokenise it and considers Cherrypick and feature2 being two different tokens.\n\nI believe we should return something that is consistent with behaviour expected by Gerrit and filter out the results by applying the correct prefix.\n\n@DavidO why don\u0027t you leave a TODO in the code and address this issue as a separate follow-up change?",
+      "range": {
+        "startLine": 130,
+        "startChar": 48,
+        "endLine": 130,
+        "endChar": 55
+      },
+      "revId": "6da842edf9353cc7153f4fd39499c17bdb34bf21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72dfa5d5_e1fc355b",
+        "filename": "src/test/java/com/google/gerrit/elasticsearch/ElasticV7QueryChangesTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-21T08:33:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2b84eac_f3192607",
       "range": {
         "startLine": 130,
         "startChar": 48,
