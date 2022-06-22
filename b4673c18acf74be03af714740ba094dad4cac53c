@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "89fe016a_3aade3d5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-22T23:36:57Z",
+      "side": 1,
+      "message": "\u003e \u003e If `true`, Elasticsearch refreshes the affected shards to make this operation\n\u003e \u003e visible to search, if `wait_for` then wait for a refresh to make this operation\n\u003e \u003e visible to search, if `false` do nothing with refreshes.\n\u003e \n\u003e Thanks for the pointer. I am wondering why the wait_for for introduced?\n\n`wait_for` is a \"compromise\" solution from ES. Unlike `true`, it doesn\u0027t force a refresh and instead relies on the ES server\u0027s automatic refresh settings; however, like `true`, it does promise that a refresh occurs before it returns. It could be used to reduce the load on the ES server from many write/index operations while still guaranteeing consistency, but at the cost of increased latency for write/index operations. We don\u0027t currently think Gerrit\u0027s write load with `true` will be sufficient to create an ES server load problem, so we\u0027re sticking with `true` for the lower latency.\n\n\u003e \u003e \u003e P.S. All of them are specific to the way ES manages its sharding policy hence makes sense in this project.\n\u003e \u003e \n\u003e \u003e I agree this implementation makes sense in this project. If you\u0027re implying that EnsureReadsConsistentWithWrite in core is somehow leaking the ES sharding policy into core, I disagree. Using a Gerrit-index policy specifier like EnsureReadsConsistentWithWrite is protection against that while allowing ES to correctly implement the desired policy.\n\u003e \n\u003e I believe it would make sense to discuss that in core, as this change works as-is without modifications to Gerrit.\n\nI\u0027ll discuss it wherever you\u0027d like 😊 But I do want the discussion to happen somewhere related to this change if this change is blocked because of it.\n\nAs for the \"works as-is\", IIUC, this only works because of what you comment on elsewhere in this change as \"This is hack\" [1]. As I\u0027m sure you understand, I (and the ops team I work closely with) strongly prefer non-hack solutions.\n\n[1] https://gerrit-review.googlesource.com/c/modules/index-elasticsearch/+/339314/comments/1aad16fb_210bf08e\n\n\u003e \n\u003e Once Gerrit will have (on master?) a new concept of \u0027bulk operations\u0027 or \u0027inconsistent writes\u0027, we could leverage that.\n\u003e Actually, it could allow improve the off-line reindexing for Lucene even further, possibly using some lower-level API?\n\nI think there\u0027s some confusion on what Lucene is currently doing. See my comment on the core change: https://gerrit-review.googlesource.com/c/gerrit/+/339114/comments/f388bf00_de059b2c",
+      "parentUuid": "cd8bf7af_26f1008b",
+      "revId": "b4673c18acf74be03af714740ba094dad4cac53c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "aa397f1e_a323cb60",
         "filename": "src/main/java/com/google/gerrit/elasticsearch/ElasticIndexModule.java",
         "patchSetId": 3
