@@ -81,6 +81,69 @@
       "parentUuid": "60447f0d_8db3f071",
       "revId": "efcfa02cae744f23eb572add7d4938670430e108",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7535983f_f438eec7",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-22T23:34:20Z",
+      "side": 1,
+      "message": "Duplicate of \"Section index\"?",
+      "revId": "efcfa02cae744f23eb572add7d4938670430e108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a173f48_6f4b0195",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-22T23:34:20Z",
+      "side": 1,
+      "message": "this isn\u0027t a valid markdown link syntax, same below",
+      "range": {
+        "startLine": 18,
+        "startChar": 56,
+        "endLine": 18,
+        "endChar": 155
+      },
+      "revId": "efcfa02cae744f23eb572add7d4938670430e108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "306d859b_48de77b2",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-22T23:34:20Z",
+      "side": 1,
+      "message": "This needs to be corrected to link to the 3.5 core config-gerrit doc: https://gerrit-documentation.storage.googleapis.com/Documentation/3.5.2/config-gerrit.html#httpd.idleTimeout",
+      "range": {
+        "startLine": 73,
+        "startChar": 22,
+        "endLine": 73,
+        "endChar": 40
+      },
+      "revId": "efcfa02cae744f23eb572add7d4938670430e108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
