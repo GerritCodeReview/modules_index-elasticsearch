@@ -14,21 +14,28 @@
 
 package com.google.gerrit.elasticsearch;
 
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.concurrent.TimeUnit.MINUTES;
 
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.query.change.AbstractQueryChangesTest;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.GerritTestName;
+import com.google.gerrit.testing.InMemoryRepositoryManager;
 import com.google.inject.Injector;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
 import org.apache.http.impl.nio.client.HttpAsyncClients;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Rule;
+import org.junit.Test;
 
 public class ElasticV7QueryChangesTest extends AbstractQueryChangesTest {
   @ConfigSuite.Default
@@ -84,5 +91,17 @@ public class ElasticV7QueryChangesTest extends AbstractQueryChangesTest {
   @Override
   protected Injector createInjector() {
     return ElasticTestUtils.createInjector(config, testName, container);
+  }
+
+  @Test
+  public void testErrorResponseFromChangeIndex() throws Exception {
+    TestRepository<InMemoryRepositoryManager.Repo> repo = createProject("repo");
+    Change c = insert(repo, newChangeWithStatus(repo, Change.Status.NEW));
+    gApi.changes().id(c.getChangeId()).index();
+
+    closeIndex();
+    StorageException thrown =
+        assertThrows(StorageException.class, () -> gApi.changes().id(c.getChangeId()).index());
+    assertThat(thrown).hasMessageThat().contains("Failed to reindex change");
   }
 }

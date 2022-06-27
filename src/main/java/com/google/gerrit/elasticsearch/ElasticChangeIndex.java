@@ -41,10 +41,13 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import java.io.IOException;
 import java.util.Set;
 import org.apache.http.HttpStatus;
+import org.apache.http.util.EntityUtils;
 import org.eclipse.jgit.lib.Config;
 import org.elasticsearch.client.Response;
 
@@ -100,6 +103,19 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     String uri = getURI(BULK);
     Response response = postRequest(uri, bulk, getRefreshParam());
     int statusCode = response.getStatusLine().getStatusCode();
+
+    try {
+      String responseStr = EntityUtils.toString(response.getEntity());
+      JsonObject responseJson = (JsonObject) new JsonParser().parse(responseStr);
+      if (responseJson.get("errors").getAsBoolean()) {
+        throw new StorageException(
+            String.format(
+                "Failed to replace change %s in index %s: %s, response: %s",
+                cd.getId(), indexName, statusCode, responseStr));
+      }
+    } catch (IOException ignored) {
+      // Unable to read the response json, rely on HTTP status code instead.
+    }
     if (statusCode != HttpStatus.SC_OK) {
       throw new StorageException(
           String.format(
