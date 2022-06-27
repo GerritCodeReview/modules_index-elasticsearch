@@ -14,12 +14,19 @@
 
 package com.google.gerrit.elasticsearch;
 
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.query.account.AbstractQueryAccountsTest;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Injector;
+import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
+import org.apache.http.impl.nio.client.HttpAsyncClients;
 import org.eclipse.jgit.lib.Config;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Test;
 
 public class ElasticV7QueryAccountsTest extends AbstractQueryAccountsTest {
   @ConfigSuite.Default
@@ -28,12 +35,15 @@ public class ElasticV7QueryAccountsTest extends AbstractQueryAccountsTest {
   }
 
   private static ElasticContainer container;
+  private static CloseableHttpAsyncClient client;
 
   @BeforeClass
   public static void startIndexService() {
     if (container == null) {
       // Only start Elasticsearch once
       container = ElasticContainer.createAndStart(ElasticVersion.V7_8);
+      client = HttpAsyncClients.createDefault();
+      client.start();
     }
   }
 
@@ -53,5 +63,15 @@ public class ElasticV7QueryAccountsTest extends AbstractQueryAccountsTest {
   @Override
   protected Injector createInjector() {
     return ElasticTestUtils.createInjector(config, testName, container);
+  }
+
+  @Test
+  public void testErrorResponseFromAccountIndex() throws Exception {
+    gApi.accounts().self().index();
+
+    ElasticTestUtils.closeIndex(client, container, testName);
+    StorageException thrown =
+        assertThrows(StorageException.class, () -> gApi.accounts().self().index());
+    assertThat(thrown).hasMessageThat().contains("Failed to replace account");
   }
 }

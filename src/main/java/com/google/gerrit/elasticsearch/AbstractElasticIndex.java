@@ -19,6 +19,7 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -75,6 +76,7 @@ import org.apache.http.StatusLine;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.nio.entity.NStringEntity;
+import org.apache.http.util.EntityUtils;
 import org.elasticsearch.client.Request;
 import org.elasticsearch.client.Response;
 
@@ -269,6 +271,20 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
       }
     }
     return new FieldBundle(rawFields);
+  }
+
+  protected boolean hasErrors(Response response) {
+    try {
+      String contentType = response.getEntity().getContentType().getValue();
+      Preconditions.checkState(
+          contentType.equals(ContentType.APPLICATION_JSON.toString()),
+          String.format("Expected %s, but was: %s", ContentType.APPLICATION_JSON, contentType));
+      String responseStr = EntityUtils.toString(response.getEntity());
+      JsonObject responseJson = (JsonObject) new JsonParser().parse(responseStr);
+      return responseJson.get("errors").getAsBoolean();
+    } catch (IOException e) {
+      throw new StorageException(e);
+    }
   }
 
   protected String toAction(String type, String id, String action) {

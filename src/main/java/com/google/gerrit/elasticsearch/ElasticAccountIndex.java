@@ -82,7 +82,7 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
     String uri = getURI(BULK);
     Response response = postRequestWithRefreshParam(uri, bulk);
     int statusCode = response.getStatusLine().getStatusCode();
-    if (statusCode != HttpStatus.SC_OK) {
+    if (hasErrors(response) || statusCode != HttpStatus.SC_OK) {
       throw new StorageException(
           String.format(
               "Failed to replace account %s in index %s: %s",

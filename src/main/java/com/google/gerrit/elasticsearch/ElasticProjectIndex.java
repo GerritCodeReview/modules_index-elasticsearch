@@ -84,7 +84,7 @@ public class ElasticProjectIndex extends AbstractElasticIndex<Project.NameKey, P
     String uri = getURI(BULK);
     Response response = postRequestWithRefreshParam(uri, bulk);
     int statusCode = response.getStatusLine().getStatusCode();
-    if (statusCode != HttpStatus.SC_OK) {
+    if (hasErrors(response) || statusCode != HttpStatus.SC_OK) {
       throw new StorageException(
           String.format(
               "Failed to replace project %s in index %s: %s",

@@ -102,7 +102,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     String uri = getURI(BULK);
     Response response = postRequestWithRefreshParam(uri, bulk);
     int statusCode = response.getStatusLine().getStatusCode();
-    if (statusCode != HttpStatus.SC_OK) {
+    if (hasErrors(response) || statusCode != HttpStatus.SC_OK) {
       throw new StorageException(
           String.format(
               "Failed to replace change %s in index %s: %s", cd.getId(), indexName, statusCode));
