@@ -14,6 +14,8 @@
 
 package com.google.gerrit.elasticsearch;
 
+import static java.util.concurrent.TimeUnit.MINUTES;
+
 import com.google.gerrit.index.IndexDefinition;
 import com.google.gerrit.server.LibModuleType;
 import com.google.gerrit.testing.GerritTestName;
@@ -25,6 +27,9 @@ import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
 import java.util.Collection;
 import java.util.UUID;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
 import org.eclipse.jgit.lib.Config;
 
 public final class ElasticTestUtils {
@@ -79,6 +84,22 @@ public final class ElasticTestUtils {
     String indicesPrefix = testName.getSanitizedMethodName();
     ElasticTestUtils.configure(elasticsearchConfig, container, indicesPrefix);
     return Guice.createInjector(new InMemoryModule(elasticsearchConfig));
+  }
+
+  public static void closeIndex(
+      CloseableHttpAsyncClient client, ElasticContainer container, GerritTestName testName)
+      throws Exception {
+    client
+        .execute(
+            new HttpPost(
+                String.format(
+                    "http://%s:%d/%s*/_close",
+                    container.getHttpHost().getHostName(),
+                    container.getHttpHost().getPort(),
+                    testName.getSanitizedMethodName())),
+            HttpClientContext.create(),
+            null)
+        .get(5, MINUTES);
   }
 
   private ElasticTestUtils() {

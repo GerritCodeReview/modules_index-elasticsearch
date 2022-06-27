@@ -36,11 +36,15 @@ import com.google.gerrit.server.index.options.AutoFlush;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
+import java.io.IOException;
 import java.util.Set;
 import org.apache.http.HttpStatus;
+import org.apache.http.entity.ContentType;
+import org.apache.http.util.EntityUtils;
 import org.elasticsearch.client.Response;
 
 public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, AccountState>
@@ -82,6 +86,25 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
     String uri = getURI(BULK);
     Response response = postRequestWithRefreshParam(uri, bulk);
     int statusCode = response.getStatusLine().getStatusCode();
+
+    try {
+      if (response
+          .getEntity()
+          .getContentType()
+          .getValue()
+          .equals(ContentType.APPLICATION_JSON.toString())) {
+        String responseStr = EntityUtils.toString(response.getEntity());
+        JsonObject responseJson = (JsonObject) new JsonParser().parse(responseStr);
+        if (responseJson.get("errors").getAsBoolean()) {
+          throw new StorageException(
+              String.format(
+                  "Failed to replace account %s in index %s: %s, response: %s",
+                  as.account().id(), indexName, statusCode, responseStr));
+        }
+      }
+    } catch (IOException e) {
+      throw new StorageException(e);
+    }
     if (statusCode != HttpStatus.SC_OK) {
       throw new StorageException(
           String.format(
