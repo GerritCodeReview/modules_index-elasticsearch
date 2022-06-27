@@ -75,6 +75,7 @@ import org.apache.http.StatusLine;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.nio.entity.NStringEntity;
+import org.apache.http.util.EntityUtils;
 import org.elasticsearch.client.Request;
 import org.elasticsearch.client.Response;
 
@@ -269,6 +270,23 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
       }
     }
     return new FieldBundle(rawFields);
+  }
+
+  protected boolean hasErrors(Response response) {
+    try {
+      if (response
+          .getEntity()
+          .getContentType()
+          .getValue()
+          .equals(ContentType.APPLICATION_JSON.toString())) {
+        String responseStr = EntityUtils.toString(response.getEntity());
+        JsonObject responseJson = (JsonObject) new JsonParser().parse(responseStr);
+        return responseJson.get("errors").getAsBoolean();
+      }
+    } catch (IOException e) {
+      throw new StorageException(e);
+    }
+    return false;
   }
 
   protected String toAction(String type, String id, String action) {
