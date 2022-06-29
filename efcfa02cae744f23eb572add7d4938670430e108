@@ -100,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f814ea78_ab63f403",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1117824
+      },
+      "writtenOn": "2022-06-29T06:35:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7535983f_f438eec7",
+      "revId": "efcfa02cae744f23eb572add7d4938670430e108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5a173f48_6f4b0195",
@@ -160,6 +178,30 @@
       "writtenOn": "2022-06-22T23:34:20Z",
       "side": 1,
       "message": "This needs to be corrected to link to the 3.5 core config-gerrit doc: https://gerrit-documentation.storage.googleapis.com/Documentation/3.5.2/config-gerrit.html#httpd.idleTimeout",
+      "range": {
+        "startLine": 73,
+        "startChar": 22,
+        "endLine": 73,
+        "endChar": 40
+      },
+      "revId": "efcfa02cae744f23eb572add7d4938670430e108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34cd8ad0_f2d30dcc",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1117824
+      },
+      "writtenOn": "2022-06-29T06:35:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "306d859b_48de77b2",
       "range": {
         "startLine": 73,
         "startChar": 22,
