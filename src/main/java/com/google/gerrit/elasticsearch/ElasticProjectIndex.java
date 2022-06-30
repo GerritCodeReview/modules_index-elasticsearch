@@ -31,6 +31,7 @@ import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexUtils;
+import com.google.gerrit.server.index.options.AutoFlush;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gson.JsonArray;
@@ -66,8 +67,9 @@ public class ElasticProjectIndex extends AbstractElasticIndex<Project.NameKey, P
       SitePaths sitePaths,
       Provider<ProjectCache> projectCache,
       ElasticRestClientProvider client,
-      @Assisted Schema<ProjectData> schema) {
-    super(cfg, sitePaths, schema, client, PROJECTS);
+      @Assisted Schema<ProjectData> schema,
+      AutoFlush autoFlush) {
+    super(cfg, sitePaths, schema, client, PROJECTS, autoFlush);
     this.projectCache = projectCache;
     this.schema = schema;
     this.mapping = new ProjectMapping(schema, client.adapter());
