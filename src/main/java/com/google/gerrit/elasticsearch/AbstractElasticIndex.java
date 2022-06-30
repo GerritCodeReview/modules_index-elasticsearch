@@ -49,6 +49,7 @@ import com.google.gerrit.index.query.ResultSet;
 import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexUtils;
+import com.google.gerrit.server.index.options.AutoFlush;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -140,7 +141,8 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
       SitePaths sitePaths,
       Schema<V> schema,
       ElasticRestClientProvider client,
-      String indexName) {
+      String indexName,
+      AutoFlush autoFlush) {
     this.config = config;
     this.sitePaths = sitePaths;
     this.schema = schema;
@@ -149,7 +151,10 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     this.indexName = config.getIndexName(indexName, schema.getVersion());
     this.indexNameRaw = indexName;
     this.client = client;
-    this.refreshParam = Map.of("refresh", "true");
+    this.refreshParam =
+        Map.of(
+            "refresh",
+            autoFlush == AutoFlush.ENABLED ? Boolean.TRUE.toString() : Boolean.FALSE.toString());
   }
 
   @Override
