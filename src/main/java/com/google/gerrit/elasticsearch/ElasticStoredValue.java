@@ -18,6 +18,7 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.gerrit.index.StoredValue;
 import com.google.gson.JsonElement;
+import com.google.protobuf.MessageLite;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
@@ -82,5 +83,17 @@ public class ElasticStoredValue implements StoredValue {
     return StreamSupport.stream(field.getAsJsonArray().spliterator(), false)
         .map(f -> AbstractElasticIndex.decodeBase64(f.getAsString()))
         .collect(toImmutableList());
+  }
+
+  @Override
+  public MessageLite asProto() {
+    // Elasticsearch does not store protos
+    return null;
+  }
+
+  @Override
+  public Iterable<MessageLite> asProtos() {
+    // Elasticsearch does not store protos
+    return null;
   }
 }
