@@ -16,6 +16,24 @@
       "message": "Thank you for noticing!",
       "revId": "c94f2c5e92516f50a2ff2294263808366e8b88bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7231e302_b15c3b89",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-07-01T07:42:17Z",
+      "side": 1,
+      "message": "It was actually easy to detect, as the CI started to fail with this build: [1], that referenced this commit: \"Add support to store protos in indexes\".\n\n[1] https://gerrit-ci.gerritforge.com/job/module-index-elasticsearch-bazel-master/1009/",
+      "parentUuid": "ea9598a9_f504fe11",
+      "revId": "c94f2c5e92516f50a2ff2294263808366e8b88bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
