@@ -311,10 +311,6 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     }
   }
 
-  protected Response postRequest(String uri, Object payload) {
-    return performRequest("POST", uri, payload);
-  }
-
   protected Response postRequest(String uri, Object payload, Map<String, String> params) {
     return performRequest("POST", uri, payload, params);
   }
