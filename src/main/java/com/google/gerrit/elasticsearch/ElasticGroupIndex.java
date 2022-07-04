@@ -78,7 +78,7 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, I
             .add(new UpdateRequest<>(schema, group, ImmutableSet.of()));
 
     String uri = getURI(BULK);
-    Response response = postRequest(uri, bulk, getRefreshParam());
+    Response response = postRequest(uri, bulk);
     int statusCode = response.getStatusLine().getStatusCode();
     if (statusCode != HttpStatus.SC_OK) {
       throw new StorageException(
