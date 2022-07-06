@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8aceb1d_b40a97cc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-07-06T23:07:25Z",
+      "side": 1,
+      "message": "No need for the prefix in a standalone repo 😊\n\nMaybe word this as \"Do not wait for refresh when AutoFlush.DISABLED\" ?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 66
+      },
+      "revId": "da16c81515b9cfa81783a7c7e7a292254194ec77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7009c7c8_22a29d97",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-07-06T23:07:25Z",
+      "side": 1,
+      "message": "Maybe add a paragraph before this that bridges the autoflush and refresh concepts?\n\n We can roughly map Lucene\u0027s \"flush\" concept to the Elasticsearch \"refresh\"\n concept. Previously this module would ignore the value of AutoFlush, but\n now we use it to set the value of the refresh parameter in write API requests\n to match the boolean value of AutoFlush (ENABLED\u003dtrue, DISABLED\u003dfalse).\n \nAnd maybe that\u0027s all you need to say?",
+      "revId": "da16c81515b9cfa81783a7c7e7a292254194ec77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
