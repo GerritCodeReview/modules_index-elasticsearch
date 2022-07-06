@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2465ca4f_46b432d1",
+        "filename": "src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-07-06T22:51:57Z",
+      "side": 1,
+      "message": "This is making every post request include refresh params, but that\u0027s not appropriate for a generic postRequest() method. I\u0027m all for the optimization you\u0027re trying to make, but I think the callers still need to provide the params.",
+      "range": {
+        "startLine": 310,
+        "startChar": 48,
+        "endLine": 310,
+        "endChar": 61
+      },
+      "revId": "b66c35c3f787d0d1a0b7a5e5c171eaf62b3439f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
