@@ -17,8 +17,8 @@ def external_plugin_deps():
     # WORKSPACE.
     maven_jar(
         name = "elasticsearch-rest-client",
-        artifact = "org.elasticsearch.client:elasticsearch-rest-client:7.8.1",
-        sha1 = "59feefe006a96a39f83b0dfb6780847e06c1d0a8",
+        artifact = "org.elasticsearch.client:elasticsearch-rest-client:8.3.2",
+        sha1 = "bb5cb3dbd82ea75a6d49b9011ca5b1d125b30f00",
     )
 
     maven_jar(
@@ -85,6 +85,7 @@ def external_plugin_deps():
         sha1 = "0f63b3b1da563767d04d2e4d3fc1ae0cdeffebe7",
     )
 
+    # elasticsearch-rest-client explicitly depends on this version
     maven_jar(
         name = "httpasyncclient",
         artifact = "org.apache.httpcomponents:httpasyncclient:4.1.4",

@@ -1,6 +1,11 @@
 # Build
 
-This plugin is built with Bazel in-tree build.
+This plugin is built with Bazel in-tree build. This plugin depends on the Elasticsearch Java Low
+Level REST Client (abbreviated as LLRC by the ES dev team) for integration with an Elasticsearch
+cluster. The LLRC is licensed as Apache v2 (even after ES itself has moved to SSPL) and is
+compatible with all ES versions. See the [LLRC
+docs](https://www.elastic.co/guide/en/elasticsearch/client/java-api-client/8.3/java-rest-low-usage-maven.html)
+for more information.
 
 ## Build in Gerrit tree
 
