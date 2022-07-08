@@ -22,6 +22,30 @@
       },
       "revId": "b66c35c3f787d0d1a0b7a5e5c171eaf62b3439f4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb4394fe_8c2df89e",
+        "filename": "src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-07-08T10:13:58Z",
+      "side": 1,
+      "message": "This is a new method that was added in this change (the old one was unused and was removed in the previous change). All caller sites, that used old method: `postRequest(String uri, Object payload, Map\u003cString, String\u003e params)` were changed to use this new method.\n\nIn the base version the freshly created refreshParams instance was created on the fly and passed in to the now deleted method. The new postRequest() method, without the refreshParams, is using immutable instance of that map, created in ctor.\n\nOr may be I missed something? Could you post a stacktrace of the caller site, where refresh\u003dtrue is wrongly used?",
+      "parentUuid": "2465ca4f_46b432d1",
+      "range": {
+        "startLine": 310,
+        "startChar": 48,
+        "endLine": 310,
+        "endChar": 61
+      },
+      "revId": "b66c35c3f787d0d1a0b7a5e5c171eaf62b3439f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
