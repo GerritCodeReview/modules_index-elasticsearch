@@ -46,6 +46,30 @@
       },
       "revId": "b66c35c3f787d0d1a0b7a5e5c171eaf62b3439f4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0c87d73_f7c85a21",
+        "filename": "src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-07-08T21:06:05Z",
+      "side": 1,
+      "message": "\u003e Or may be I missed something? Could you post a stacktrace of the caller site, where refresh\u003dtrue is wrongly used?\n\nI think I wasn\u0027t clear enough. This isn\u0027t a bug, it\u0027s a layering misuse/violation.\n\nA method named postRequest() in this class should work for any POST to an Elasticsearch API. If you always include a refresh parameter, it\u0027s not generic to any ES API as many do not take refresh as a param.\n\nThere\u0027s probably a few different ways you can keep postRequest() generic and still only create the params hash once (some kind of constant comes to mind). Let me know if you need more ideas for that.",
+      "parentUuid": "bb4394fe_8c2df89e",
+      "range": {
+        "startLine": 310,
+        "startChar": 48,
+        "endLine": 310,
+        "endChar": 61
+      },
+      "revId": "b66c35c3f787d0d1a0b7a5e5c171eaf62b3439f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
