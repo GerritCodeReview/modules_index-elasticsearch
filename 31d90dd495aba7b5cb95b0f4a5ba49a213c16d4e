@@ -16,6 +16,24 @@
       "message": "I think we\u0027re going to be adding support for PIT searches [1] and that might end up re-adding this method, but that\u0027s fine.\n\n[1] https://www.elastic.co/guide/en/elasticsearch/reference/current/point-in-time-api.html",
       "revId": "31d90dd495aba7b5cb95b0f4a5ba49a213c16d4e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2ae6b0a_0a9aa286",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-07-08T10:05:02Z",
+      "side": 1,
+      "message": "Thanks for the reference.",
+      "parentUuid": "830ca378_26613084",
+      "revId": "31d90dd495aba7b5cb95b0f4a5ba49a213c16d4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
