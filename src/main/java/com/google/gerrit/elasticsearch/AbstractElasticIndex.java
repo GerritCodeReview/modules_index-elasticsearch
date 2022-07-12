@@ -33,6 +33,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
 import com.google.gerrit.elasticsearch.builders.QueryBuilder;
 import com.google.gerrit.elasticsearch.builders.SearchSourceBuilder;
+import com.google.gerrit.elasticsearch.builders.XContentBuilder;
 import com.google.gerrit.elasticsearch.bulk.DeleteRequest;
 import com.google.gerrit.entities.converter.ProtoConverter;
 import com.google.gerrit.exceptions.StorageException;
@@ -65,20 +66,29 @@ import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
 import org.apache.http.StatusLine;
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.nio.entity.NStringEntity;
 import org.apache.http.util.EntityUtils;
+import org.apache.maven.artifact.versioning.DefaultArtifactVersion;
 import org.elasticsearch.client.Request;
 import org.elasticsearch.client.Response;
+import org.elasticsearch.client.ResponseListener;
 
 abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -91,6 +101,13 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   protected static final String UNMAPPED_TYPE = "unmapped_type";
   protected static final String SEARCH = "_search";
   protected static final String SETTINGS = "settings";
+  protected static final String HITS = "hits";
+  protected static final String SORT = "sort";
+  protected static final String ID = "id";
+  protected static final String PIT = "_pit";
+  protected static final String PIT_ID = "pit_id";
+  protected static final String KEEP_ALIVE = "keep_alive";
+  protected static final int PAGE_SIZE_MULTIPLIER = 10;
 
   static byte[] decodeBase64(String base64String) {
     return BaseEncoding.base64().decode(base64String);
@@ -345,6 +362,26 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
   private Response performRequest(
       String method, String uri, @Nullable Object payload, Map<String, String> params) {
+    Request request = createRequest(method, uri, payload, params);
+    try {
+      // TODO: remove this debug message
+      logger.atSevere().log("uri:" + uri + " payload:" + payload + " params:" + params);
+
+      return client.get().performRequest(request);
+    } catch (IOException e) {
+      throw new StorageException(e);
+    }
+  }
+
+  private void performRequestAsync(
+      String method, String uri, @Nullable Object payload, Map<String, String> params) {
+    Request request = createRequest(method, uri, payload, params);
+
+    client.get().performRequestAsync(request, new AsyncResponseListener(request));
+  }
+
+  private Request createRequest(
+      String method, String uri, @Nullable Object payload, Map<String, String> params) {
     Request request = new Request(method, uri.startsWith("/") ? uri : "/" + uri);
     if (payload != null) {
       String payloadStr = payload instanceof String ? (String) payload : payload.toString();
@@ -353,28 +390,57 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     for (Map.Entry<String, String> entry : params.entrySet()) {
       request.addParameter(entry.getKey(), entry.getValue());
     }
-    try {
-      return client.get().performRequest(request);
-    } catch (IOException e) {
-      throw new StorageException(e);
+    return request;
+  }
+
+  protected class AsyncResponseListener implements ResponseListener {
+    Request request;
+
+    public AsyncResponseListener(Request request) {
+      this.request = request;
+    }
+
+    @Override
+    public void onSuccess(Response response) {}
+
+    @Override
+    public void onFailure(Exception exception) {
+      logger.atSevere().log(String.format("%s failed!", request), exception);
+    }
+  }
+
+  public class PointInTimeSearch {
+    public String id;
+    public TimeValue keepAlive;
+    public JsonArray searchAfter;
+
+    public PointInTimeSearch(String id, TimeValue keepAlive, JsonArray searchAfter) {
+      this.id = id;
+      this.keepAlive = keepAlive;
+      this.searchAfter = searchAfter;
     }
   }
 
   protected class ElasticQuerySource implements DataSource<V> {
     private final QueryOptions opts;
-    private final String search;
+    QueryBuilder qb;
+    JsonArray sortArray;
+    boolean isPitSupported;
 
     ElasticQuerySource(Predicate<V> p, QueryOptions opts, JsonArray sortArray)
         throws QueryParseException {
       this.opts = opts;
-      QueryBuilder qb = queryBuilder.toQueryBuilder(p);
-      SearchSourceBuilder searchSource =
-          new SearchSourceBuilder(client.adapter())
-              .query(qb)
-              .from(opts.start())
-              .size(opts.limit())
-              .fields(Lists.newArrayList(opts.fields()));
-      search = getSearch(searchSource, sortArray);
+      this.sortArray = sortArray;
+      qb = queryBuilder.toQueryBuilder(p);
+      if ((new DefaultArtifactVersion(client.elasticVersion().toString()))
+              .compareTo(new DefaultArtifactVersion("7.10"))
+          >= 0) {
+        isPitSupported = true;
+      } else {
+        logger.atWarning().log(
+            "PIT is enabled in elasticsearch config, but cannot be used as"
+                + " elasticsearch version should be 7.10+");
+      }
     }
 
     @Override
@@ -394,32 +460,161 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
     private <T> ResultSet<T> readImpl(Function<JsonObject, T> mapper) {
       try {
-        String uri = getURI(SEARCH);
-        Response response =
-            performRequest(HttpPost.METHOD_NAME, uri, search, Collections.emptyMap());
+        return buildResults(config.usePit && isPitSupported ? readImplPit() : readImpl(), mapper);
+      } catch (IOException e) {
+        throw new StorageException(e);
+      }
+    }
+
+    private JsonArray readImpl() throws IOException {
+      JsonObject hitsObj = search(opts.limit(), Optional.empty()).getAsJsonObject(HITS);
+      if (hitsObj.get(HITS) != null) {
+        return hitsObj.getAsJsonArray(HITS);
+      }
+      return new JsonArray();
+    }
+
+    private JsonArray readImplPit() throws IOException {
+      PointInTimeSearch pit = null;
+      try {
+        JsonObject results;
+        JsonObject hitsObj;
+        JsonArray jsonResults = new JsonArray();
+        TimeValue pitKeepAlive = new TimeValue(config.pitKeepAliveSecs, TimeUnit.SECONDS);
+        pit = new PointInTimeSearch(createPointInTime(pitKeepAlive), pitKeepAlive, new JsonArray());
+        // PIT searches can be paginated only when 'from' parameter is 0
+        List<Integer> pageSizes =
+            opts.start() > 0
+                ? Arrays.asList(opts.limit())
+                : pageSizeGenerator(config.pitPageSize, opts.limit(), PAGE_SIZE_MULTIPLIER);
+        for (int size : pageSizes) {
+          int searchSize = size + 1;
+          results = search(searchSize, Optional.of(pit));
+          hitsObj = results.getAsJsonObject(HITS);
+          if (hitsObj.get(HITS) != null) {
+            JsonArray hits = hitsObj.getAsJsonArray(HITS);
+            int hitsSize = hits.size();
+            if (hitsSize == 0) {
+              break;
+            }
+            if (hitsSize < searchSize) {
+              jsonResults.addAll(hits);
+              break;
+            }
+            hits.remove(hitsSize - 1);
+            jsonResults.addAll(hits);
+            JsonObject lastHit = hits.get(hits.size() - 1).getAsJsonObject();
+            if (lastHit.get(SORT) != null) {
+              pit.searchAfter = lastHit.getAsJsonArray(SORT);
+            }
+            if (results.get(PIT_ID) != null) {
+              pit.id = results.getAsJsonPrimitive(PIT_ID).getAsString();
+            }
+          }
+        }
+        return jsonResults;
+      } finally {
+        if (pit != null && pit.id != null) {
+          deletePointInTime(pit.id);
+        }
+      }
+    }
+
+    private JsonObject search(int size, Optional<PointInTimeSearch> pitSearch) throws IOException {
+      String uri = getURI(SEARCH);
+      SearchSourceBuilder searchSource =
+          new SearchSourceBuilder(client.adapter())
+              .query(qb)
+              .from(opts.start())
+              .size(size)
+              .fields(Lists.newArrayList(opts.fields()));
+      if (pitSearch.isPresent()) {
+        uri = "/" + SEARCH;
+        PointInTimeSearch pit = pitSearch.get();
+        searchSource.pointInTime(pit.id, pit.keepAlive).trackTotalHits(false);
+        if (pit.searchAfter.size() > 0) {
+          searchSource.searchAfter(pit.searchAfter);
+        }
+      }
+      String search = getSearch(searchSource, sortArray);
+      Response response = performRequest(HttpGet.METHOD_NAME, uri, search, Collections.emptyMap());
+      StatusLine statusLine = response.getStatusLine();
+      if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
+        return new JsonParser().parse(getContent(response)).getAsJsonObject();
+      }
+      logger.atSevere().log(statusLine.getReasonPhrase());
+      return new JsonObject();
+    }
+
+    private <T> ResultSet<T> buildResults(JsonArray jsonResults, Function<JsonObject, T> mapper) {
+      ImmutableList.Builder<T> results = ImmutableList.builderWithExpectedSize(jsonResults.size());
+      for (int i = 0; i < jsonResults.size(); i++) {
+        T mapperResult = mapper.apply(jsonResults.get(i).getAsJsonObject());
+        if (mapperResult != null) {
+          results.add(mapperResult);
+        }
+      }
+      return new ListResultSet<>(results.build());
+    }
+
+    private String createPointInTime(TimeValue keepAlive) {
+      try {
+        String uri = getURI(PIT);
+        Map<String, String> params = new HashMap<>();
+        params.put(KEEP_ALIVE, keepAlive.toString());
+        Response response = performRequest(HttpPost.METHOD_NAME, uri, null, params);
         StatusLine statusLine = response.getStatusLine();
         if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
           String content = getContent(response);
-          JsonObject obj =
-              new JsonParser().parse(content).getAsJsonObject().getAsJsonObject("hits");
-          if (obj.get("hits") != null) {
-            JsonArray json = obj.getAsJsonArray("hits");
-            ImmutableList.Builder<T> results = ImmutableList.builderWithExpectedSize(json.size());
-            for (int i = 0; i < json.size(); i++) {
-              T mapperResult = mapper.apply(json.get(i).getAsJsonObject());
-              if (mapperResult != null) {
-                results.add(mapperResult);
-              }
-            }
-            return new ListResultSet<>(results.build());
+          JsonObject obj = new JsonParser().parse(content).getAsJsonObject();
+          if (obj.get(ID) != null) {
+            return obj.get(ID).getAsString();
           }
         } else {
           logger.atSevere().log(statusLine.getReasonPhrase());
         }
-        return new ListResultSet<>(ImmutableList.of());
       } catch (IOException e) {
         throw new StorageException(e);
       }
+      return null;
+    }
+
+    private void deletePointInTime(String id) {
+      try {
+        String uri = "/" + PIT;
+        XContentBuilder builder = new XContentBuilder();
+        builder.startObject();
+        builder.field(ID, id);
+        builder.endObject();
+        performRequestAsync(HttpDelete.METHOD_NAME, uri, builder.string(), Collections.emptyMap());
+      } catch (IOException e) {
+        throw new StorageException(e);
+      }
+    }
+
+    private List<Integer> pageSizeGenerator(int initialSize, int limit, int multiplier) {
+      // REST client will throw an IOException if the size of response is more than REST client's
+      // default response buffer limit of 100MB. We choose the max size of a request as 30k as the
+      // response size is ~80M for 30k change index docs.
+      int max_size = 30000;
+      if (initialSize >= limit) {
+        return Arrays.asList(limit);
+      }
+      long size = initialSize;
+      long totalSize = 0;
+      List<Integer> sizes = new ArrayList<>();
+      while (size != 0 && totalSize <= limit) {
+        sizes.add((int) size);
+        totalSize += size;
+        size = size * multiplier;
+        if (size > max_size) {
+          size = max_size;
+        }
+        if (totalSize + size > limit) {
+          size = limit - totalSize;
+        }
+      }
+      return sizes;
     }
   }
 }

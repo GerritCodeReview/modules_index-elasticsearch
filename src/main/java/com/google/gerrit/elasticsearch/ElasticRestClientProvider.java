@@ -43,6 +43,7 @@ class ElasticRestClientProvider implements Provider<RestClient>, LifecycleListen
 
   private volatile RestClient client;
   private ElasticQueryAdapter adapter;
+  private ElasticVersion elasticVersion;
 
   @Inject
   ElasticRestClientProvider(ElasticConfiguration cfg) {
@@ -64,8 +65,8 @@ class ElasticRestClientProvider implements Provider<RestClient>, LifecycleListen
       synchronized (this) {
         if (client == null) {
           client = build();
-          ElasticVersion version = getVersion();
-          logger.atInfo().log("Elasticsearch integration version %s", version);
+          elasticVersion = getVersion();
+          logger.atInfo().log("Elasticsearch integration version %s", elasticVersion);
           adapter = new ElasticQueryAdapter();
         }
       }
@@ -90,6 +91,10 @@ class ElasticRestClientProvider implements Provider<RestClient>, LifecycleListen
   ElasticQueryAdapter adapter() {
     get(); // Make sure we're connected
     return adapter;
+  }
+
+  ElasticVersion elasticVersion() {
+    return elasticVersion;
   }
 
   public static class FailedToGetVersion extends ElasticException {
