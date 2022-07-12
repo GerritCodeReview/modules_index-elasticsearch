@@ -49,6 +49,7 @@ import com.google.gerrit.index.query.ResultSet;
 import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexUtils;
+import com.google.gerrit.server.index.options.AutoFlush;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -64,7 +65,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.sql.Timestamp;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -129,6 +129,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   private final Schema<V> schema;
   private final SitePaths sitePaths;
   private final String indexNameRaw;
+  private final Map<String, String> refreshParam;
 
   protected final ElasticRestClientProvider client;
   protected final String indexName;
@@ -140,7 +141,8 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
       SitePaths sitePaths,
       Schema<V> schema,
       ElasticRestClientProvider client,
-      String indexName) {
+      String indexName,
+      AutoFlush autoFlush) {
     this.config = config;
     this.sitePaths = sitePaths;
     this.schema = schema;
@@ -149,6 +151,10 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     this.indexName = config.getIndexName(indexName, schema.getVersion());
     this.indexNameRaw = indexName;
     this.client = client;
+    this.refreshParam =
+        Map.of(
+            "refresh",
+            autoFlush == AutoFlush.ENABLED ? Boolean.TRUE.toString() : Boolean.FALSE.toString());
   }
 
   @Override
@@ -174,7 +180,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   @Override
   public void delete(K id) {
     String uri = getURI(BULK);
-    Response response = postRequest(uri, getDeleteActions(id), getRefreshParam());
+    Response response = postRequestWithRefreshParam(uri, getDeleteActions(id));
     int statusCode = response.getStatusLine().getStatusCode();
     if (statusCode != HttpStatus.SC_OK) {
       throw new StorageException(
@@ -282,12 +288,6 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     array.add(arrayElement);
   }
 
-  protected Map<String, String> getRefreshParam() {
-    Map<String, String> params = new HashMap<>();
-    params.put("refresh", "true");
-    return params;
-  }
-
   protected String getSearch(SearchSourceBuilder searchSource, JsonArray sortArray) {
     JsonObject search = new JsonParser().parse(searchSource.toString()).getAsJsonObject();
     search.add("sort", sortArray);
@@ -311,12 +311,8 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     }
   }
 
-  protected Response postRequest(String uri, Object payload) {
-    return performRequest("POST", uri, payload);
-  }
-
-  protected Response postRequest(String uri, Object payload, Map<String, String> params) {
-    return performRequest("POST", uri, payload, params);
+  protected Response postRequestWithRefreshParam(String uri, Object payload) {
+    return performRequest("POST", uri, payload, refreshParam);
   }
 
   private String concatJsonString(String target, String addition) {

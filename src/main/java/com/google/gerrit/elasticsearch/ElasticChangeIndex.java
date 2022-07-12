@@ -37,6 +37,7 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndex;
+import com.google.gerrit.server.index.options.AutoFlush;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -78,8 +79,9 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
       SitePaths sitePaths,
       ElasticRestClientProvider clientBuilder,
       @GerritServerConfig Config gerritConfig,
+      AutoFlush autoFlush,
       @Assisted Schema<ChangeData> schema) {
-    super(cfg, sitePaths, schema, clientBuilder, CHANGES);
+    super(cfg, sitePaths, schema, clientBuilder, CHANGES, autoFlush);
     this.changeDataFactory = changeDataFactory;
     this.schema = schema;
     this.mapping = new ChangeMapping(schema, client.adapter());
@@ -95,7 +97,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
         new IndexRequest(getId(cd), indexName).add(new UpdateRequest<>(schema, cd, skipFields));
 
     String uri = getURI(BULK);
-    Response response = postRequest(uri, bulk, getRefreshParam());
+    Response response = postRequestWithRefreshParam(uri, bulk);
     int statusCode = response.getStatusLine().getStatusCode();
     if (statusCode != HttpStatus.SC_OK) {
       throw new StorageException(

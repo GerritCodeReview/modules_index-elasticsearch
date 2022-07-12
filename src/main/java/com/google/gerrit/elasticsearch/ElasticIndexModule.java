@@ -14,6 +14,7 @@
 
 package com.google.gerrit.elasticsearch;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.index.project.ProjectIndex;
 import com.google.gerrit.server.ModuleImpl;
@@ -22,6 +23,7 @@ import com.google.gerrit.server.index.VersionManager;
 import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.group.GroupIndex;
+import com.google.gerrit.server.index.options.AutoFlush;
 import com.google.inject.Inject;
 import java.util.Map;
 
@@ -29,22 +31,28 @@ import java.util.Map;
 public class ElasticIndexModule extends AbstractIndexModule {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  private final AutoFlush autoFlush;
+
+  @VisibleForTesting
   public static ElasticIndexModule singleVersionWithExplicitVersions(
       Map<String, Integer> versions, int threads, boolean slave) {
-    return new ElasticIndexModule(versions, threads, slave);
+    return new ElasticIndexModule(versions, threads, slave, AutoFlush.ENABLED);
   }
 
-  public static ElasticIndexModule latestVersion(boolean slave) {
-    return new ElasticIndexModule(null, 0, slave);
-  }
-
-  protected ElasticIndexModule(Map<String, Integer> singleVersions, int threads, boolean slave) {
-    super(singleVersions, threads, slave);
+  public static ElasticIndexModule singleVersionWithExplicitVersions(
+      Map<String, Integer> versions, int threads, boolean slave, AutoFlush autoFlush) {
+    return new ElasticIndexModule(versions, threads, slave, autoFlush);
   }
 
   @Inject
   public ElasticIndexModule() {
-    this(null, 0, false);
+    this(null, 0, false, AutoFlush.ENABLED);
+  }
+
+  protected ElasticIndexModule(
+      Map<String, Integer> singleVersions, int threads, boolean slave, AutoFlush autoFlush) {
+    super(singleVersions, threads, slave);
+    this.autoFlush = autoFlush;
   }
 
   @Override
@@ -52,6 +60,7 @@ public class ElasticIndexModule extends AbstractIndexModule {
     logger.atInfo().log("Gerrit index backend set to ElasticSearch");
     super.configure();
     install(ElasticRestClientProvider.module());
+    bind(AutoFlush.class).toInstance(autoFlush);
   }
 
   @Override
