@@ -72,6 +72,44 @@ Sets the timeout for the underlying connection. For more information, refer to
 
 Defaults to `30 seconds`.
 
+### elasticsearch.enablePit
+
+Enables use of ElasticSearch's [Point In Time (PIT)](https://www.elastic.co/guide/en/elasticsearch/reference/7.10/point-in-time-api.html)
+API for searches. PIT will be used only if ElasticSearch version is 7.10+.
+
+Defaults to `true`.
+
+### elasticsearch.pitStartSize
+
+The initial size to use when paginating results with PIT.
+
+Defaults to `500`.
+
+### elasticsearch.pitMaxSize
+
+The max size that a PIT search can use. This should be limited such that the response
+size from search requests doesn't exceed ElasticSearch Low-Level REST Client's default
+response buffer limit of 100MB.
+
+The default is set to 30000 as the response size is ~80MB for 30000 change index docs.
+
+Defaults to `30000`.
+
+### elasticsearch.pitSizeMultiplier
+
+When paginating results with PIT, the size of next set of results
+(retrieved using [search_after](https://www.elastic.co/guide/en/elasticsearch/reference/current/paginate-search-results.html#search-after))
+is determined by multiplying previous size with [pitSizeMultiplier](#elasticsearchpitsizemultiplier).
+
+Defaults to `10`.
+
+### elasticsearch.pitKeepAliveSecs
+
+This can be used to set [keep_alive](https://www.elastic.co/guide/en/elasticsearch/reference/7.10/point-in-time-api.html#point-in-time-keep-alive) which tells Elasticsearch how long it should keep a PIT alive.
+
+Defaults to `180`.
+
+
 ## Elasticsearch Security
 
 When security is enabled in Elasticsearch, the username and password must be provided. Note that

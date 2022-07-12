@@ -91,3 +91,9 @@ def external_plugin_deps():
         artifact = "org.apache.httpcomponents:httpasyncclient:4.1.4",
         sha1 = "f3a3240681faae3fa46b573a4c7e50cec9db0d86",
     )
+
+    maven_jar(
+        name = "maven-artifact",
+        artifact = "org.apache.maven:maven-artifact:3.0.3",
+        sha1 = "cb2a26ac02d1e6275712c331fce0ddeeb57d3f9e",
+    )
