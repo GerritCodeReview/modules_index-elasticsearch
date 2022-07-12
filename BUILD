@@ -15,6 +15,7 @@ gerrit_plugin(
         "@httpasyncclient//jar",
         "@httpcore-nio//jar",
         "@jackson-core//jar",
+        "@maven-artifact//jar",
     ],
 )
 

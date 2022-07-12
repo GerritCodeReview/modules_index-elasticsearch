@@ -43,6 +43,7 @@ class ElasticRestClientProvider implements Provider<RestClient>, LifecycleListen
 
   private volatile RestClient client;
   private ElasticQueryAdapter adapter;
+  private String elasticVersion;
 
   @Inject
   ElasticRestClientProvider(ElasticConfiguration cfg) {
@@ -92,6 +93,10 @@ class ElasticRestClientProvider implements Provider<RestClient>, LifecycleListen
     return adapter;
   }
 
+  String elasticVersion() {
+    return elasticVersion;
+  }
+
   public static class FailedToGetVersion extends ElasticException {
     private static final long serialVersionUID = 1L;
     private static final String MESSAGE = "Failed to get Elasticsearch version";
@@ -120,6 +125,7 @@ class ElasticRestClientProvider implements Provider<RestClient>, LifecycleListen
               .getAsJsonObject()
               .get("number")
               .getAsString();
+      elasticVersion = version;
       logger.atInfo().log("Connected to Elasticsearch version %s", version);
       return ElasticVersion.forVersion(version);
     } catch (IOException e) {

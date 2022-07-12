@@ -31,8 +31,17 @@ import org.junit.Test;
 
 public class ElasticV7QueryProjectsTest extends AbstractQueryProjectsTest {
   @ConfigSuite.Default
-  public static Config defaultConfig() {
-    return ElasticTestUtils.createConfig();
+  public static Config pitEnabled() {
+    Config cfg = ElasticTestUtils.createConfig();
+    cfg.setBoolean("elasticsearch", null, "enablePit", true);
+    return cfg;
+  }
+
+  @ConfigSuite.Default
+  public static Config pitDisabled() {
+    Config cfg = ElasticTestUtils.createConfig();
+    cfg.setBoolean("elasticsearch", null, "enablePit", false);
+    return cfg;
   }
 
   private static ElasticContainer container;
