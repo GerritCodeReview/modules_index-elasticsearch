@@ -142,6 +142,30 @@
       },
       "revId": "b66c35c3f787d0d1a0b7a5e5c171eaf62b3439f4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c410708_f465803c",
+        "filename": "src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-07-12T20:09:11Z",
+      "side": 1,
+      "message": "Thanks again for your help with this series.",
+      "parentUuid": "5366d489_ff68adee",
+      "range": {
+        "startLine": 310,
+        "startChar": 48,
+        "endLine": 310,
+        "endChar": 61
+      },
+      "revId": "b66c35c3f787d0d1a0b7a5e5c171eaf62b3439f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
