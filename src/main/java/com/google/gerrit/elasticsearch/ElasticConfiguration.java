@@ -45,6 +45,11 @@ public class ElasticConfiguration {
   static final String KEY_MAX_RESULT_WINDOW = "maxResultWindow";
   static final String KEY_CONNECT_TIMEOUT = "connectTimeout";
   static final String KEY_SOCKET_TIMEOUT = "socketTimeout";
+  static final String KEY_ENABLE_PIT = "enablePit";
+  static final String KEY_PIT_START_SIZE = "pitStartSize";
+  static final String KEY_PIT_MAX_SIZE = "pitMaxSize";
+  static final String KEY_PIT_SIZE_MULTIPLIER = "pitSizeMultiplier";
+  static final String KEY_PIT_KEEP_ALIVE_TIME_SECS = "pitKeepAliveSecs";
 
   static final String DEFAULT_PORT = "9200";
   static final String DEFAULT_USERNAME = "elastic";
@@ -53,6 +58,11 @@ public class ElasticConfiguration {
   static final int DEFAULT_MAX_RESULT_WINDOW = Integer.MAX_VALUE;
   static final int DEFAULT_CONNECT_TIMEOUT = RestClientBuilder.DEFAULT_CONNECT_TIMEOUT_MILLIS;
   static final int DEFAULT_SOCKET_TIMEOUT = RestClientBuilder.DEFAULT_SOCKET_TIMEOUT_MILLIS;
+  static final boolean DEFAULT_KEY_ENABLE_PIT = true;
+  static final int DEFAULT_PIT_START_SIZE = 500;
+  static final int DEFAULT_PIT_MAX_SIZE = 30000;
+  static final int DEFAULT_PIT_SIZE_MULTIPLIER = 10;
+  static final int DEFAULT_PIT_KEEP_ALIVE_SECS = 180;
 
   private final Config cfg;
   private final List<HttpHost> hosts;
@@ -65,6 +75,11 @@ public class ElasticConfiguration {
   final int connectTimeout;
   final int socketTimeout;
   final String prefix;
+  final boolean enablePit;
+  final int pitStartSize;
+  final int pitMaxSize;
+  final int pitSizeMultiplier;
+  final int pitKeepAliveSecs;
 
   @Inject
   ElasticConfiguration(@GerritServerConfig Config cfg) {
@@ -82,6 +97,18 @@ public class ElasticConfiguration {
         cfg.getInt(SECTION_ELASTICSEARCH, null, KEY_NUMBER_OF_REPLICAS, DEFAULT_NUMBER_OF_REPLICAS);
     this.maxResultWindow =
         cfg.getInt(SECTION_ELASTICSEARCH, null, KEY_MAX_RESULT_WINDOW, DEFAULT_MAX_RESULT_WINDOW);
+    this.enablePit =
+        cfg.getBoolean(SECTION_ELASTICSEARCH, null, KEY_ENABLE_PIT, DEFAULT_KEY_ENABLE_PIT);
+    this.pitStartSize =
+        cfg.getInt(SECTION_ELASTICSEARCH, null, KEY_PIT_START_SIZE, DEFAULT_PIT_START_SIZE);
+    this.pitMaxSize =
+        cfg.getInt(SECTION_ELASTICSEARCH, null, KEY_PIT_MAX_SIZE, DEFAULT_PIT_MAX_SIZE);
+    this.pitSizeMultiplier =
+        cfg.getInt(
+            SECTION_ELASTICSEARCH, null, KEY_PIT_SIZE_MULTIPLIER, DEFAULT_PIT_SIZE_MULTIPLIER);
+    this.pitKeepAliveSecs =
+        cfg.getInt(
+            SECTION_ELASTICSEARCH, null, KEY_PIT_KEEP_ALIVE_TIME_SECS, DEFAULT_PIT_KEEP_ALIVE_SECS);
     this.connectTimeout =
         (int)
             cfg.getTimeUnit(

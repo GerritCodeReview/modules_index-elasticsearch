@@ -16,7 +16,12 @@ package com.google.gerrit.elasticsearch;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.elasticsearch.ElasticConfiguration.DEFAULT_USERNAME;
+import static com.google.gerrit.elasticsearch.ElasticConfiguration.KEY_ENABLE_PIT;
 import static com.google.gerrit.elasticsearch.ElasticConfiguration.KEY_PASSWORD;
+import static com.google.gerrit.elasticsearch.ElasticConfiguration.KEY_PIT_KEEP_ALIVE_TIME_SECS;
+import static com.google.gerrit.elasticsearch.ElasticConfiguration.KEY_PIT_MAX_SIZE;
+import static com.google.gerrit.elasticsearch.ElasticConfiguration.KEY_PIT_SIZE_MULTIPLIER;
+import static com.google.gerrit.elasticsearch.ElasticConfiguration.KEY_PIT_START_SIZE;
 import static com.google.gerrit.elasticsearch.ElasticConfiguration.KEY_PREFIX;
 import static com.google.gerrit.elasticsearch.ElasticConfiguration.KEY_SERVER;
 import static com.google.gerrit.elasticsearch.ElasticConfiguration.KEY_USERNAME;
@@ -108,6 +113,22 @@ public class ElasticConfigurationTest {
         SECTION_ELASTICSEARCH, null, KEY_SERVER, ImmutableList.of("http://elastic1:1234", "foo"));
     ElasticConfiguration esCfg = new ElasticConfiguration(cfg);
     assertHosts(esCfg, "http://elastic1:1234");
+  }
+
+  @Test
+  public void withPit() throws Exception {
+    Config cfg = newConfig();
+    cfg.setBoolean(SECTION_ELASTICSEARCH, null, KEY_ENABLE_PIT, true);
+    cfg.setInt(SECTION_ELASTICSEARCH, null, KEY_PIT_START_SIZE, 100);
+    cfg.setInt(SECTION_ELASTICSEARCH, null, KEY_PIT_MAX_SIZE, 10000);
+    cfg.setInt(SECTION_ELASTICSEARCH, null, KEY_PIT_SIZE_MULTIPLIER, 5);
+    cfg.setInt(SECTION_ELASTICSEARCH, null, KEY_PIT_KEEP_ALIVE_TIME_SECS, 60);
+    ElasticConfiguration esCfg = new ElasticConfiguration(cfg);
+    assertThat(esCfg.enablePit).isTrue();
+    assertThat(esCfg.pitStartSize).isEqualTo(100);
+    assertThat(esCfg.pitMaxSize).isEqualTo(10000);
+    assertThat(esCfg.pitSizeMultiplier).isEqualTo(5);
+    assertThat(esCfg.pitKeepAliveSecs).isEqualTo(60);
   }
 
   private static Config newConfig() {
