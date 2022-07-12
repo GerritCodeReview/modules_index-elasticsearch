@@ -32,6 +32,7 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.group.GroupField;
 import com.google.gerrit.server.index.group.GroupIndex;
+import com.google.gerrit.server.index.options.AutoFlush;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -64,8 +65,9 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, I
       SitePaths sitePaths,
       Provider<GroupCache> groupCache,
       ElasticRestClientProvider client,
+      AutoFlush autoFlush,
       @Assisted Schema<InternalGroup> schema) {
-    super(cfg, sitePaths, schema, client, GROUPS);
+    super(cfg, sitePaths, schema, client, GROUPS, autoFlush);
     this.groupCache = groupCache;
     this.mapping = new GroupMapping(schema, client.adapter());
     this.schema = schema;
@@ -78,7 +80,7 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, I
             .add(new UpdateRequest<>(schema, group, ImmutableSet.of()));
 
     String uri = getURI(BULK);
-    Response response = postRequest(uri, bulk, getRefreshParam());
+    Response response = postRequestWithRefreshParam(uri, bulk);
     int statusCode = response.getStatusLine().getStatusCode();
     if (statusCode != HttpStatus.SC_OK) {
       throw new StorageException(
