@@ -94,6 +94,30 @@
       },
       "revId": "b66c35c3f787d0d1a0b7a5e5c171eaf62b3439f4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b274979_95f76518",
+        "filename": "src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-07-12T16:15:14Z",
+      "side": 1,
+      "message": "I see your point. I tried to improve the situation by renaming the method  to `postRequestWithRefreshParam()`. Let me know, if your concerns resolved with this rename. Another alternative would be, as you suggested, to restore the base version, and pass in `refreshParam` parameter.",
+      "parentUuid": "4596ebb4_48fc9dd0",
+      "range": {
+        "startLine": 310,
+        "startChar": 48,
+        "endLine": 310,
+        "endChar": 61
+      },
+      "revId": "b66c35c3f787d0d1a0b7a5e5c171eaf62b3439f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
