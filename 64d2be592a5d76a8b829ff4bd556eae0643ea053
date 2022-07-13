@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "41982f6f_a60900a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-07-13T08:00:28Z",
+      "side": 1,
+      "message": "Should we also mention any change to the licensing issues associated?\n(v8.3.2 has a different licensing model isn\u0027t it?)",
+      "parentUuid": "9cf05ede_bfdc9485",
+      "range": {
+        "startLine": 7,
+        "startChar": 44,
+        "endLine": 7,
+        "endChar": 49
+      },
+      "revId": "64d2be592a5d76a8b829ff4bd556eae0643ea053",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "69fa8893_08277360",
