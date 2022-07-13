@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "69fa8893_08277360",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-07-13T00:20:04Z",
+      "side": 1,
+      "message": "Could be a fluke, but this seems to have dropped ~3minutes from //plugins/index-elasticsearch:elasticsearch_query_changes_test_V7 and maybe added some time to the accounts, groups, and projects tests?\n\nThis change:\n```\n//plugins/index-elasticsearch:elasticsearch_query_accounts_test_V7       PASSED in 124.4s\n//plugins/index-elasticsearch:elasticsearch_query_changes_test_V7        PASSED in 557.2s\n//plugins/index-elasticsearch:elasticsearch_query_groups_test_V7         PASSED in 105.3s\n//plugins/index-elasticsearch:elasticsearch_query_projects_test_V7       PASSED in 97.8s\n//plugins/index-elasticsearch:index-elasticsearch_tests                  PASSED in 1.6s\n```\n\nParents:\n```\n//plugins/index-elasticsearch:elasticsearch_query_accounts_test_V7       PASSED in 113.8s\n//plugins/index-elasticsearch:elasticsearch_query_changes_test_V7        PASSED in 685.7s\n//plugins/index-elasticsearch:elasticsearch_query_groups_test_V7         PASSED in 95.4s\n//plugins/index-elasticsearch:elasticsearch_query_projects_test_V7       PASSED in 90.1s\n//plugins/index-elasticsearch:index-elasticsearch_tests                  PASSED in 2.1s\n \n//plugins/index-elasticsearch:elasticsearch_query_accounts_test_V7       PASSED in 111.6s\n//plugins/index-elasticsearch:elasticsearch_query_changes_test_V7        PASSED in 692.4s\n//plugins/index-elasticsearch:elasticsearch_query_groups_test_V7         PASSED in 95.5s\n//plugins/index-elasticsearch:elasticsearch_query_projects_test_V7       PASSED in 87.5s\n//plugins/index-elasticsearch:index-elasticsearch_tests                  PASSED in 1.8s\n \n//plugins/index-elasticsearch:elasticsearch_query_accounts_test_V7       PASSED in 114.1s\n//plugins/index-elasticsearch:elasticsearch_query_changes_test_V7        PASSED in 647.8s\n//plugins/index-elasticsearch:elasticsearch_query_groups_test_V7         PASSED in 86.0s\n//plugins/index-elasticsearch:elasticsearch_query_projects_test_V7       PASSED in 81.7s\n//plugins/index-elasticsearch:index-elasticsearch_tests                  PASSED in 1.3s\n```",
+      "revId": "64d2be592a5d76a8b829ff4bd556eae0643ea053",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
