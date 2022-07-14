@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fbdc9f1d_b31b9139",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-07-14T15:26:43Z",
+      "side": 1,
+      "message": "For the ES server you mean? This change doesn\u0027t update support for newer ES server versions, only updates the client we use to connect to the server. That said, it does look like for our internal deployment we\u0027ll need to support a newer server version because we need the ES PIT feature to get reasonable performance. When we do that we\u0027ll be sure to mention licensing changes.",
+      "parentUuid": "41982f6f_a60900a1",
+      "range": {
+        "startLine": 7,
+        "startChar": 44,
+        "endLine": 7,
+        "endChar": 49
+      },
+      "revId": "64d2be592a5d76a8b829ff4bd556eae0643ea053",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f8756aa8_a69e7c75",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -61,6 +85,30 @@
       "writtenOn": "2022-07-13T12:00:37Z",
       "side": 1,
       "message": "Maybe should be mentioned also in the docs.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 76
+      },
+      "revId": "64d2be592a5d76a8b829ff4bd556eae0643ea053",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b9d35fd_3578e9fd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-07-14T15:26:43Z",
+      "side": 1,
+      "message": "sure, I\u0027ll add",
+      "parentUuid": "f8756aa8_a69e7c75",
       "range": {
         "startLine": 9,
         "startChar": 0,
