@@ -4,9 +4,9 @@ This plugin is built with Bazel in-tree build.
 
 ## Build in Gerrit tree
 
-Create a symbolic link of the repsotiory source to the Gerrit source
-tree /plugins/index-elasticsearch directory, and the external_plugin_deps.bzl
-dependencies linked to /plugins/external_plugin_deps.bzl.
+Create a symbolic link of the repository source to the Gerrit source
+tree plugins/index-elasticsearch directory, and the external_plugin_deps.bzl
+dependencies linked to plugins/external_plugin_deps.bzl.
 
 Example:
 
@@ -18,7 +18,7 @@ ln -s ../../index-elasticsearch index-elasticsearch
 ln -sf ../../external_plugin_deps.bzl .
 ```
 
-From the Gerrit source tree issue the command `bazelsk build plugins/index-elasticsearch`.
+From the Gerrit source tree issue the command `bazelisk build plugins/index-elasticsearch`.
 
 Example:
 
@@ -26,15 +26,28 @@ Example:
 bazelisk build plugins/index-elasticsearch
 ```
 
-The libModule jar file is created under `basel-bin/plugins/index-elasticsearch/index-elasticsearch.jar`
+The libModule jar file is created under `bazel-bin/plugins/index-elasticsearch/index-elasticsearch.jar`
 
-To execute the tests run `bazelisk test plugins/index-elasticsearch/...` from the Gerrit source tree.
+## Integration test
 
-Example:
+There are two different ways to run tests for this module. You can either run only the tests
+provided by the module or you can run all Gerrit core acceptance tests with the indexing backend set
+to this module.
+
+To run only the tests provided by this plugin:
 
 ```sh
 bazelisk test plugins/index-elasticsearch/...
 ```
+
+Gerrit acceptance tests allow the execution with an alternate implementation of
+the indexing backend using the `GERRIT_INDEX_MODULE` environment variable.
+
+```sh
+bazelisk test --test_env=GERRIT_INDEX_MODULE=com.google.gerrit.elasticsearch.ElasticIndexModule //...
+```
+
+## IDE setup
 
 This project can be imported into the Eclipse IDE.
 Add the plugin name to the `CUSTOM_PLUGINS` and to the

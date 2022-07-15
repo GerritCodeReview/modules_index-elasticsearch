@@ -91,3 +91,7 @@ If a password is set, defaults to `elastic`, otherwise not set by default.
 Password used to connect to Elasticsearch.
 
 Not set by default.
+
+[Back to @PLUGIN@ documentation index][index]
+
+[index]: index.html
