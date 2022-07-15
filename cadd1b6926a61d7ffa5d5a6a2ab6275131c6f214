@@ -62,6 +62,30 @@
       },
       "revId": "cadd1b6926a61d7ffa5d5a6a2ab6275131c6f214",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec41ea30_da226648",
+        "filename": "src/test/java/com/google/gerrit/elasticsearch/ElasticV7QueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-07-15T16:48:46Z",
+      "side": 1,
+      "message": "Yes, it fails.\n\nTest result:\n```\n$ bazel test --test_filter\u003dcom.google.gerrit.elasticsearch.ElasticV7QueryChangesTest.testErrorResponseFromChangeIndex //plugins/index-elasticsearch:elasticsearch_query_changes_test_V7\n...\nE\nTime: 41.157\nThere was 1 failure:\n1) testErrorResponseFromChangeIndex(com.google.gerrit.elasticsearch.ElasticV7QueryChangesTest)\njava.lang.AssertionError: expected com.google.gerrit.exceptions.StorageException but no exception was thrown\n\tat com.google.gerrit.testing.GerritJUnit.assertThrows(GerritJUnit.java:58)\n\tat com.google.gerrit.elasticsearch.ElasticV7QueryChangesTest.testErrorResponseFromChangeIndex(ElasticV7QueryChangesTest.java:104)\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n```",
+      "parentUuid": "c510db2c_3d80c175",
+      "range": {
+        "startLine": 97,
+        "startChar": 14,
+        "endLine": 97,
+        "endChar": 46
+      },
+      "revId": "cadd1b6926a61d7ffa5d5a6a2ab6275131c6f214",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
