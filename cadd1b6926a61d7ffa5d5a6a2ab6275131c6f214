@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f56f6ae_7ee2c089",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-07-15T19:09:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9cb215db_bf9596a5",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 54
+      },
+      "revId": "cadd1b6926a61d7ffa5d5a6a2ab6275131c6f214",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fc9296a0_30ac4052",
@@ -41,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d18090c_c5bfb788",
+        "filename": "src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-07-15T19:09:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc9296a0_30ac4052",
+      "revId": "cadd1b6926a61d7ffa5d5a6a2ab6275131c6f214",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "da93f08a_dffdb7aa",
@@ -54,6 +96,30 @@
       "writtenOn": "2022-07-15T16:42:08Z",
       "side": 1,
       "message": "In a follow up change we should probably throw an error here too (maybe not necessary if you do the extra check I describe above?)",
+      "range": {
+        "startLine": 117,
+        "startChar": 6,
+        "endLine": 117,
+        "endChar": 76
+      },
+      "revId": "cadd1b6926a61d7ffa5d5a6a2ab6275131c6f214",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d56c1b24_94adc100",
+        "filename": "src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-07-15T19:09:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da93f08a_dffdb7aa",
       "range": {
         "startLine": 117,
         "startChar": 6,
