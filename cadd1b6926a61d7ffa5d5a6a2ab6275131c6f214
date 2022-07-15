@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc9296a0_30ac4052",
+        "filename": "src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-07-15T16:42:08Z",
+      "side": 1,
+      "message": "Add a check before this to confirm response.getEntity().getContentType().equals(org.apache.httpcomponents/httpcore/org/apache/http/entity/ContentType.APPLICATION_JSON) ?\n\nhttps://hc.apache.org/httpcomponents-core-4.4.x/current/httpcore/apidocs/org/apache/http/entity/ContentType.html#APPLICATION_JSON",
+      "revId": "cadd1b6926a61d7ffa5d5a6a2ab6275131c6f214",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da93f08a_dffdb7aa",
+        "filename": "src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-07-15T16:42:08Z",
+      "side": 1,
+      "message": "In a follow up change we should probably throw an error here too (maybe not necessary if you do the extra check I describe above?)",
+      "range": {
+        "startLine": 117,
+        "startChar": 6,
+        "endLine": 117,
+        "endChar": 76
+      },
+      "revId": "cadd1b6926a61d7ffa5d5a6a2ab6275131c6f214",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c510db2c_3d80c175",
+        "filename": "src/test/java/com/google/gerrit/elasticsearch/ElasticV7QueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-07-15T16:42:08Z",
+      "side": 1,
+      "message": "Does this test fail without the rest of this change?",
+      "range": {
+        "startLine": 97,
+        "startChar": 14,
+        "endLine": 97,
+        "endChar": 46
+      },
+      "revId": "cadd1b6926a61d7ffa5d5a6a2ab6275131c6f214",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
