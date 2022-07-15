@@ -16,6 +16,23 @@
       "message": "I know the src/main/resources/Documentation docs don\u0027t show up on a running server (yet), but 1) we should see if we can fix that and 2) it\u0027s nice to have them there for consistency.",
       "revId": "3a416fc9896f62b9598cbbca051951166dba3bf3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c106c875_041de6e9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-07-15T19:16:33Z",
+      "side": 1,
+      "message": "Nice.",
+      "revId": "3a416fc9896f62b9598cbbca051951166dba3bf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
