@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e3ebb11_4674e7ff",
+        "filename": "src/test/java/com/google/gerrit/elasticsearch/ElasticV7QueryChangesTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-07-18T15:46:43Z",
+      "side": 1,
+      "message": "There is a subtle problem here. This test method annotated with @Test annotation is closing the index, that was opened in startIndexService(), annotated with @BeforeClass annotation.\n\nImaging someone would add another test that rely on the fact that the index is still opened, because that\u0027s what startIndexService() is telling you.\n\nI think it depends, where a new test method is added: before or after this test. If it\u0027s added before this method and the order of the test methods execution is respected by the test framework it would be fine, otherwise the test would fail (not tested).\n\nI think it is cleaner, to add a new test class, for that test and not abuse this one, unless you can find another approach not to close the index in the middle of test methods execution.\n\nAt very least, a comment should be added to warn developers about the problem. This applies to all test classes.",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 89,
+        "endChar": 61
+      },
+      "revId": "880902c1c1c96784dbb4caa9bac11dc7b6c38eca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
