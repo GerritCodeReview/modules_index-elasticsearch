@@ -82,7 +82,7 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, I
     String uri = getURI(BULK);
     Response response = postRequestWithRefreshParam(uri, bulk);
     int statusCode = response.getStatusLine().getStatusCode();
-    if (statusCode != HttpStatus.SC_OK) {
+    if (hasErrors(response) || statusCode != HttpStatus.SC_OK) {
       throw new StorageException(
           String.format(
               "Failed to replace group %s in index %s: %s",
