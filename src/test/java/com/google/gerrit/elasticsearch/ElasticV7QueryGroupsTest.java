@@ -42,7 +42,7 @@ public class ElasticV7QueryGroupsTest extends AbstractQueryGroupsTest {
   public static void startIndexService() {
     if (container == null) {
       // Only start Elasticsearch once
-      container = ElasticContainer.createAndStart(ElasticVersion.V7_8);
+      container = ElasticContainer.createAndStart(ElasticVersion.V7_16);
       client = HttpAsyncClients.createDefault();
       client.start();
     }
