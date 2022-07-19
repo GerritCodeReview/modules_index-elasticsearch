@@ -46,6 +46,30 @@
       },
       "revId": "880902c1c1c96784dbb4caa9bac11dc7b6c38eca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b01a0c6_15703b75",
+        "filename": "src/test/java/com/google/gerrit/elasticsearch/ElasticV7QueryChangesTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-07-19T14:36:47Z",
+      "side": 1,
+      "message": "Ah right, I missed that. Thanks for correcting me.",
+      "parentUuid": "08662d43_a14b1eff",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 89,
+        "endChar": 61
+      },
+      "revId": "880902c1c1c96784dbb4caa9bac11dc7b6c38eca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
