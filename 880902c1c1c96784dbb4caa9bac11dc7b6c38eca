@@ -22,6 +22,30 @@
       },
       "revId": "880902c1c1c96784dbb4caa9bac11dc7b6c38eca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08662d43_a14b1eff",
+        "filename": "src/test/java/com/google/gerrit/elasticsearch/ElasticV7QueryChangesTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-07-19T06:23:03Z",
+      "side": 1,
+      "message": "Before each test, we create a new index which is name-spaced with the current test name, for example testerrorresponsefromchangeindexchanges_0071 will be the changes index for this test. This is done in initAfterLifecycleStart() which is called before each test. So we are closing this specific index (testerrorresponsefromchangeindexchanges_0071) and we are not stopping the ES container. Thus there is no effect of this operation on other tests. (I have tested it).",
+      "parentUuid": "8e3ebb11_4674e7ff",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 89,
+        "endChar": 61
+      },
+      "revId": "880902c1c1c96784dbb4caa9bac11dc7b6c38eca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
