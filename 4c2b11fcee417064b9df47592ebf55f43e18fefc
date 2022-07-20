@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b2376b6_119acd68",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-07-20T22:25:56Z",
+      "side": 1,
+      "message": "Mention here and in the docs that ES server 7.11+ has a different license. Probably link to https://www.elastic.co/pricing/faq/licensing",
+      "revId": "4c2b11fcee417064b9df47592ebf55f43e18fefc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc13a7e1_a2f4145a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-07-20T22:25:56Z",
+      "side": 1,
+      "message": "@Luca/@davido can you give some high-level early feedback on this? We need at least 7.10 to support PIT (child change) which we think we need for server stability and performance.\n\nAlso, is it a problem to include support for running the test container with ES 7.11+?",
+      "revId": "4c2b11fcee417064b9df47592ebf55f43e18fefc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
