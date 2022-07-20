@@ -14,19 +14,28 @@
 
 package com.google.gerrit.elasticsearch;
 
+import com.google.common.flogger.FluentLogger;
 import org.apache.http.HttpHost;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testcontainers.containers.ContainerLaunchException;
 import org.testcontainers.elasticsearch.ElasticsearchContainer;
 import org.testcontainers.utility.DockerImageName;
 
 /* Helper class for running ES integration tests in docker container */
 public class ElasticContainer extends ElasticsearchContainer {
+  private static FluentLogger logger = FluentLogger.forEnclosingClass();
   private static final int ELASTICSEARCH_DEFAULT_PORT = 9200;
 
   public static ElasticContainer createAndStart(ElasticVersion version) {
     ElasticContainer container = new ElasticContainer(version);
-    container.start();
+    try {
+      container.start();
+    } catch (ContainerLaunchException e) {
+      logger.atSevere().log(
+          "Failed to launch elastic container. Logs from container :\n" + container.getLogs());
+      throw e;
+    }
     return container;
   }
 
