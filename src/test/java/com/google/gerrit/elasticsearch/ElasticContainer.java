@@ -40,6 +40,8 @@ public class ElasticContainer extends ElasticsearchContainer {
         return "docker.elastic.co/elasticsearch/elasticsearch:7.8.1";
       case V7_10:
         return "docker.elastic.co/elasticsearch/elasticsearch:7.10.0";
+      case V7_16:
+        return "docker.elastic.co/elasticsearch/elasticsearch:7.16.2";
     }
     throw new IllegalStateException("No tests for version: " + version.name());
   }

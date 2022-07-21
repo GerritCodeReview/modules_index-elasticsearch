@@ -6,6 +6,10 @@ based on [ElasticSearch](https://www.elastic.co/elasticsearch/).
 This module was originally part of Gerrit core and then extracted into a separate
 component from v3.5.0-rc3 as part of [Change-Id: Ib7b5167ce](https://gerrit-review.googlesource.com/c/gerrit/+/323676).
 
+Note that, ElasticSearch source code is no longer Apache 2.0-licensed for versions
+7.11 and newer. See ElasticSearch [2021 license change](https://www.elastic.co/pricing/faq/licensing)
+for more information.
+
 ## How to build
 
 This libModule is built like a Gerrit in-tree plugin, using Bazelisk. See the
