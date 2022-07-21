@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e44c6d9f_a041fafe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-07-21T06:21:54Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "8b2376b6_119acd68",
+      "revId": "4c2b11fcee417064b9df47592ebf55f43e18fefc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fc13a7e1_a2f4145a",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -31,6 +49,42 @@
       "writtenOn": "2022-07-20T22:25:56Z",
       "side": 1,
       "message": "@Luca/@davido can you give some high-level early feedback on this? We need at least 7.10 to support PIT (child change) which we think we need for server stability and performance.\n\nAlso, is it a problem to include support for running the test container with ES 7.11+?",
+      "revId": "4c2b11fcee417064b9df47592ebf55f43e18fefc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09578d55_76c4baa4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-07-21T06:21:54Z",
+      "side": 1,
+      "message": "I don\u0027t have a problem with that. IIRC,",
+      "parentUuid": "fc13a7e1_a2f4145a",
+      "revId": "4c2b11fcee417064b9df47592ebf55f43e18fefc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2125add8_117ba72f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-07-21T06:21:54Z",
+      "side": 1,
+      "message": "I\u0027m fine with the upgrade. See comment on this change: [1], that tried to integrate Javamelody monitoring, quoting:\n\n  \"Given the license is LGPL, this should be a plugin.\"\n\nES lib module is not part of gerrit core, so that I think we should be fine.\n\nAlso note, that this library doesn\u0027t include any artifacts from the library released under different license, as gerrit itself, because ES client is still under Apache 2.0 license. Only test would fetch images from the bumped artifacts.\n\nWhat are the alternatives? To move the hosting of this lib module outside of gerrit-review?\n\nI will leave the final judgement to Luca, though, as he is the member of ESC and could discuss this topic there.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/36450",
+      "parentUuid": "fc13a7e1_a2f4145a",
       "revId": "4c2b11fcee417064b9df47592ebf55f43e18fefc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
