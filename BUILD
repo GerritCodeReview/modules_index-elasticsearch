@@ -73,6 +73,7 @@ ELASTICSEARCH_TESTS_V7 = {i: "ElasticV7Query" + i.capitalize() + SUFFIX for i in
     tags = [
         "docker",
         "elastic",
+        "exclusive",
     ],
     deps = ELASTICSEARCH_DEPS + PLUGIN_TEST_DEPS + [
         QUERY_TESTS_DEP % name,
