@@ -1,5 +1,12 @@
 {
   "checks": {
+    "gerritforge:index-elasticsearch-build-test": {
+      "state": "RUNNING",
+      "url": "https://gerrit-ci.gerritforge.com/job/module-index-elasticsearch-verifier/job/54%252F341654%252F1/1/console",
+      "started": "2022-07-22T20:43:07Z",
+      "created": "2022-07-22T20:38:32Z",
+      "updated": "2022-07-22T20:38:32Z"
+    },
     "gerritforge:index-elasticsearch-code-style": {
       "state": "SUCCESSFUL",
       "url": "https://gerrit-ci.gerritforge.com/job/module-index-elasticsearch-verifier/job/54%252F341654%252F1/1/console",
