@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "76635750_ddf306fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-07-23T11:53:17Z",
+      "side": 1,
+      "message": "\u003e Switched to 7.10 for now as we are running into issues getting tests to work with 7.16. See slack thread: https://gerritcodereview.slack.com/archives/CE2V1QU1L/p1658349913385199\n\nPlease do not use references to Slack, as it is not archived. Use the mailing list instead. Repo-discuss is the right place to have an archived and shared discussion with the whole community that can be used as a reference in the future: I am sure that in 12 months the Slack link will be broken :-)\n\nThanks for your understanding.",
+      "parentUuid": "124d7c47_4d888496",
+      "revId": "4c2b11fcee417064b9df47592ebf55f43e18fefc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fc13a7e1_a2f4145a",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
