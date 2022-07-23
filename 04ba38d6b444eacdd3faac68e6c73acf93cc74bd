@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2da76e2d_1a650d8c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-07-23T03:19:56Z",
+      "side": 1,
+      "message": "This seems to justify the need to use these images for containers which do PIT testing, but that is not needed for these specific containers is it? Is there a reason to not only use the oss containers for the versions of ES which will have PIT testing done on them? Are there other justifications for this change?",
+      "range": {
+        "startLine": 12,
+        "startChar": 7,
+        "endLine": 12,
+        "endChar": 33
+      },
+      "revId": "04ba38d6b444eacdd3faac68e6c73acf93cc74bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
