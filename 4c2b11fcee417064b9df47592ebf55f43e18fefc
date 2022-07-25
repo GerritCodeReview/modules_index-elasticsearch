@@ -72,6 +72,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "253b96bc_62594ffe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-07-25T21:13:30Z",
+      "side": 1,
+      "message": "Sure. I will refrain from posting references to slack in future.\n\nFor the benefit of others, the summary of the discussion in slack was that blacktop/elasticsearch:7.16 needs docker version to be at-least 20.10.0 and CI has an older version. We\u0027ll likely be switching to full elasticsearch images (docker.elastic.co/elasticsearch/elasticsearch) in upcoming changes.",
+      "parentUuid": "76635750_ddf306fa",
+      "revId": "4c2b11fcee417064b9df47592ebf55f43e18fefc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fc13a7e1_a2f4145a",
