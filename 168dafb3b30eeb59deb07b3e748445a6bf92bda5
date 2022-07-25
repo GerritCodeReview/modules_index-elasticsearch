@@ -16,6 +16,24 @@
       "message": "Would it make more sense to only make this exclusive when run on Gerrit\u0027s CI system?",
       "revId": "168dafb3b30eeb59deb07b3e748445a6bf92bda5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "613d6ff5_c219cfb5",
+        "filename": "BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-07-25T21:54:24Z",
+      "side": 1,
+      "message": "Probably not, as running these tests in parallel considerably slows down my dev machine (6-Core Intel Core i7 and 16GB RAM) and mostly even fails to start the elastic-search containers. So, I think it makes sense to run these tests serially, even in non-CI environments.",
+      "parentUuid": "c9a83134_60723bbe",
+      "revId": "168dafb3b30eeb59deb07b3e748445a6bf92bda5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
