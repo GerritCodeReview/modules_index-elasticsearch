@@ -141,6 +141,24 @@
       "parentUuid": "fc13a7e1_a2f4145a",
       "revId": "4c2b11fcee417064b9df47592ebf55f43e18fefc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf055b18_1be4fea6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-07-25T22:27:03Z",
+      "side": 1,
+      "message": "\u003e I\u0027m fine with the upgrade. See comment on this change: [1], that tried to integrate Javamelody monitoring, quoting:\n\u003e \n\u003e   \"Given the license is LGPL, this should be a plugin.\"\n\u003e \n\u003e ES lib module is not part of gerrit core, so that I think we should be fine.\n\u003e \n\u003e Also note, that this library doesn\u0027t include any artifacts from the library released under different license, as gerrit itself, because ES client is still under Apache 2.0 license. Only test would fetch images from the bumped artifacts.\n\u003e \n\u003e What are the alternatives? To move the hosting of this lib module outside of gerrit-review?\n\u003e \n\u003e I will leave the final judgement to Luca, though, as he is the member of ESC and could discuss this topic there.\n\n@Luca Can you please let us know if you are OK with this change?\n\n\u003e \n\u003e [1] https://gerrit-review.googlesource.com/c/gerrit/+/36450",
+      "parentUuid": "2125add8_117ba72f",
+      "revId": "4c2b11fcee417064b9df47592ebf55f43e18fefc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
