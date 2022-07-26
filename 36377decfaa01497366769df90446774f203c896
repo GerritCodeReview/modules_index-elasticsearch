@@ -16,6 +16,24 @@
       "message": "Does this need a google license approval of any sort?",
       "revId": "36377decfaa01497366769df90446774f203c896",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ae83e0f_4f245f25",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-07-26T17:10:09Z",
+      "side": 1,
+      "message": "I\u0027m going to assume NO since we don\u0027t have LC labels on this project.",
+      "parentUuid": "740882c8_95564744",
+      "revId": "36377decfaa01497366769df90446774f203c896",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
