@@ -46,6 +46,30 @@
       },
       "revId": "ad697312e24bd61c747d369b16e4461d377a666c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f437a7ff_189db9c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-09-01T21:10:04Z",
+      "side": 1,
+      "message": "Maybe it would make more sense to make a 3.4 branch here in this repos which is a rewritten copy of core, that way we could do upmerges from it.",
+      "parentUuid": "802f5a6e_e7ec7d01",
+      "range": {
+        "startLine": 2,
+        "startChar": 12,
+        "endLine": 2,
+        "endChar": 20
+      },
+      "revId": "ad697312e24bd61c747d369b16e4461d377a666c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
