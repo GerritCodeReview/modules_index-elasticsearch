@@ -94,6 +94,30 @@
       },
       "revId": "ad697312e24bd61c747d369b16e4461d377a666c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "876031e8_975c5faa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-09-01T22:03:39Z",
+      "side": 1,
+      "message": "I have cherry-picked it now. It does seem like a wasted effort to create a 3.4 branch especially when we cant verify its authenticity.",
+      "parentUuid": "8c660121_30f82c2f",
+      "range": {
+        "startLine": 2,
+        "startChar": 12,
+        "endLine": 2,
+        "endChar": 20
+      },
+      "revId": "ad697312e24bd61c747d369b16e4461d377a666c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
