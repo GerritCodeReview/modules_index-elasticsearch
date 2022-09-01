@@ -22,6 +22,30 @@
       },
       "revId": "ad697312e24bd61c747d369b16e4461d377a666c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "802f5a6e_e7ec7d01",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-09-01T21:01:22Z",
+      "side": 1,
+      "message": "\u003e This doesn\u0027t look to actually be cherry-picked, it would be better if it were (same author, and commit message).\n\n+1, except for the part of the message intentionally not adopted in this change (using gerritforge docker images) which could be explained in the message\n\n\u003e Or, if this was a commit on 3.4, then it should get merged here on 3.5?\n\nThere\u0027s no index-elasticsearch 3.4 since that code is still in core, so there\u0027s no merge possible here.",
+      "parentUuid": "6f392db0_20a594cf",
+      "range": {
+        "startLine": 2,
+        "startChar": 12,
+        "endLine": 2,
+        "endChar": 20
+      },
+      "revId": "ad697312e24bd61c747d369b16e4461d377a666c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
