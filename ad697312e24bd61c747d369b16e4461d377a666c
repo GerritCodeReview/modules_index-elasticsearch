@@ -70,6 +70,30 @@
       },
       "revId": "ad697312e24bd61c747d369b16e4461d377a666c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c660121_30f82c2f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-09-01T21:52:42Z",
+      "side": 1,
+      "message": "\u003e Maybe it would make more sense to make a 3.4 branch here in this repos which is a rewritten copy of core, that way we could do upmerges from it.\n\nThat seems strange to me since that 3.4 branch here wouldn\u0027t ever work. There\u0027s no module support for an index backend in 3.4. So there\u0027s no way to know if the \"rewrite\" is ever correct.\n\nAnd 3.4 will be EOL soon enough that I don\u0027t see this as a long term problem.",
+      "parentUuid": "f437a7ff_189db9c2",
+      "range": {
+        "startLine": 2,
+        "startChar": 12,
+        "endLine": 2,
+        "endChar": 20
+      },
+      "revId": "ad697312e24bd61c747d369b16e4461d377a666c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
