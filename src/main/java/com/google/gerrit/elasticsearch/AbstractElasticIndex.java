@@ -362,19 +362,14 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
   protected class ElasticQuerySource implements DataSource<V> {
     private final QueryOptions opts;
-    private final String search;
+    private final QueryBuilder qb;
+    private final JsonArray sortArray;
 
     ElasticQuerySource(Predicate<V> p, QueryOptions opts, JsonArray sortArray)
         throws QueryParseException {
       this.opts = opts;
-      QueryBuilder qb = queryBuilder.toQueryBuilder(p);
-      SearchSourceBuilder searchSource =
-          new SearchSourceBuilder(client.adapter())
-              .query(qb)
-              .from(opts.start())
-              .size(opts.limit())
-              .fields(Lists.newArrayList(opts.fields()));
-      search = getSearch(searchSource, sortArray);
+      this.sortArray = sortArray;
+      this.qb = queryBuilder.toQueryBuilder(p);
     }
 
     @Override
@@ -394,32 +389,55 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
     private <T> ResultSet<T> readImpl(Function<JsonObject, T> mapper) {
       try {
-        String uri = getURI(SEARCH);
-        Response response =
-            performRequest(HttpPost.METHOD_NAME, uri, search, Collections.emptyMap());
-        StatusLine statusLine = response.getStatusLine();
-        if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
-          String content = getContent(response);
-          JsonObject obj =
-              new JsonParser().parse(content).getAsJsonObject().getAsJsonObject("hits");
-          if (obj.get("hits") != null) {
-            JsonArray json = obj.getAsJsonArray("hits");
-            ImmutableList.Builder<T> results = ImmutableList.builderWithExpectedSize(json.size());
-            for (int i = 0; i < json.size(); i++) {
-              T mapperResult = mapper.apply(json.get(i).getAsJsonObject());
-              if (mapperResult != null) {
-                results.add(mapperResult);
-              }
+        JsonArray searchAfter = null;
+        JsonObject obj = search(opts).getAsJsonObject("hits");
+        if (obj.get("hits") != null) {
+          JsonArray json = obj.getAsJsonArray("hits");
+          ImmutableList.Builder<T> results = ImmutableList.builderWithExpectedSize(json.size());
+          JsonObject hit = null;
+          for (int i = 0; i < json.size(); i++) {
+            hit = json.get(i).getAsJsonObject();
+            T mapperResult = mapper.apply(hit);
+            if (mapperResult != null) {
+              results.add(mapperResult);
             }
-            return new ListResultSet<>(results.build());
           }
-        } else {
-          logger.atSevere().log(statusLine.getReasonPhrase());
+          if (hit != null && hit.get("sort") != null) {
+            searchAfter = hit.getAsJsonArray("sort");
+          }
+          JsonArray finalSearchAfter = searchAfter;
+          return new ListResultSet<T>(results.build()) {
+            @Override
+            public Object searchAfter() {
+              return finalSearchAfter;
+            }
+          };
         }
         return new ListResultSet<>(ImmutableList.of());
       } catch (IOException e) {
         throw new StorageException(e);
       }
+    }
+
+    private JsonObject search(QueryOptions opts) throws IOException {
+      String uri = getURI(SEARCH);
+      SearchSourceBuilder searchSource =
+          new SearchSourceBuilder(client.adapter())
+              .query(qb)
+              .size(opts.pageSize())
+              .fields(Lists.newArrayList(opts.fields()));
+      searchSource =
+          opts.searchAfter() != null
+              ? searchSource.searchAfter((JsonArray) opts.searchAfter()).trackTotalHits(false)
+              : searchSource.from(opts.start());
+      String search = getSearch(searchSource, sortArray);
+      Response response = performRequest(HttpPost.METHOD_NAME, uri, search, Collections.emptyMap());
+      StatusLine statusLine = response.getStatusLine();
+      if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
+        return new JsonParser().parse(getContent(response)).getAsJsonObject();
+      }
+      logger.atSevere().log(statusLine.getReasonPhrase());
+      return new JsonObject();
     }
   }
 }
