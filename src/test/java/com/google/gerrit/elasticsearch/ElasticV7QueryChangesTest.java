@@ -40,6 +40,13 @@ public class ElasticV7QueryChangesTest extends AbstractQueryChangesTest {
     return ElasticTestUtils.createConfig();
   }
 
+  @ConfigSuite.Config
+  public static Config searchAfterPaginationType() {
+    Config config = defaultConfig();
+    config.setString("index", null, "paginationType", "SEARCH_AFTER");
+    return config;
+  }
+
   private static ElasticContainer container;
   private static CloseableHttpAsyncClient client;
 
