@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9734d81_2b123df4",
+        "filename": "src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-09-14T22:56:43Z",
+      "side": -1,
+      "message": "Why is this all removed? It doesn\u0027t look like change that came from either parent.",
+      "range": {
+        "startLine": 371,
+        "startChar": 0,
+        "endLine": 377,
+        "endChar": 50
+      },
+      "revId": "d85e0c18f48982685da3373f1ec8aa8679055c8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
