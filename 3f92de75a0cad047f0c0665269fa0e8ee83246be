@@ -6,12 +6,12 @@
       "updated": "2022-09-14T22:09:12Z"
     },
     "gerritforge:index-elasticsearch-code-style": {
-      "state": "SUCCESSFUL",
-      "url": "https://gerrit-ci.gerritforge.com/job/module-index-elasticsearch-verifier/job/16%252F345616%252F1/3/console",
-      "started": "2022-09-14T20:01:26Z",
+      "state": "RUNNING",
+      "url": "https://gerrit-ci.gerritforge.com/job/module-index-elasticsearch-verifier/job/16%252F345616%252F1/4/console",
+      "started": "2022-09-14T22:14:14Z",
       "finished": "2022-09-14T20:01:34Z",
       "created": "2022-09-14T17:01:14Z",
-      "updated": "2022-09-14T20:01:34Z"
+      "updated": "2022-09-14T22:14:14Z"
     }
   }
 }
