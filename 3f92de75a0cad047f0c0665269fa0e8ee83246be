@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9cd4311_d71edd4c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-09-15T16:37:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97c8e6cb_c4fb19e9",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 4
+      },
+      "revId": "3f92de75a0cad047f0c0665269fa0e8ee83246be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "66de3984_fe7ffa14",
@@ -37,6 +61,24 @@
       "writtenOn": "2022-09-14T22:56:43Z",
       "side": 1,
       "message": "Clarify here that the changes below were cherry-picked from core stable-3.4 onto the rewritten module history where stable-3.4 would have been?",
+      "revId": "3f92de75a0cad047f0c0665269fa0e8ee83246be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "84045ca2_c267dd64",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-09-15T16:37:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "66de3984_fe7ffa14",
       "revId": "3f92de75a0cad047f0c0665269fa0e8ee83246be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

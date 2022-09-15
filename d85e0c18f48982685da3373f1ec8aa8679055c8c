@@ -22,6 +22,30 @@
       },
       "revId": "d85e0c18f48982685da3373f1ec8aa8679055c8c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6f42222_a0194194",
+        "filename": "src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-09-15T16:37:09Z",
+      "side": -1,
+      "message": "It was moved to the `search()` method. We don\u0027t need to change this though. It was an issue with my tests after the initial merge prompting me to do this update.",
+      "parentUuid": "e9734d81_2b123df4",
+      "range": {
+        "startLine": 371,
+        "startChar": 0,
+        "endLine": 377,
+        "endChar": 50
+      },
+      "revId": "d85e0c18f48982685da3373f1ec8aa8679055c8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
