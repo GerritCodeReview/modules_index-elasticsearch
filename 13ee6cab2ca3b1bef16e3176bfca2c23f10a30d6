@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "14d73d51_6f1525c8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-05T21:11:55Z",
+      "side": 1,
+      "message": "```\nINFO: Found 5 test targets...\nINFO: Elapsed time: 695.131s, Critical Path: 556.97s\nINFO: 31 processes: 16 internal, 4 linux-sandbox, 4 local, 7 worker.\nINFO: Build completed successfully, 31 total actions\n//plugins/index-elasticsearch:elasticsearch_query_accounts_test_V7       PASSED in 60.3s\n//plugins/index-elasticsearch:elasticsearch_query_changes_test_V7        PASSED in 553.3s\n//plugins/index-elasticsearch:elasticsearch_query_groups_test_V7         PASSED in 37.7s\n//plugins/index-elasticsearch:elasticsearch_query_projects_test_V7       PASSED in 33.9s\n//plugins/index-elasticsearch:index-elasticsearch_tests                  PASSED in 0.6s\n\nExecuted 5 out of 5 tests: 5 tests pass.\nINFO: Build completed successfully, 31 total actions\n```",
+      "revId": "13ee6cab2ca3b1bef16e3176bfca2c23f10a30d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
