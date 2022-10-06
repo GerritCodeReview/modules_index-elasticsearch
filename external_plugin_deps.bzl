@@ -8,19 +8,19 @@ def external_plugin_deps():
     )
 
     # Ensure artifacts compatibility by selecting them from the Bill Of Materials
-    # https://search.maven.org/artifact/org.testcontainers/testcontainers/1.16.3/pom
-    TESTCONTAINERS_VERSION = "1.16.3"
+    # https://search.maven.org/artifact/org.testcontainers/testcontainers/1.17.5/pom
+    TESTCONTAINERS_VERSION = "1.17.5"
 
     maven_jar(
         name = "testcontainers",
         artifact = "org.testcontainers:testcontainers:" + TESTCONTAINERS_VERSION,
-        sha1 = "a5d2ad12ebe0d4b66e4fd9f4657571213b5f64c3",
+        sha1 = "7c5ad975fb789ecd09b1ee5f72907f48a300bc61",
     )
 
     maven_jar(
         name = "testcontainers-elasticsearch",
         artifact = "org.testcontainers:elasticsearch:" + TESTCONTAINERS_VERSION,
-        sha1 = "5831f0645ed3184df96ab9568f0c4347b8ff87bd",
+        sha1 = "060895f2fc6640ab4a6c383bc98c5c39ef644fbb",
     )
 
     maven_jar(
@@ -29,24 +29,24 @@ def external_plugin_deps():
         sha1 = "92edc22a9ab2f3e17c9bf700aaee377d50e8b530",
     )
 
-    DOCKER_JAVA_VERS = "3.2.12"
+    DOCKER_JAVA_VERS = "3.2.13"
 
     maven_jar(
         name = "docker-java-api",
         artifact = "com.github.docker-java:docker-java-api:" + DOCKER_JAVA_VERS,
-        sha1 = "6716b0483926adbcce0fd4636664e711debafc11",
+        sha1 = "5817ef8f770cb7e740d590090bf352df9491f3c1",
     )
 
     maven_jar(
         name = "docker-java-transport",
         artifact = "com.github.docker-java:docker-java-transport:" + DOCKER_JAVA_VERS,
-        sha1 = "88ad0cd6d67c075a5f622dbf7cb930ef4b1c008f",
+        sha1 = "e9d308d1822181a9d48c99739f5eca014ec89199",
     )
 
     maven_jar(
         name = "docker-java-transport-zerodep",
         artifact = "com.github.docker-java:docker-java-transport-zerodep:" + DOCKER_JAVA_VERS,
-        sha1 = "131e656a25622f7288aaac531e7d3290d3e8936d",
+        sha1 = "4cbc2c09d6c264767a39624066987ed4a152bc68",
     )
 
     # Match version used in docker-java-transport
