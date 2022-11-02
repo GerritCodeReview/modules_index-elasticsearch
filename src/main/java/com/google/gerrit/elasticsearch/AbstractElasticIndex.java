@@ -43,6 +43,7 @@ import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.DataSource;
 import com.google.gerrit.index.query.FieldBundle;
+import com.google.gerrit.index.query.HasCardinality;
 import com.google.gerrit.index.query.ListResultSet;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
@@ -362,11 +363,13 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
   protected class ElasticQuerySource implements DataSource<V> {
     private final QueryOptions opts;
+    private final Predicate<V> predicate;
     private final String search;
 
     ElasticQuerySource(Predicate<V> p, QueryOptions opts, JsonArray sortArray)
         throws QueryParseException {
       this.opts = opts;
+      this.predicate = p;
       QueryBuilder qb = queryBuilder.toQueryBuilder(p);
       SearchSourceBuilder searchSource =
           new SearchSourceBuilder(client.adapter())
@@ -382,6 +385,9 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
     @Override
     public int getCardinality() {
+      if (predicate instanceof HasCardinality) {
+        return ((HasCardinality) predicate).getCardinality();
+      }
       return 10;
     }
 
