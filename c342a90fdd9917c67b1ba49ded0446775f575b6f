@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92bf30f4_da687f14",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-11-03T23:05:31Z",
+      "side": 1,
+      "message": "```\n$ bazel test //plugins/index-elasticsearch/...\nINFO: Invocation ID: e269fbc1-bbf1-4bee-81ff-c88c471caa34\n[snip]\nINFO: Build completed successfully, 24 total actions\n//plugins/index-elasticsearch:elasticsearch_query_changes_test_V7 (cached) PASSED in 560.3s\n//plugins/index-elasticsearch:elasticsearch_query_accounts_test_V7       PASSED in 52.7s\n//plugins/index-elasticsearch:elasticsearch_query_groups_test_V7         PASSED in 38.0s\n//plugins/index-elasticsearch:elasticsearch_query_projects_test_V7       PASSED in 34.9s\n//plugins/index-elasticsearch:index-elasticsearch_tests                  PASSED in 1.3s\n\nExecuted 4 out of 5 tests: 5 tests pass.\nINFO: Build completed successfully, 24 total actions\n```",
+      "revId": "c342a90fdd9917c67b1ba49ded0446775f575b6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
