@@ -23,7 +23,7 @@ import java.util.Map;
 class ElasticMapping {
 
   protected static final String TIMESTAMP_FIELD_TYPE = "date";
-  protected static final String TIMESTAMP_FIELD_FORMAT = "dateOptionalTime";
+  protected static final String TIMESTAMP_FIELD_FORMAT = "date_optional_time";
 
   static MappingProperties createMapping(Schema<?> schema, ElasticQueryAdapter adapter) {
     ElasticMapping.Builder mapping = new ElasticMapping.Builder(adapter);
