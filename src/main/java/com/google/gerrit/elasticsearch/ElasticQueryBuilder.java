@@ -52,7 +52,7 @@ public class ElasticQueryBuilder {
   private <T> BoolQueryBuilder and(Predicate<T> p) throws QueryParseException {
     BoolQueryBuilder b = QueryBuilders.boolQuery();
     for (Predicate<T> c : p.getChildren()) {
-      b.must(toQueryBuilder(c));
+      b.filter(toQueryBuilder(c));
     }
     return b;
   }
@@ -73,7 +73,7 @@ public class ElasticQueryBuilder {
 
     // Lucene does not support negation, start with all and subtract.
     BoolQueryBuilder q = QueryBuilders.boolQuery();
-    q.must(QueryBuilders.matchAllQuery());
+    q.filter(QueryBuilders.matchAllQuery());
     q.mustNot(toQueryBuilder(n));
     return q;
   }
