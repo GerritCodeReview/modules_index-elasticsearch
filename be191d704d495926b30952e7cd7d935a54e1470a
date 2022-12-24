@@ -8,9 +8,11 @@
       "updated": "2022-12-22T17:48:53Z"
     },
     "gerritforge:index-elasticsearch-code-style": {
-      "state": "NOT_STARTED",
+      "state": "RUNNING",
+      "url": "https://gerrit-ci.gerritforge.com/job/module-index-elasticsearch-verifier/job/54%252F355454%252F2/2/console",
+      "started": "2022-12-24T09:12:49Z",
       "created": "2022-12-22T17:48:44Z",
-      "updated": "2022-12-24T09:10:48Z"
+      "updated": "2022-12-24T09:12:50Z"
     }
   }
 }
