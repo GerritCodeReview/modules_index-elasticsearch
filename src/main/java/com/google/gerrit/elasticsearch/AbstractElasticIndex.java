@@ -375,10 +375,11 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
           new SearchSourceBuilder(client.adapter())
               .query(qb)
               .size(opts.pageSize())
-              .fields(Lists.newArrayList(opts.fields()));
+              .fields(Lists.newArrayList(opts.fields()))
+              .trackTotalHits(false);
       searchSource =
           opts.searchAfter() != null
-              ? searchSource.searchAfter((JsonArray) opts.searchAfter()).trackTotalHits(false)
+              ? searchSource.searchAfter((JsonArray) opts.searchAfter())
               : searchSource.from(opts.start());
       search = getSearch(searchSource, sortArray);
     }
