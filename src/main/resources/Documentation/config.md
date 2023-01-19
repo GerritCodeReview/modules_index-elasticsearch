@@ -92,6 +92,13 @@ Password used to connect to Elasticsearch.
 
 Not set by default.
 
+### elasticsearch.codec
+
+Sets the codec to be used for the index data. For further information about supported codecs, please refer to the static index setting
+[index.codec](https://www.elastic.co/guide/en/elasticsearch/reference/current/index-modules.html#index-codec).
+
+Defaults to `default`.
+
 [Back to @PLUGIN@ documentation index][index]
 
 [index]: index.html
