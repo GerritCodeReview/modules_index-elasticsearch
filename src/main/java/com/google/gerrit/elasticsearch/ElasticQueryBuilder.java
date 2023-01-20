@@ -155,9 +155,9 @@ public class ElasticQueryBuilder {
       if (value.endsWith("$") && !value.endsWith("\\$") && !value.endsWith("\\\\$")) {
         value = value.substring(0, value.length() - 1);
       }
-      return QueryBuilders.regexpQuery(name + ".key", value);
+      return QueryBuilders.regexpQuery(name, value);
     } else {
-      return QueryBuilders.termQuery(name + ".key", value);
+      return QueryBuilders.termQuery(name, value);
     }
   }
 }
