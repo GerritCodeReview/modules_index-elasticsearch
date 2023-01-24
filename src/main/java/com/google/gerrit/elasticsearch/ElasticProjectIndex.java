@@ -15,7 +15,7 @@
 package com.google.gerrit.elasticsearch;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
+import com.google.gerrit.elasticsearch.ElasticMapping.Mapping;
 import com.google.gerrit.elasticsearch.bulk.BulkRequest;
 import com.google.gerrit.elasticsearch.bulk.IndexRequest;
 import com.google.gerrit.elasticsearch.bulk.UpdateRequest;
@@ -48,7 +48,7 @@ import org.elasticsearch.client.Response;
 public class ElasticProjectIndex extends AbstractElasticIndex<Project.NameKey, ProjectData>
     implements ProjectIndex {
   static class ProjectMapping {
-    MappingProperties projects;
+    Mapping projects;
 
     ProjectMapping(Schema<ProjectData> schema, ElasticQueryAdapter adapter) {
       this.projects = ElasticMapping.createMapping(schema, adapter);
