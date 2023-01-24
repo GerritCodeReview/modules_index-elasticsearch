@@ -30,7 +30,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.common.io.BaseEncoding;
 import com.google.common.io.CharStreams;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
+import com.google.gerrit.elasticsearch.ElasticMapping.Mapping;
 import com.google.gerrit.elasticsearch.builders.QueryBuilder;
 import com.google.gerrit.elasticsearch.builders.SearchSourceBuilder;
 import com.google.gerrit.elasticsearch.bulk.DeleteRequest;
@@ -226,14 +226,14 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
   protected abstract String getId(V v);
 
-  protected String getMappingsForSingleType(MappingProperties properties) {
-    return getMappingsFor(properties);
+  protected String getMappingsForSingleType(Mapping mapping) {
+    return getMappingsFor(mapping);
   }
 
-  protected String getMappingsFor(MappingProperties properties) {
+  protected String getMappingsFor(Mapping mapping) {
     JsonObject mappings = new JsonObject();
 
-    mappings.add(MAPPINGS, gson.toJsonTree(properties));
+    mappings.add(MAPPINGS, gson.toJsonTree(mapping));
     return gson.toJson(mappings);
   }
 
