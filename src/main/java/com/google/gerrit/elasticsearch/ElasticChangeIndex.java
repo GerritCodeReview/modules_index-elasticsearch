@@ -17,7 +17,7 @@ package com.google.gerrit.elasticsearch;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
+import com.google.gerrit.elasticsearch.ElasticMapping.Mapping;
 import com.google.gerrit.elasticsearch.bulk.BulkRequest;
 import com.google.gerrit.elasticsearch.bulk.IndexRequest;
 import com.google.gerrit.elasticsearch.bulk.UpdateRequest;
@@ -53,12 +53,12 @@ import org.elasticsearch.client.Response;
 class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     implements ChangeIndex {
   static class ChangeMapping {
-    final MappingProperties changes;
-    final MappingProperties openChanges;
-    final MappingProperties closedChanges;
+    final Mapping changes;
+    final Mapping openChanges;
+    final Mapping closedChanges;
 
     ChangeMapping(Schema<ChangeData> schema, ElasticQueryAdapter adapter) {
-      MappingProperties mapping = ElasticMapping.createMapping(schema, adapter);
+      Mapping mapping = ElasticMapping.createMapping(schema, adapter);
       this.changes = mapping;
       this.openChanges = mapping;
       this.closedChanges = mapping;

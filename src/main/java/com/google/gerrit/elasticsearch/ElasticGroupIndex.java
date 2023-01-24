@@ -15,7 +15,7 @@
 package com.google.gerrit.elasticsearch;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
+import com.google.gerrit.elasticsearch.ElasticMapping.Mapping;
 import com.google.gerrit.elasticsearch.bulk.BulkRequest;
 import com.google.gerrit.elasticsearch.bulk.IndexRequest;
 import com.google.gerrit.elasticsearch.bulk.UpdateRequest;
@@ -46,7 +46,7 @@ import org.elasticsearch.client.Response;
 public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, InternalGroup>
     implements GroupIndex {
   static class GroupMapping {
-    final MappingProperties groups;
+    final Mapping groups;
 
     GroupMapping(Schema<InternalGroup> schema, ElasticQueryAdapter adapter) {
       this.groups = ElasticMapping.createMapping(schema, adapter);
