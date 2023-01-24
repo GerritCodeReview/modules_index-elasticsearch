@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "659efa30_0a5d0cc6",
+        "filename": "src/main/java/com/google/gerrit/elasticsearch/ElasticConfiguration.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-01-24T23:51:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6945de53_00c149a3",
+      "revId": "fe117e3df8ab31d042dab2de07a72cd5b4954453",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2fe561bd_2a1625cb",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-01-24T20:27:55Z",
       "side": 1,
       "message": "\"indexed data\"?",
+      "range": {
+        "startLine": 97,
+        "startChar": 34,
+        "endLine": 97,
+        "endChar": 56
+      },
+      "revId": "fe117e3df8ab31d042dab2de07a72cd5b4954453",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d69cf206_d38c1ab6",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-01-24T23:51:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2fe561bd_2a1625cb",
       "range": {
         "startLine": 97,
         "startChar": 34,
@@ -77,6 +119,54 @@
       "writtenOn": "2023-01-24T20:27:55Z",
       "side": 1,
       "message": "nit: You can get a direct link with https://www.elastic.co/guide/en/elasticsearch/reference/current/index-modules.html#index-codec",
+      "range": {
+        "startLine": 98,
+        "startChar": 28,
+        "endLine": 98,
+        "endChar": 133
+      },
+      "revId": "fe117e3df8ab31d042dab2de07a72cd5b4954453",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b77772d9_c96d4530",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-01-24T23:51:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fff9cd3a_aed4ad65",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 14
+      },
+      "revId": "fe117e3df8ab31d042dab2de07a72cd5b4954453",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "14ce0969_e04fbded",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-01-24T23:51:26Z",
+      "side": 1,
+      "message": "Done. Thanks.",
+      "parentUuid": "847ea281_7cab3595",
       "range": {
         "startLine": 98,
         "startChar": 28,
