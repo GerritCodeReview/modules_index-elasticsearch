@@ -15,7 +15,7 @@
 package com.google.gerrit.elasticsearch;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
+import com.google.gerrit.elasticsearch.ElasticMapping.Mapping;
 import com.google.gerrit.elasticsearch.bulk.BulkRequest;
 import com.google.gerrit.elasticsearch.bulk.IndexRequest;
 import com.google.gerrit.elasticsearch.bulk.UpdateRequest;
@@ -46,7 +46,7 @@ import org.elasticsearch.client.Response;
 public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, AccountState>
     implements AccountIndex {
   static class AccountMapping {
-    final MappingProperties accounts;
+    final Mapping accounts;
 
     AccountMapping(Schema<AccountState> schema, ElasticQueryAdapter adapter) {
       this.accounts = ElasticMapping.createMapping(schema, adapter);
