@@ -19,6 +19,7 @@ import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.FieldType;
 import com.google.gerrit.index.Schema;
 import com.google.gson.annotations.SerializedName;
+import java.util.HashMap;
 import java.util.Map;
 
 class ElasticMapping {
@@ -41,8 +42,10 @@ class ElasticMapping {
         mapping.addNumber(name);
       } else if (fieldType == FieldType.FULL_TEXT) {
         mapping.addStringWithAnalyzer(name);
-      } else if (fieldType == FieldType.PREFIX || fieldType == FieldType.STORED_ONLY) {
+      } else if (fieldType == FieldType.STORED_ONLY) {
         mapping.addString(name);
+      } else if (fieldType == FieldType.PREFIX) {
+        mapping.addPrefixString(name);
       } else {
         throw new IllegalStateException("Unsupported field type: " + fieldType.getName());
       }
@@ -96,6 +99,19 @@ class ElasticMapping {
       return this;
     }
 
+    Builder addPrefixString(String name) {
+      FieldProperties properties = new FieldProperties(adapter.stringFieldType());
+      properties.indexPrefixes =
+          new HashMap<>() {
+            {
+              put("min_chars", 5);
+              put("max_chars", 19);
+            }
+          };
+      fields.put(name, properties);
+      return this;
+    }
+
     Builder addStringWithAnalyzer(String name) {
       FieldProperties key = new FieldProperties(adapter.stringFieldType());
       key.analyzer = "custom_with_char_filter";
@@ -127,6 +143,9 @@ class ElasticMapping {
     String format;
     String analyzer;
     Map<String, FieldProperties> fields;
+
+    @SerializedName("index_prefixes")
+    Map<String, Integer> indexPrefixes;
 
     FieldProperties(String type) {
       this.type = type;
