@@ -16,6 +16,24 @@
       "message": "Nit: wrap this long line",
       "revId": "abf07e04a7a486c4043fe5a762f64e9db27af1e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fd5df61_ecaab54e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-01-31T05:02:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0105d64d_be06ed5b",
+      "revId": "abf07e04a7a486c4043fe5a762f64e9db27af1e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
