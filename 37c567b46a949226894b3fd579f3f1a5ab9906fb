@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d57f50a_6bcfe45d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-02-02T21:45:20Z",
+      "side": 1,
+      "message": "Should not be merged to a released stable branch as this requires a re-index.",
+      "revId": "37c567b46a949226894b3fd579f3f1a5ab9906fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
