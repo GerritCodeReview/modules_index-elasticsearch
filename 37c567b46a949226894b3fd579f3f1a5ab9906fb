@@ -16,6 +16,24 @@
       "message": "Should not be merged to a released stable branch as this requires a re-index.",
       "revId": "37c567b46a949226894b3fd579f3f1a5ab9906fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e5e438f_a57bb6f4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-02-03T02:17:35Z",
+      "side": 1,
+      "message": "@kaushik.lingarkar@linaro.org can you move this to the master branch so we can get it merged and available for 3.8? Right now it looks like there\u0027s only a 3.6 branch, so we\u0027ll probably need to create a 3.7 branch and upload a CI change for it too.",
+      "parentUuid": "4d57f50a_6bcfe45d",
+      "revId": "37c567b46a949226894b3fd579f3f1a5ab9906fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
