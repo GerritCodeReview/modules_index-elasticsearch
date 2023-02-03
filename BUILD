@@ -21,10 +21,10 @@ gerrit_plugin(
 ELASTICSEARCH_DEPS = [
     "@docker-java-api//jar",
     "@docker-java-transport//jar",
+    "@docker-java-transport-zerodep//jar",
     "@duct-tape//jar",
     "@httpasyncclient//jar",
     "@jackson-annotations//jar",
-    "@jackson-core//jar",
     "@jna//jar",
     "@testcontainers-elasticsearch//jar",
     "@testcontainers//jar",
@@ -73,6 +73,7 @@ ELASTICSEARCH_TESTS_V7 = {i: "ElasticV7Query" + i.capitalize() + SUFFIX for i in
     tags = [
         "docker",
         "elastic",
+        "exclusive",
     ],
     deps = ELASTICSEARCH_DEPS + PLUGIN_TEST_DEPS + [
         QUERY_TESTS_DEP % name,

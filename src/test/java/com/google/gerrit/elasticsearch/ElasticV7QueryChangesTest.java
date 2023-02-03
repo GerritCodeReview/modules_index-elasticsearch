@@ -14,19 +14,20 @@
 
 package com.google.gerrit.elasticsearch;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
-import static java.util.concurrent.TimeUnit.MINUTES;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.query.change.AbstractQueryChangesTest;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.GerritTestName;
+import com.google.gerrit.testing.InMemoryRepositoryManager;
 import com.google.gerrit.testing.InMemoryRepositoryManager.Repo;
 import com.google.inject.Injector;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
 import org.apache.http.impl.nio.client.HttpAsyncClients;
 import org.eclipse.jgit.junit.TestRepository;
@@ -43,17 +44,21 @@ public class ElasticV7QueryChangesTest extends AbstractQueryChangesTest {
     return ElasticTestUtils.createConfig();
   }
 
+  @ConfigSuite.Config
+  public static Config searchAfterPaginationType() {
+    Config config = defaultConfig();
+    config.setString("index", null, "paginationType", "SEARCH_AFTER");
+    return config;
+  }
+
   private static ElasticContainer container;
   private static CloseableHttpAsyncClient client;
 
   @BeforeClass
   public static void startIndexService() {
-    if (container == null) {
-      // Only start Elasticsearch once
-      container = ElasticContainer.createAndStart(ElasticVersion.V7_8);
-      client = HttpAsyncClients.createDefault();
-      client.start();
-    }
+    container = ElasticContainer.createAndStart(ElasticVersion.V7_16);
+    client = HttpAsyncClients.createDefault();
+    client.start();
   }
 
   @AfterClass
@@ -69,17 +74,7 @@ public class ElasticV7QueryChangesTest extends AbstractQueryChangesTest {
   public void closeIndex() throws Exception {
     // Close the index after each test to prevent exceeding Elasticsearch's
     // shard limit (see Issue 10120).
-    client
-        .execute(
-            new HttpPost(
-                String.format(
-                    "http://%s:%d/%s*/_close",
-                    container.getHttpHost().getHostName(),
-                    container.getHttpHost().getPort(),
-                    testName.getSanitizedMethodName())),
-            HttpClientContext.create(),
-            null)
-        .get(5, MINUTES);
+    ElasticTestUtils.closeIndex(client, container, testName);
   }
 
   @Override
@@ -137,5 +132,17 @@ public class ElasticV7QueryChangesTest extends AbstractQueryChangesTest {
   @Override
   protected Injector createInjector() {
     return ElasticTestUtils.createInjector(config, testName, container);
+  }
+
+  @Test
+  public void testErrorResponseFromChangeIndex() throws Exception {
+    TestRepository<InMemoryRepositoryManager.Repo> repo = createProject("repo");
+    Change c = insert(repo, newChangeWithStatus(repo, Change.Status.NEW));
+    gApi.changes().id(c.getChangeId()).index();
+
+    ElasticTestUtils.closeIndex(client, container, testName);
+    StorageException thrown =
+        assertThrows(StorageException.class, () -> gApi.changes().id(c.getChangeId()).index());
+    assertThat(thrown).hasMessageThat().contains("Failed to reindex change");
   }
 }

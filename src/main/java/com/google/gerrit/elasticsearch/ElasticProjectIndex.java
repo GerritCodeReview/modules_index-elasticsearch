@@ -15,7 +15,7 @@
 package com.google.gerrit.elasticsearch;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
+import com.google.gerrit.elasticsearch.ElasticMapping.Mapping;
 import com.google.gerrit.elasticsearch.bulk.BulkRequest;
 import com.google.gerrit.elasticsearch.bulk.IndexRequest;
 import com.google.gerrit.elasticsearch.bulk.UpdateRequest;
@@ -31,6 +31,7 @@ import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexUtils;
+import com.google.gerrit.server.index.options.AutoFlush;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gson.JsonArray;
@@ -47,7 +48,7 @@ import org.elasticsearch.client.Response;
 public class ElasticProjectIndex extends AbstractElasticIndex<Project.NameKey, ProjectData>
     implements ProjectIndex {
   static class ProjectMapping {
-    MappingProperties projects;
+    Mapping projects;
 
     ProjectMapping(Schema<ProjectData> schema, ElasticQueryAdapter adapter) {
       this.projects = ElasticMapping.createMapping(schema, adapter);
@@ -66,8 +67,9 @@ public class ElasticProjectIndex extends AbstractElasticIndex<Project.NameKey, P
       SitePaths sitePaths,
       Provider<ProjectCache> projectCache,
       ElasticRestClientProvider client,
+      AutoFlush autoFlush,
       @Assisted Schema<ProjectData> schema) {
-    super(cfg, sitePaths, schema, client, PROJECTS);
+    super(cfg, sitePaths, schema, client, PROJECTS, autoFlush);
     this.projectCache = projectCache;
     this.schema = schema;
     this.mapping = new ProjectMapping(schema, client.adapter());
@@ -80,9 +82,9 @@ public class ElasticProjectIndex extends AbstractElasticIndex<Project.NameKey, P
             .add(new UpdateRequest<>(schema, projectState, ImmutableSet.of()));
 
     String uri = getURI(BULK);
-    Response response = postRequest(uri, bulk, getRefreshParam());
+    Response response = postRequestWithRefreshParam(uri, bulk);
     int statusCode = response.getStatusLine().getStatusCode();
-    if (statusCode != HttpStatus.SC_OK) {
+    if (hasErrors(response) || statusCode != HttpStatus.SC_OK) {
       throw new StorageException(
           String.format(
               "Failed to replace project %s in index %s: %s",

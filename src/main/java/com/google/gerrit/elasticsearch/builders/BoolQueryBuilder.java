@@ -42,6 +42,15 @@ public class BoolQueryBuilder extends QueryBuilder {
   }
 
   /**
+   * Adds a query that <b>must</b> appear in the matching documents and will not contribute to
+   * scoring.
+   */
+  public BoolQueryBuilder filter(QueryBuilder queryBuilder) {
+    filterClauses.add(queryBuilder);
+    return this;
+  }
+
+  /**
    * Adds a query that <b>must not</b> appear in the matching documents and will not contribute to
    * scoring.
    */
