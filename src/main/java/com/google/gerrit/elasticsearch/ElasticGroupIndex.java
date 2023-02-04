@@ -15,7 +15,7 @@
 package com.google.gerrit.elasticsearch;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
+import com.google.gerrit.elasticsearch.ElasticMapping.Mapping;
 import com.google.gerrit.elasticsearch.bulk.BulkRequest;
 import com.google.gerrit.elasticsearch.bulk.IndexRequest;
 import com.google.gerrit.elasticsearch.bulk.UpdateRequest;
@@ -32,6 +32,7 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.group.GroupField;
 import com.google.gerrit.server.index.group.GroupIndex;
+import com.google.gerrit.server.index.options.AutoFlush;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -45,7 +46,7 @@ import org.elasticsearch.client.Response;
 public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, InternalGroup>
     implements GroupIndex {
   static class GroupMapping {
-    final MappingProperties groups;
+    final Mapping groups;
 
     GroupMapping(Schema<InternalGroup> schema, ElasticQueryAdapter adapter) {
       this.groups = ElasticMapping.createMapping(schema, adapter);
@@ -64,8 +65,9 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, I
       SitePaths sitePaths,
       Provider<GroupCache> groupCache,
       ElasticRestClientProvider client,
+      AutoFlush autoFlush,
       @Assisted Schema<InternalGroup> schema) {
-    super(cfg, sitePaths, schema, client, GROUPS);
+    super(cfg, sitePaths, schema, client, GROUPS, autoFlush);
     this.groupCache = groupCache;
     this.mapping = new GroupMapping(schema, client.adapter());
     this.schema = schema;
@@ -78,9 +80,9 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, I
             .add(new UpdateRequest<>(schema, group, ImmutableSet.of()));
 
     String uri = getURI(BULK);
-    Response response = postRequest(uri, bulk, getRefreshParam());
+    Response response = postRequestWithRefreshParam(uri, bulk);
     int statusCode = response.getStatusLine().getStatusCode();
-    if (statusCode != HttpStatus.SC_OK) {
+    if (hasErrors(response) || statusCode != HttpStatus.SC_OK) {
       throw new StorageException(
           String.format(
               "Failed to replace group %s in index %s: %s",
@@ -91,7 +93,7 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, I
   @Override
   public DataSource<InternalGroup> getSource(Predicate<InternalGroup> p, QueryOptions opts)
       throws QueryParseException {
-    JsonArray sortArray = getSortArray(GroupField.UUID.getName());
+    JsonArray sortArray = getSortArray(GroupField.UUID_FIELD_SPEC.getName());
     return new ElasticQuerySource(p, opts.filterFields(IndexUtils::groupFields), sortArray);
   }
 
@@ -118,7 +120,8 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, I
     }
 
     AccountGroup.UUID uuid =
-        AccountGroup.uuid(source.getAsJsonObject().get(GroupField.UUID.getName()).getAsString());
+        AccountGroup.uuid(
+            source.getAsJsonObject().get(GroupField.UUID_FIELD_SPEC.getName()).getAsString());
     // Use the GroupCache rather than depending on any stored fields in the
     // document (of which there shouldn't be any).
     return groupCache.get().get(uuid).orElse(null);

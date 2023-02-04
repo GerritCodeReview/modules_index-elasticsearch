@@ -17,7 +17,7 @@ package com.google.gerrit.elasticsearch;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
+import com.google.gerrit.elasticsearch.ElasticMapping.Mapping;
 import com.google.gerrit.elasticsearch.bulk.BulkRequest;
 import com.google.gerrit.elasticsearch.bulk.IndexRequest;
 import com.google.gerrit.elasticsearch.bulk.UpdateRequest;
@@ -25,9 +25,9 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.converter.ChangeProtoConverter;
 import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
+import com.google.gerrit.index.SchemaFieldDefs.SchemaField;
 import com.google.gerrit.index.query.DataSource;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
@@ -37,6 +37,7 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndex;
+import com.google.gerrit.server.index.options.AutoFlush;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -52,12 +53,12 @@ import org.elasticsearch.client.Response;
 class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     implements ChangeIndex {
   static class ChangeMapping {
-    final MappingProperties changes;
-    final MappingProperties openChanges;
-    final MappingProperties closedChanges;
+    final Mapping changes;
+    final Mapping openChanges;
+    final Mapping closedChanges;
 
     ChangeMapping(Schema<ChangeData> schema, ElasticQueryAdapter adapter) {
-      MappingProperties mapping = ElasticMapping.createMapping(schema, adapter);
+      Mapping mapping = ElasticMapping.createMapping(schema, adapter);
       this.changes = mapping;
       this.openChanges = mapping;
       this.closedChanges = mapping;
@@ -78,8 +79,9 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
       SitePaths sitePaths,
       ElasticRestClientProvider clientBuilder,
       @GerritServerConfig Config gerritConfig,
+      AutoFlush autoFlush,
       @Assisted Schema<ChangeData> schema) {
-    super(cfg, sitePaths, schema, clientBuilder, CHANGES);
+    super(cfg, sitePaths, schema, clientBuilder, CHANGES, autoFlush);
     this.changeDataFactory = changeDataFactory;
     this.schema = schema;
     this.mapping = new ChangeMapping(schema, client.adapter());
@@ -95,9 +97,9 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
         new IndexRequest(getId(cd), indexName).add(new UpdateRequest<>(schema, cd, skipFields));
 
     String uri = getURI(BULK);
-    Response response = postRequest(uri, bulk, getRefreshParam());
+    Response response = postRequestWithRefreshParam(uri, bulk);
     int statusCode = response.getStatusLine().getStatusCode();
-    if (statusCode != HttpStatus.SC_OK) {
+    if (hasErrors(response) || statusCode != HttpStatus.SC_OK) {
       throw new StorageException(
           String.format(
               "Failed to replace change %s in index %s: %s", cd.getId(), indexName, statusCode));
@@ -166,7 +168,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
         changeDataFactory.create(
             parseProtoFrom(decodeBase64(c.getAsString()), ChangeProtoConverter.INSTANCE));
 
-    for (FieldDef<ChangeData, ?> field : getSchema().getFields().values()) {
+    for (SchemaField<ChangeData, ?> field : getSchema().getSchemaFields().values()) {
       if (fields.contains(field.getName()) && source.get(field.getName()) != null) {
         field.setIfPossible(cd, new ElasticStoredValue(source.get(field.getName())));
       }

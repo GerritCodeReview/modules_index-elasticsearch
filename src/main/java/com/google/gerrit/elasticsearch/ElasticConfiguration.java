@@ -43,9 +43,11 @@ public class ElasticConfiguration {
   static final String KEY_NUMBER_OF_SHARDS = "numberOfShards";
   static final String KEY_NUMBER_OF_REPLICAS = "numberOfReplicas";
   static final String KEY_MAX_RESULT_WINDOW = "maxResultWindow";
+  static final String KEY_CODEC = "codec";
   static final String KEY_CONNECT_TIMEOUT = "connectTimeout";
   static final String KEY_SOCKET_TIMEOUT = "socketTimeout";
 
+  static final String DEFAULT_CODEC = "default";
   static final String DEFAULT_PORT = "9200";
   static final String DEFAULT_USERNAME = "elastic";
   static final int DEFAULT_NUMBER_OF_SHARDS = 1;
@@ -62,6 +64,7 @@ public class ElasticConfiguration {
   final int numberOfShards;
   final int numberOfReplicas;
   final int maxResultWindow;
+  final String codec;
   final int connectTimeout;
   final int socketTimeout;
   final String prefix;
@@ -82,6 +85,7 @@ public class ElasticConfiguration {
         cfg.getInt(SECTION_ELASTICSEARCH, null, KEY_NUMBER_OF_REPLICAS, DEFAULT_NUMBER_OF_REPLICAS);
     this.maxResultWindow =
         cfg.getInt(SECTION_ELASTICSEARCH, null, KEY_MAX_RESULT_WINDOW, DEFAULT_MAX_RESULT_WINDOW);
+    this.codec = firstNonNull(cfg.getString(SECTION_ELASTICSEARCH, null, KEY_CODEC), DEFAULT_CODEC);
     this.connectTimeout =
         (int)
             cfg.getTimeUnit(

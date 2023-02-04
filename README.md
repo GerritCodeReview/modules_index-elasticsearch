@@ -3,8 +3,12 @@
 Indexing backend libModule for [Gerrit Code Review](https://gerritcodereview.com)
 based on [ElasticSearch](https://www.elastic.co/elasticsearch/).
 
-This module was original part of Gerrit core and then extracted into a separate
+This module was originally part of Gerrit core and then extracted into a separate
 component from v3.5.0-rc3 as part of [Change-Id: Ib7b5167ce](https://gerrit-review.googlesource.com/c/gerrit/+/323676).
+
+Note that, ElasticSearch source code is no longer Apache 2.0-licensed for versions
+7.11 and newer. See ElasticSearch [2021 license change](https://www.elastic.co/pricing/faq/licensing)
+for more information.
 
 ## How to build
 
@@ -13,32 +17,13 @@ This libModule is built like a Gerrit in-tree plugin, using Bazelisk. See the
 
 ## Setup
 
-* Install index-elasticsearch module
+See the [setup instructions](src/main/resources/Documentation/setup.md) for how to install the
+index-elasticsearch module.
 
-Install the index-elasticsearch.jar into the `$GERRIT_SITE/lib` directory.
-
-Add the index-elasticsearch module to `$GERRIT_SITE/etc/gerrit.config` as follows:
-
-```ini
-[gerrit]
-  installIndexModule = com.google.gerrit.elasticsearch.ElasticIndexModule
-```
-
-When installing the module on Gerrit replicas, use following example:
-
-```ini
-[gerrit]
-  installIndexModule = com.google.gerrit.elasticsearch.ReplicaElasticIndexModule
-```
-
-For further information and supported options, refer to [config](src/main/resources/Documentation/config.md)
+For further information and supported options, refer to the [config](src/main/resources/Documentation/config.md)
 documentation.
 
 ## Integration test
 
-Gerrit acceptance tests allow the execution with an alternate implementation of
-the indexing backend using the `GERRIT_INDEX_MODULE` environment variable.
-
-```sh
-bazel test --test_env=GERRIT_INDEX_MODULE=com.google.gerrit.elasticsearch.ElasticIndexModule //...
-```
+This libModule runs tests like a Gerrit in-tree plugin, using Bazelisk. See the
+[test instructions](src/main/resources/Documentation/build.md#Integration-test) for more details.
