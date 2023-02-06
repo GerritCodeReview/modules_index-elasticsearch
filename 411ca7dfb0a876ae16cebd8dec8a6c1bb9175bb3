@@ -16,6 +16,24 @@
       "message": "Do we have real numbers for this, or is it purely theoretical?",
       "revId": "411ca7dfb0a876ae16cebd8dec8a6c1bb9175bb3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4c55805_34d74fb4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-02-06T18:25:02Z",
+      "side": 1,
+      "message": "I have added a performance number in the commit message now which illustrates that this change can indeed help improve performance of Gerrit queries that translate to prefix queries in Elasticsearch.",
+      "parentUuid": "f88435fb_07e70945",
+      "revId": "411ca7dfb0a876ae16cebd8dec8a6c1bb9175bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
