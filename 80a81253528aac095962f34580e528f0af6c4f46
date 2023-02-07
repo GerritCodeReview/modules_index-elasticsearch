@@ -1,0 +1,11 @@
+{
+  "checks": {
+    "gerritforge:index-elasticsearch-build-test": {
+      "state": "FAILED",
+      "url": "https://gerrit-ci.gerritforge.com/job/module-index-elasticsearch-verifier/job/55%252F357655%252F1/1/console",
+      "finished": "2023-02-07T22:07:03Z",
+      "created": "2023-02-07T22:07:04Z",
+      "updated": "2023-02-07T22:07:04Z"
+    }
+  }
+}
