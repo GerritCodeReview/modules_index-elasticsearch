@@ -22,6 +22,9 @@ import com.google.common.collect.Streams;
 import com.google.gerrit.elasticsearch.builders.XContentBuilder;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.Schema.Values;
+import com.google.gerrit.index.SchemaFieldDefs;
+import com.google.gerrit.proto.Protos;
+import com.google.protobuf.MessageLite;
 import java.io.IOException;
 
 public class UpdateRequest<V> extends BulkRequest {
@@ -40,12 +43,18 @@ public class UpdateRequest<V> extends BulkRequest {
   protected String getRequest() {
     try (XContentBuilder closeable = new XContentBuilder()) {
       XContentBuilder builder = closeable.startObject();
-      for (Values<V> values : schema.buildFields(v, skipFields)) {
-        String name = values.getField().getName();
-        if (values.getField().isRepeatable()) {
-          builder.field(name, Streams.stream(values.getValues()).collect(toList()));
+      for (Values<V> schemaValues : schema.buildFields(v, skipFields)) {
+        String name = schemaValues.getField().getName();
+        Iterable<?> values = schemaValues.getValues();
+        if (SchemaFieldDefs.isProtoField(schemaValues.getField())) {
+          values =
+              Iterables.transform(
+                  schemaValues.getValues(), v -> Protos.toByteArray((MessageLite) v));
+        }
+        if (schemaValues.getField().isRepeatable()) {
+          builder.field(name, Streams.stream(values).collect(toList()));
         } else {
-          Object element = Iterables.getOnlyElement(values.getValues(), "");
+          Object element = Iterables.getOnlyElement(values, "");
           if (shouldAddElement(element)) {
             builder.field(name, element);
           }

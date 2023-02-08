@@ -49,7 +49,7 @@ class ElasticIndexVersionDiscovery {
           String.format(
               "Failed to discover index versions for %s: %d: %s",
               name, statusLine.getStatusCode(), statusLine.getReasonPhrase());
-      logger.atSevere().log(message);
+      logger.atSevere().log("%s", message);
       throw new IOException(message);
     }
 

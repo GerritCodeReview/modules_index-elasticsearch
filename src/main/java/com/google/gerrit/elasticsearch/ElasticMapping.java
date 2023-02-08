@@ -15,19 +15,20 @@
 package com.google.gerrit.elasticsearch;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.FieldType;
 import com.google.gerrit.index.Schema;
+import com.google.gerrit.index.SchemaFieldDefs.SchemaField;
+import com.google.gson.annotations.SerializedName;
 import java.util.Map;
 
 class ElasticMapping {
 
   protected static final String TIMESTAMP_FIELD_TYPE = "date";
-  protected static final String TIMESTAMP_FIELD_FORMAT = "dateOptionalTime";
+  protected static final String TIMESTAMP_FIELD_FORMAT = "date_optional_time";
 
-  static MappingProperties createMapping(Schema<?> schema, ElasticQueryAdapter adapter) {
+  static Mapping createMapping(Schema<?> schema, ElasticQueryAdapter adapter) {
     ElasticMapping.Builder mapping = new ElasticMapping.Builder(adapter);
-    for (FieldDef<?, ?> field : schema.getFields().values()) {
+    for (SchemaField<?, ?> field : schema.getSchemaFields().values()) {
       String name = field.getName();
       FieldType<?> fieldType = field.getType();
       if (fieldType == FieldType.EXACT) {
@@ -46,6 +47,11 @@ class ElasticMapping {
         throw new IllegalStateException("Unsupported field type: " + fieldType.getName());
       }
     }
+    mapping.addSourceIncludes(
+        schema.getSchemaFields().values().stream()
+            .filter(f -> f.isStored())
+            .map(f -> f.getName())
+            .toArray(String[]::new));
     return mapping.build();
   }
 
@@ -53,15 +59,18 @@ class ElasticMapping {
     private final ElasticQueryAdapter adapter;
     private final ImmutableMap.Builder<String, FieldProperties> fields =
         new ImmutableMap.Builder<>();
+    private final ImmutableMap.Builder<String, String[]> sourceIncludes =
+        new ImmutableMap.Builder<>();
 
     Builder(ElasticQueryAdapter adapter) {
       this.adapter = adapter;
     }
 
-    MappingProperties build() {
-      MappingProperties properties = new MappingProperties();
-      properties.properties = fields.build();
-      return properties;
+    Mapping build() {
+      Mapping mapping = new Mapping();
+      mapping.properties = fields.build();
+      mapping.source = sourceIncludes.build();
+      return mapping;
     }
 
     Builder addExactField(String name) {
@@ -99,13 +108,21 @@ class ElasticMapping {
       return this;
     }
 
+    Builder addSourceIncludes(String[] includes) {
+      sourceIncludes.put("includes", includes);
+      return this;
+    }
+
     Builder add(String name, String type) {
       fields.put(name, new FieldProperties(type));
       return this;
     }
   }
 
-  static class MappingProperties {
+  static class Mapping {
+    @SerializedName("_source")
+    Map<String, String[]> source;
+
     Map<String, FieldProperties> properties;
   }
 

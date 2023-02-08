@@ -15,6 +15,7 @@
 package com.google.gerrit.elasticsearch;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.gson.annotations.SerializedName;
 import java.util.Map;
 
 class ElasticSetting {
@@ -36,6 +37,7 @@ class ElasticSetting {
       properties.numberOfShards = config.getNumberOfShards();
       properties.numberOfReplicas = config.numberOfReplicas;
       properties.maxResultWindow = config.maxResultWindow;
+      properties.codec = config.codec;
       return properties;
     }
 
@@ -73,6 +75,9 @@ class ElasticSetting {
   }
 
   static class SettingProperties {
+    @SerializedName("index.codec")
+    String codec;
+
     Map<String, FieldProperties> analysis;
     Integer numberOfShards;
     Integer numberOfReplicas;
