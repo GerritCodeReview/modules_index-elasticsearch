@@ -16,11 +16,12 @@ package com.google.gerrit.elasticsearch;
 
 import com.google.gerrit.server.ModuleImpl;
 import com.google.gerrit.server.index.AbstractIndexModule;
+import com.google.gerrit.server.index.options.AutoFlush;
 
 @ModuleImpl(name = AbstractIndexModule.INDEX_MODULE)
 public class PrimaryElasticIndexModule extends ElasticIndexModule {
 
   public PrimaryElasticIndexModule() {
-    super(null, 0, false);
+    super(null, 0, false, AutoFlush.ENABLED);
   }
 }

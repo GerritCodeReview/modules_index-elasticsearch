@@ -19,6 +19,7 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -29,19 +30,19 @@ import com.google.common.flogger.FluentLogger;
 import com.google.common.io.BaseEncoding;
 import com.google.common.io.CharStreams;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
+import com.google.gerrit.elasticsearch.ElasticMapping.Mapping;
 import com.google.gerrit.elasticsearch.builders.QueryBuilder;
 import com.google.gerrit.elasticsearch.builders.SearchSourceBuilder;
 import com.google.gerrit.elasticsearch.bulk.DeleteRequest;
 import com.google.gerrit.entities.converter.ProtoConverter;
 import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.FieldType;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.DataSource;
 import com.google.gerrit.index.query.FieldBundle;
+import com.google.gerrit.index.query.HasCardinality;
 import com.google.gerrit.index.query.ListResultSet;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
@@ -49,6 +50,7 @@ import com.google.gerrit.index.query.ResultSet;
 import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexUtils;
+import com.google.gerrit.server.index.options.AutoFlush;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -64,7 +66,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.sql.Timestamp;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -75,6 +76,7 @@ import org.apache.http.StatusLine;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.nio.entity.NStringEntity;
+import org.apache.http.util.EntityUtils;
 import org.elasticsearch.client.Request;
 import org.elasticsearch.client.Response;
 
@@ -129,18 +131,22 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   private final Schema<V> schema;
   private final SitePaths sitePaths;
   private final String indexNameRaw;
+  private final Map<String, String> refreshParam;
 
   protected final ElasticRestClientProvider client;
   protected final String indexName;
   protected final Gson gson;
   protected final ElasticQueryBuilder queryBuilder;
+  private final Function<V, K> valueToKeyFunction;
 
   AbstractElasticIndex(
       ElasticConfiguration config,
       SitePaths sitePaths,
       Schema<V> schema,
       ElasticRestClientProvider client,
-      String indexName) {
+      String indexName,
+      AutoFlush autoFlush,
+      Function<V, K> valueToKeyFunction) {
     this.config = config;
     this.sitePaths = sitePaths;
     this.schema = schema;
@@ -149,6 +155,16 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     this.indexName = config.getIndexName(indexName, schema.getVersion());
     this.indexNameRaw = indexName;
     this.client = client;
+    this.refreshParam =
+        Map.of(
+            "refresh",
+            autoFlush == AutoFlush.ENABLED ? Boolean.TRUE.toString() : Boolean.FALSE.toString());
+    this.valueToKeyFunction = valueToKeyFunction;
+  }
+
+  @Override
+  public void deleteByValue(V value) {
+    delete(valueToKeyFunction.apply(value));
   }
 
   @Override
@@ -174,7 +190,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   @Override
   public void delete(K id) {
     String uri = getURI(BULK);
-    Response response = postRequest(uri, getDeleteActions(id), getRefreshParam());
+    Response response = postRequestWithRefreshParam(uri, getDeleteActions(id));
     int statusCode = response.getStatusLine().getStatusCode();
     if (statusCode != HttpStatus.SC_OK) {
       throw new StorageException(
@@ -217,14 +233,14 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
   protected abstract String getId(V v);
 
-  protected String getMappingsForSingleType(MappingProperties properties) {
-    return getMappingsFor(properties);
+  protected String getMappingsForSingleType(Mapping mapping) {
+    return getMappingsFor(mapping);
   }
 
-  protected String getMappingsFor(MappingProperties properties) {
+  protected String getMappingsFor(Mapping mapping) {
     JsonObject mappings = new JsonObject();
 
-    mappings.add(MAPPINGS, gson.toJsonTree(properties));
+    mappings.add(MAPPINGS, gson.toJsonTree(mapping));
     return gson.toJson(mappings);
   }
 
@@ -235,13 +251,12 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   protected abstract V fromDocument(JsonObject doc, Set<String> fields);
 
   protected FieldBundle toFieldBundle(JsonObject doc) {
-    Map<String, FieldDef<V, ?>> allFields = getSchema().getFields();
     ListMultimap<String, Object> rawFields = ArrayListMultimap.create();
     for (Map.Entry<String, JsonElement> element :
         doc.get(client.adapter().rawFieldsKey()).getAsJsonObject().entrySet()) {
       checkArgument(
-          allFields.containsKey(element.getKey()), "Unrecognized field " + element.getKey());
-      FieldType<?> type = allFields.get(element.getKey()).getType();
+          getSchema().hasField(element.getKey()), "Unrecognized field " + element.getKey());
+      FieldType<?> type = getSchema().getSchemaField(element.getKey()).getType();
       Iterable<JsonElement> innerItems =
           element.getValue().isJsonArray()
               ? element.getValue().getAsJsonArray()
@@ -262,7 +277,21 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
         }
       }
     }
-    return new FieldBundle(rawFields);
+    return new FieldBundle(rawFields, /* storesIndexedFields= */ false);
+  }
+
+  protected boolean hasErrors(Response response) {
+    try {
+      String contentType = response.getEntity().getContentType().getValue();
+      Preconditions.checkState(
+          contentType.equals(ContentType.APPLICATION_JSON.toString()),
+          String.format("Expected %s, but was: %s", ContentType.APPLICATION_JSON, contentType));
+      String responseStr = EntityUtils.toString(response.getEntity());
+      JsonObject responseJson = (JsonObject) new JsonParser().parse(responseStr);
+      return responseJson.get("errors").getAsBoolean();
+    } catch (IOException e) {
+      throw new StorageException(e);
+    }
   }
 
   protected String toAction(String type, String id, String action) {
@@ -280,12 +309,6 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     JsonObject arrayElement = new JsonObject();
     arrayElement.add(name, element);
     array.add(arrayElement);
-  }
-
-  protected Map<String, String> getRefreshParam() {
-    Map<String, String> params = new HashMap<>();
-    params.put("refresh", "true");
-    return params;
   }
 
   protected String getSearch(SearchSourceBuilder searchSource, JsonArray sortArray) {
@@ -311,12 +334,8 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     }
   }
 
-  protected Response postRequest(String uri, Object payload) {
-    return performRequest("POST", uri, payload);
-  }
-
-  protected Response postRequest(String uri, Object payload, Map<String, String> params) {
-    return performRequest("POST", uri, payload, params);
+  protected Response postRequestWithRefreshParam(String uri, Object payload) {
+    return performRequest("POST", uri, payload, refreshParam);
   }
 
   private String concatJsonString(String target, String addition) {
@@ -350,23 +369,32 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
   protected class ElasticQuerySource implements DataSource<V> {
     private final QueryOptions opts;
+    private final Predicate<V> predicate;
     private final String search;
 
     ElasticQuerySource(Predicate<V> p, QueryOptions opts, JsonArray sortArray)
         throws QueryParseException {
       this.opts = opts;
+      this.predicate = p;
       QueryBuilder qb = queryBuilder.toQueryBuilder(p);
       SearchSourceBuilder searchSource =
           new SearchSourceBuilder(client.adapter())
               .query(qb)
-              .from(opts.start())
-              .size(opts.limit())
-              .fields(Lists.newArrayList(opts.fields()));
+              .size(opts.pageSize())
+              .fields(Lists.newArrayList(opts.fields()))
+              .trackTotalHits(false);
+      searchSource =
+          opts.searchAfter() != null
+              ? searchSource.searchAfter((JsonArray) opts.searchAfter())
+              : searchSource.from(opts.start());
       search = getSearch(searchSource, sortArray);
     }
 
     @Override
     public int getCardinality() {
+      if (predicate instanceof HasCardinality) {
+        return ((HasCardinality) predicate).getCardinality();
+      }
       return 10;
     }
 
@@ -383,6 +411,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     private <T> ResultSet<T> readImpl(Function<JsonObject, T> mapper) {
       try {
         String uri = getURI(SEARCH);
+        JsonArray searchAfter = null;
         Response response =
             performRequest(HttpPost.METHOD_NAME, uri, search, Collections.emptyMap());
         StatusLine statusLine = response.getStatusLine();
@@ -393,16 +422,27 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
           if (obj.get("hits") != null) {
             JsonArray json = obj.getAsJsonArray("hits");
             ImmutableList.Builder<T> results = ImmutableList.builderWithExpectedSize(json.size());
+            JsonObject hit = null;
             for (int i = 0; i < json.size(); i++) {
-              T mapperResult = mapper.apply(json.get(i).getAsJsonObject());
+              hit = json.get(i).getAsJsonObject();
+              T mapperResult = mapper.apply(hit);
               if (mapperResult != null) {
                 results.add(mapperResult);
               }
             }
-            return new ListResultSet<>(results.build());
+            if (hit != null && hit.get("sort") != null) {
+              searchAfter = hit.getAsJsonArray("sort");
+            }
+            JsonArray finalSearchAfter = searchAfter;
+            return new ListResultSet<T>(results.build()) {
+              @Override
+              public Object searchAfter() {
+                return finalSearchAfter;
+              }
+            };
           }
         } else {
-          logger.atSevere().log(statusLine.getReasonPhrase());
+          logger.atSevere().log("%s", statusLine.getReasonPhrase());
         }
         return new ListResultSet<>(ImmutableList.of());
       } catch (IOException e) {
