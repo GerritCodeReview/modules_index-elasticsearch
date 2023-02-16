@@ -15,19 +15,20 @@
 package com.google.gerrit.elasticsearch;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.FieldType;
 import com.google.gerrit.index.Schema;
+import com.google.gerrit.index.SchemaFieldDefs.SchemaField;
+import com.google.gson.annotations.SerializedName;
 import java.util.Map;
 
 class ElasticMapping {
 
   protected static final String TIMESTAMP_FIELD_TYPE = "date";
-  protected static final String TIMESTAMP_FIELD_FORMAT = "dateOptionalTime";
+  protected static final String TIMESTAMP_FIELD_FORMAT = "date_optional_time";
 
-  static MappingProperties createMapping(Schema<?> schema, ElasticQueryAdapter adapter) {
+  static Mapping createMapping(Schema<?> schema, ElasticQueryAdapter adapter) {
     ElasticMapping.Builder mapping = new ElasticMapping.Builder(adapter);
-    for (FieldDef<?, ?> field : schema.getFields().values()) {
+    for (SchemaField<?, ?> field : schema.getSchemaFields().values()) {
       String name = field.getName();
       FieldType<?> fieldType = field.getType();
       if (fieldType == FieldType.EXACT) {
@@ -39,13 +40,20 @@ class ElasticMapping {
           || fieldType == FieldType.LONG) {
         mapping.addNumber(name);
       } else if (fieldType == FieldType.FULL_TEXT) {
-        mapping.addStringWithAnalyzer(name);
-      } else if (fieldType == FieldType.PREFIX || fieldType == FieldType.STORED_ONLY) {
+        mapping.addStringWithAnalyzer(name, "custom_with_char_filter");
+      } else if (fieldType == FieldType.PREFIX) {
+        mapping.addStringWithAnalyzer(name, "keyword_tokenizer");
+      } else if (fieldType == FieldType.STORED_ONLY) {
         mapping.addString(name);
       } else {
         throw new IllegalStateException("Unsupported field type: " + fieldType.getName());
       }
     }
+    mapping.addSourceIncludes(
+        schema.getSchemaFields().values().stream()
+            .filter(f -> f.isStored())
+            .map(f -> f.getName())
+            .toArray(String[]::new));
     return mapping.build();
   }
 
@@ -53,15 +61,18 @@ class ElasticMapping {
     private final ElasticQueryAdapter adapter;
     private final ImmutableMap.Builder<String, FieldProperties> fields =
         new ImmutableMap.Builder<>();
+    private final ImmutableMap.Builder<String, String[]> sourceIncludes =
+        new ImmutableMap.Builder<>();
 
     Builder(ElasticQueryAdapter adapter) {
       this.adapter = adapter;
     }
 
-    MappingProperties build() {
-      MappingProperties properties = new MappingProperties();
-      properties.properties = fields.build();
-      return properties;
+    Mapping build() {
+      Mapping mapping = new Mapping();
+      mapping.properties = fields.build();
+      mapping.source = sourceIncludes.build();
+      return mapping;
     }
 
     Builder addExactField(String name) {
@@ -92,10 +103,15 @@ class ElasticMapping {
       return this;
     }
 
-    Builder addStringWithAnalyzer(String name) {
+    Builder addStringWithAnalyzer(String name, String analyzer) {
       FieldProperties key = new FieldProperties(adapter.stringFieldType());
-      key.analyzer = "custom_with_char_filter";
+      key.analyzer = analyzer;
       fields.put(name, key);
+      return this;
+    }
+
+    Builder addSourceIncludes(String[] includes) {
+      sourceIncludes.put("includes", includes);
       return this;
     }
 
@@ -105,7 +121,10 @@ class ElasticMapping {
     }
   }
 
-  static class MappingProperties {
+  static class Mapping {
+    @SerializedName("_source")
+    Map<String, String[]> source;
+
     Map<String, FieldProperties> properties;
   }
 

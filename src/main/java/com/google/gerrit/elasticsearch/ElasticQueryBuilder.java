@@ -17,8 +17,8 @@ package com.google.gerrit.elasticsearch;
 import com.google.gerrit.elasticsearch.builders.BoolQueryBuilder;
 import com.google.gerrit.elasticsearch.builders.QueryBuilder;
 import com.google.gerrit.elasticsearch.builders.QueryBuilders;
-import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.FieldType;
+import com.google.gerrit.index.SchemaFieldDefs.SchemaField;
 import com.google.gerrit.index.query.AndPredicate;
 import com.google.gerrit.index.query.IndexPredicate;
 import com.google.gerrit.index.query.IntegerRangePredicate;
@@ -51,7 +51,7 @@ public class ElasticQueryBuilder {
   private <T> BoolQueryBuilder and(Predicate<T> p) throws QueryParseException {
     BoolQueryBuilder b = QueryBuilders.boolQuery();
     for (Predicate<T> c : p.getChildren()) {
-      b.must(toQueryBuilder(c));
+      b.filter(toQueryBuilder(c));
     }
     return b;
   }
@@ -72,14 +72,14 @@ public class ElasticQueryBuilder {
 
     // Lucene does not support negation, start with all and subtract.
     BoolQueryBuilder q = QueryBuilders.boolQuery();
-    q.must(QueryBuilders.matchAllQuery());
+    q.filter(QueryBuilders.matchAllQuery());
     q.mustNot(toQueryBuilder(n));
     return q;
   }
 
   private <T> QueryBuilder fieldQuery(IndexPredicate<T> p) throws QueryParseException {
     FieldType<?> type = p.getType();
-    FieldDef<?, ?> field = p.getField();
+    SchemaField<?, ?> field = p.getField();
     String name = field.getName();
     String value = p.getValue();
 

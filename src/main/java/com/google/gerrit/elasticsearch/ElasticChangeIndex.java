@@ -17,7 +17,7 @@ package com.google.gerrit.elasticsearch;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
+import com.google.gerrit.elasticsearch.ElasticMapping.Mapping;
 import com.google.gerrit.elasticsearch.bulk.BulkRequest;
 import com.google.gerrit.elasticsearch.bulk.IndexRequest;
 import com.google.gerrit.elasticsearch.bulk.UpdateRequest;
@@ -25,9 +25,9 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.converter.ChangeProtoConverter;
 import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
+import com.google.gerrit.index.SchemaFieldDefs.SchemaField;
 import com.google.gerrit.index.query.DataSource;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
@@ -37,6 +37,7 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndex;
+import com.google.gerrit.server.index.options.AutoFlush;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -52,12 +53,12 @@ import org.elasticsearch.client.Response;
 class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     implements ChangeIndex {
   static class ChangeMapping {
-    final MappingProperties changes;
-    final MappingProperties openChanges;
-    final MappingProperties closedChanges;
+    final Mapping changes;
+    final Mapping openChanges;
+    final Mapping closedChanges;
 
     ChangeMapping(Schema<ChangeData> schema, ElasticQueryAdapter adapter) {
-      MappingProperties mapping = ElasticMapping.createMapping(schema, adapter);
+      Mapping mapping = ElasticMapping.createMapping(schema, adapter);
       this.changes = mapping;
       this.openChanges = mapping;
       this.closedChanges = mapping;
@@ -78,15 +79,16 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
       SitePaths sitePaths,
       ElasticRestClientProvider clientBuilder,
       @GerritServerConfig Config gerritConfig,
+      AutoFlush autoFlush,
       @Assisted Schema<ChangeData> schema) {
-    super(cfg, sitePaths, schema, clientBuilder, CHANGES);
+    super(cfg, sitePaths, schema, clientBuilder, CHANGES, autoFlush, ChangeIndex.ENTITY_TO_KEY);
     this.changeDataFactory = changeDataFactory;
     this.schema = schema;
     this.mapping = new ChangeMapping(schema, client.adapter());
     this.skipFields =
         MergeabilityComputationBehavior.fromConfig(gerritConfig).includeInIndex()
             ? ImmutableSet.of()
-            : ImmutableSet.of(ChangeField.MERGEABLE.getName());
+            : ImmutableSet.of(ChangeField.MERGEABLE_SPEC.getName());
   }
 
   @Override
@@ -95,9 +97,9 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
         new IndexRequest(getId(cd), indexName).add(new UpdateRequest<>(schema, cd, skipFields));
 
     String uri = getURI(BULK);
-    Response response = postRequest(uri, bulk, getRefreshParam());
+    Response response = postRequestWithRefreshParam(uri, bulk);
     int statusCode = response.getStatusLine().getStatusCode();
-    if (statusCode != HttpStatus.SC_OK) {
+    if (hasErrors(response) || statusCode != HttpStatus.SC_OK) {
       throw new StorageException(
           String.format(
               "Failed to replace change %s in index %s: %s", cd.getId(), indexName, statusCode));
@@ -116,9 +118,9 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     properties.addProperty(ORDER, DESC_SORT_ORDER);
 
     JsonArray sortArray = new JsonArray();
-    addNamedElement(ChangeField.UPDATED.getName(), properties, sortArray);
-    addNamedElement(ChangeField.MERGED_ON.getName(), getMergedOnSortOptions(), sortArray);
-    addNamedElement(ChangeField.LEGACY_ID_STR.getName(), properties, sortArray);
+    addNamedElement(ChangeField.UPDATED_SPEC.getName(), properties, sortArray);
+    addNamedElement(ChangeField.MERGED_ON_SPEC.getName(), getMergedOnSortOptions(), sortArray);
+    addNamedElement(ChangeField.NUMERIC_ID_STR_SPEC.getName(), properties, sortArray);
     return sortArray;
   }
 
@@ -153,12 +155,13 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
       sourceElement = json.getAsJsonObject().get("fields");
     }
     JsonObject source = sourceElement.getAsJsonObject();
-    JsonElement c = source.get(ChangeField.CHANGE.getName());
+    JsonElement c = source.get(ChangeField.CHANGE_SPEC.getName());
 
     if (c == null) {
-      int id = source.get(ChangeField.LEGACY_ID_STR.getName()).getAsInt();
+      int id = source.get(ChangeField.NUMERIC_ID_STR_SPEC.getName()).getAsInt();
       // IndexUtils#changeFields ensures either CHANGE or PROJECT is always present.
-      String projectName = requireNonNull(source.get(ChangeField.PROJECT.getName()).getAsString());
+      String projectName =
+          requireNonNull(source.get(ChangeField.PROJECT_SPEC.getName()).getAsString());
       return changeDataFactory.create(Project.nameKey(projectName), Change.id(id));
     }
 
@@ -166,7 +169,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
         changeDataFactory.create(
             parseProtoFrom(decodeBase64(c.getAsString()), ChangeProtoConverter.INSTANCE));
 
-    for (FieldDef<ChangeData, ?> field : getSchema().getFields().values()) {
+    for (SchemaField<ChangeData, ?> field : getSchema().getSchemaFields().values()) {
       if (fields.contains(field.getName()) && source.get(field.getName()) != null) {
         field.setIfPossible(cd, new ElasticStoredValue(source.get(field.getName())));
       }
