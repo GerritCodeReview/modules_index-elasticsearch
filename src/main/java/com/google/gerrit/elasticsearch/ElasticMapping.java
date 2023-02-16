@@ -40,8 +40,10 @@ class ElasticMapping {
           || fieldType == FieldType.LONG) {
         mapping.addNumber(name);
       } else if (fieldType == FieldType.FULL_TEXT) {
-        mapping.addStringWithAnalyzer(name);
-      } else if (fieldType == FieldType.PREFIX || fieldType == FieldType.STORED_ONLY) {
+        mapping.addStringWithAnalyzer(name, "custom_with_char_filter");
+      } else if (fieldType == FieldType.PREFIX) {
+        mapping.addStringWithAnalyzer(name, "keyword_tokenizer");
+      } else if (fieldType == FieldType.STORED_ONLY) {
         mapping.addString(name);
       } else {
         throw new IllegalStateException("Unsupported field type: " + fieldType.getName());
@@ -101,9 +103,9 @@ class ElasticMapping {
       return this;
     }
 
-    Builder addStringWithAnalyzer(String name) {
+    Builder addStringWithAnalyzer(String name, String analyzer) {
       FieldProperties key = new FieldProperties(adapter.stringFieldType());
-      key.analyzer = "custom_with_char_filter";
+      key.analyzer = analyzer;
       fields.put(name, key);
       return this;
     }

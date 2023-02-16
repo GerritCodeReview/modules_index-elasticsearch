@@ -16,6 +16,7 @@ package com.google.gerrit.elasticsearch;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.annotations.SerializedName;
+import java.util.HashMap;
 import java.util.Map;
 
 class ElasticSetting {
@@ -59,6 +60,12 @@ class ElasticSetting {
 
       FieldProperties analyzer = new FieldProperties();
       analyzer.customWithCharFilter = customAnalyzer;
+      analyzer.keywordTokenizer =
+          new HashMap<>() {
+            {
+              put("tokenizer", "keyword");
+            }
+          };
       fields.put("analyzer", analyzer);
       return this;
     }
@@ -92,6 +99,7 @@ class ElasticSetting {
     String[] mappings;
     FieldProperties customMapping;
     FieldProperties customWithCharFilter;
+    Map<String, String> keywordTokenizer;
 
     FieldProperties() {}
 
