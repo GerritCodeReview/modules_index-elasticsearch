@@ -436,7 +436,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
             };
           }
         } else {
-          logger.atSevere().log(statusLine.getReasonPhrase());
+          logger.atSevere().log("%s", statusLine.getReasonPhrase());
         }
         return new ListResultSet<>(ImmutableList.of());
       } catch (IOException e) {

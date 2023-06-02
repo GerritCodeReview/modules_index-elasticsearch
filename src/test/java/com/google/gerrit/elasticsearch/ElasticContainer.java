@@ -33,7 +33,7 @@ public class ElasticContainer extends ElasticsearchContainer {
       container.start();
     } catch (ContainerLaunchException e) {
       logger.atSevere().log(
-          "Failed to launch elastic container. Logs from container :\n" + container.getLogs());
+          "Failed to launch elastic container. Logs from container :\n%s", container.getLogs());
       throw e;
     }
     return container;
