@@ -16,17 +16,22 @@ package com.google.gerrit.elasticsearch;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static org.junit.Assume.assumeTrue;
 
+import com.google.common.util.concurrent.UncheckedExecutionException;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.server.query.group.AbstractQueryGroupsTest;
 import com.google.gerrit.testing.ConfigSuite;
+import com.google.gerrit.testing.GerritTestName;
 import com.google.inject.Injector;
 import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
 import org.apache.http.impl.nio.client.HttpAsyncClients;
 import org.eclipse.jgit.lib.Config;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
 
 public class ElasticV7QueryGroupsTest extends AbstractQueryGroupsTest {
@@ -78,5 +83,24 @@ public class ElasticV7QueryGroupsTest extends AbstractQueryGroupsTest {
     ElasticTestUtils.closeIndex(client, container, testName);
     StorageException thrown = assertThrows(StorageException.class, () -> group.index());
     assertThat(thrown).hasMessageThat().contains("Failed to replace group");
+  }
+
+  @Rule
+  public GerritTestName testName = new GerritTestName();
+
+  @Override
+  protected void setUpDatabase() throws Exception {
+    assumeTrue(testName.equals("testErrorResponseFromGroupIndexWithPaginationTypeNone"));
+    super.setUpDatabase();
+  }
+
+  @Test
+  @GerritConfig(name = "index.paginationType", value = "NONE")
+  public void testErrorResponseFromGroupIndexWithPaginationTypeNone() throws Exception {
+    Exception thrown = assertThrows(UncheckedExecutionException.class, () -> {
+      super.setUpDatabase();
+    });
+    assertThat(thrown.getCause()).isInstanceOf(IllegalArgumentException.class);
+    assertThat(thrown).hasMessageThat().contains("PaginationType NONE is not supported by Elasticsearch");
   }
 }
