@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "062e6272_0a6c4a14",
+        "filename": "src/main/resources/Documentation/build.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-13T16:21:02Z",
+      "side": 1,
+      "message": "Is this an unrelated change? Do I need to do this in a different change if so ?",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 2
+      },
+      "revId": "5b57d118ee79eda1f32e77c25fa762550e87562a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
