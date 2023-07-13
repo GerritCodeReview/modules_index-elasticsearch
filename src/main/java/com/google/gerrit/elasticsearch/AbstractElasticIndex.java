@@ -39,6 +39,7 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.FieldType;
 import com.google.gerrit.index.Index;
+import com.google.gerrit.index.PaginationType;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.DataSource;
@@ -95,6 +96,15 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
   static byte[] decodeBase64(String base64String) {
     return BaseEncoding.base64().decode(base64String);
+  }
+
+  public static class PaginationTypeNotSupported extends ElasticException {
+    private static final long serialVersionUID = 1L;
+    private static final String MESSAGE = "PaginationType NONE is not supported by Elasticsearch";
+
+    PaginationTypeNotSupported(Throwable cause) {
+      super(MESSAGE, cause);
+    }
   }
 
   protected static <T> List<T> decodeProtos(
@@ -367,8 +377,11 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     private final String search;
 
     ElasticQuerySource(Predicate<V> p, QueryOptions opts, JsonArray sortArray)
-        throws QueryParseException {
+        throws QueryParseException, PaginationTypeNotSupported {
       this.opts = opts;
+      if (PaginationType.NONE == opts.config().paginationType()) {
+        throw new PaginationTypeNotSupported(new IllegalArgumentException());
+      }
       this.predicate = p;
       QueryBuilder qb = queryBuilder.toQueryBuilder(p);
       SearchSourceBuilder searchSource =
