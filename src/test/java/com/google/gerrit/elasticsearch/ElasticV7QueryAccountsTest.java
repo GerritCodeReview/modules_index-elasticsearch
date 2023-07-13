@@ -16,7 +16,10 @@ package com.google.gerrit.elasticsearch;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static org.junit.Assume.assumeTrue;
 
+import com.google.common.util.concurrent.UncheckedExecutionException;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.query.account.AbstractQueryAccountsTest;
 import com.google.gerrit.testing.ConfigSuite;
@@ -77,5 +80,21 @@ public class ElasticV7QueryAccountsTest extends AbstractQueryAccountsTest {
     StorageException thrown =
         assertThrows(StorageException.class, () -> gApi.accounts().self().index());
     assertThat(thrown).hasMessageThat().contains("Failed to replace account");
+  }
+
+  @Override
+  protected void setUpDatabase() throws Exception {
+    assumeTrue(testName.equals("paginationTypeNoneNotAllowed"));
+    super.setUpDatabase();
+  }
+
+  @Test
+  @GerritConfig(name = "index.paginationType", value = "NONE")
+  public void paginationTypeNoneNotAllowed() throws Exception {
+    Exception thrown = assertThrows(UncheckedExecutionException.class, super::setUpDatabase);
+    assertThat(thrown.getCause()).isInstanceOf(IllegalArgumentException.class);
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("PaginationType NONE is not supported by Elasticsearch");
   }
 }
