@@ -60,12 +60,9 @@ class ElasticSetting {
 
       FieldProperties analyzer = new FieldProperties();
       analyzer.customWithCharFilter = customAnalyzer;
-      analyzer.keywordTokenizer =
-          new HashMap<>() {
-            {
-              put("tokenizer", "keyword");
-            }
-          };
+      analyzer.keywordTokenizer = new HashMap<>();
+      analyzer.keywordTokenizer.put("tokenizer", "keyword");
+
       fields.put("analyzer", analyzer);
       return this;
     }
