@@ -10,6 +10,15 @@ should not exceed the `index.max_result_window` value configured on the Elastics
 value is not configured during site initialization, defaults to 10000, which is the default value
 of `index.max_result_window` in Elasticsearch.
 
+### index.paginationType
+
+The pagination type to use when index queries are repeated to obtain the next set of results.
+Supported values are: `OFFSET` and `SEARCH_AFTER`. For more information, refer to
+[`index.paginationType`](https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#index.paginationType).
+
+Defaults to `OFFSET`.
+Note: paginationType `NONE` is not supported.
+
 ## Section elasticsearch
 
 WARNING: Support for Elasticsearch is still experimental and is not recommended for production
@@ -23,7 +32,6 @@ server(s) must be reachable during the site initialization.
 This setting can be used to prefix index names to allow multiple Gerrit instances in a single
 Elasticsearch cluster. Prefix `gerrit1_` would result in a change index named
 `gerrit1_changes_0001`.
-
 Not set by default.
 
 ### elasticsearch.server
