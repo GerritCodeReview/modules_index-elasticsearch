@@ -39,6 +39,7 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.FieldType;
 import com.google.gerrit.index.Index;
+import com.google.gerrit.index.PaginationType;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.DataSource;
@@ -369,6 +370,9 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     ElasticQuerySource(Predicate<V> p, QueryOptions opts, JsonArray sortArray)
         throws QueryParseException {
       this.opts = opts;
+      if (PaginationType.NONE == opts.config().paginationType()) {
+        throw new IllegalArgumentException("PaginationType NONE is not supported by Elasticsearch");
+      }
       this.predicate = p;
       QueryBuilder qb = queryBuilder.toQueryBuilder(p);
       SearchSourceBuilder searchSource =
