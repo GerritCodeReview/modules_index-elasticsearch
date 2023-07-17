@@ -87,6 +87,30 @@
       },
       "revId": "d1311e03e605c33eae6fa5f70669cbd745c3c828",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef90cf52_fe29f2c9",
+        "filename": "src/main/java/com/google/gerrit/elasticsearch/ElasticSetting.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-17T09:50:18Z",
+      "side": 1,
+      "message": "Thank you for the explanation @Luca. The build on the stable-3.6 branch was successful because of the settings of errorprone, while it is good to fix the double brace initialization from this branch too.",
+      "parentUuid": "9ea4befd_7aa528fb",
+      "range": {
+        "startLine": 62,
+        "startChar": 34,
+        "endLine": 62,
+        "endChar": 40
+      },
+      "revId": "d1311e03e605c33eae6fa5f70669cbd745c3c828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
