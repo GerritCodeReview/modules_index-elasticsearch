@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4910ce21_f6babbf3",
+        "filename": "src/main/java/com/google/gerrit/elasticsearch/ElasticSetting.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-17T08:51:40Z",
+      "side": 1,
+      "message": "extra line to remove",
+      "revId": "50b0bee5938a59eb5ea9b37b7dd8db7e09a9a072",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
