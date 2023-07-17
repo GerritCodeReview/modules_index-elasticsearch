@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3281697e_04b6574d",
+        "filename": "src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-17T09:56:14Z",
+      "side": 1,
+      "message": "Not an ElasticSearch issue per se. Remove the subclass of ElasticException and adding the tests.",
+      "revId": "7857a76785065d67ae05cea296591bc83121cedb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
