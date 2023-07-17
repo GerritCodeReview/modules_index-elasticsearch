@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "18b34a00_ef4e5311",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-17T07:53:36Z",
+      "side": 1,
+      "message": "Can you put more details on the commit message body?\n\n- Why do we throw an error?\n- Which error?\n- What is the rationale behind it?",
+      "revId": "5b57d118ee79eda1f32e77c25fa762550e87562a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "062e6272_0a6c4a14",
         "filename": "src/main/resources/Documentation/build.md",
         "patchSetId": 1
