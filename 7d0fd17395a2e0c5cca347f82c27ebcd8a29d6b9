@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f275dfd9_bc8cedd5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-18T08:26:32Z",
+      "side": 1,
+      "message": "Can you provide some explanation on why? You could also mention the `index.max_result_window` at [2]\n\n[2] https://www.elastic.co/guide/en/elasticsearch/reference/current/index-modules.html#dynamic-index-settings",
+      "range": {
+        "startLine": 12,
+        "startChar": 17,
+        "endLine": 12,
+        "endChar": 53
+      },
+      "revId": "7d0fd17395a2e0c5cca347f82c27ebcd8a29d6b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "edf7a3ce_4ea74095",
         "filename": "src/test/java/com/google/gerrit/elasticsearch/ElasticV7QueryGroupsTest.java",
         "patchSetId": 5
