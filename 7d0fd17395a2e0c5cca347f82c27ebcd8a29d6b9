@@ -41,6 +41,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a2f5292_fff1f189",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-18T09:20:49Z",
+      "side": 1,
+      "message": "@kaushik.lingarkar@linaro.org have you tried implementing the PIT on ElasticSearch to have a consistent and non-paginated view of the results?",
+      "parentUuid": "f1f90f64_e56d9c8c",
+      "revId": "7d0fd17395a2e0c5cca347f82c27ebcd8a29d6b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "edf7a3ce_4ea74095",
