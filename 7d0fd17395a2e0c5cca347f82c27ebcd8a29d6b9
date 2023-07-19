@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "3bbdddd9_f2d99ac7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-19T08:44:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f275dfd9_bc8cedd5",
+      "range": {
+        "startLine": 12,
+        "startChar": 17,
+        "endLine": 12,
+        "endChar": 53
+      },
+      "revId": "7d0fd17395a2e0c5cca347f82c27ebcd8a29d6b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "f1f90f64_e56d9c8c",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 5
@@ -72,6 +96,30 @@
       "writtenOn": "2023-07-17T17:52:05Z",
       "side": 1,
       "message": "@luca I verified the change manually, but not sure if this integration test adds value. The problem with adding tests is that the setupDatabase (part of the before) already query elasticsearch, causing an IAE to be thrown (as expected) before actually running the tests. \n\nThis is a solution to run an integration test with paginationType NONE, without affecting all the other tests. \n\nI don\u0027t particularly like it, do you think I should delete it ?\nOr should I leave it and also replicate it in the test classes for the other indices?",
+      "range": {
+        "startLine": 88,
+        "startChar": 2,
+        "endLine": 98,
+        "endChar": 69
+      },
+      "revId": "7d0fd17395a2e0c5cca347f82c27ebcd8a29d6b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "add7de94_9979d9df",
+        "filename": "src/test/java/com/google/gerrit/elasticsearch/ElasticV7QueryGroupsTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-19T08:44:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edf7a3ce_4ea74095",
       "range": {
         "startLine": 88,
         "startChar": 2,
