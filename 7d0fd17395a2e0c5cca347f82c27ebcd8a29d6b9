@@ -85,6 +85,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1da0c72b_a53e5610",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-07-24T22:39:33Z",
+      "side": 1,
+      "message": "\u003e @kaushik.lingarkar@linaro.org have you tried implementing the PIT on ElasticSearch to have a consistent and non-paginated view of the results?\n\nI think PIT would be a consistent and PAGINATED view of the results. At least, that\u0027s how we\u0027ve done it in the change we have for it here: https://gerrit-review.googlesource.com/c/modules/index-elasticsearch/+/341414\n\nThere\u0027s a performance overhead to using PIT, so that change allows disabling it still.\n\nI think unless you have a dataset that\u0027s smaller than `index.max_result_window`, you can\u0027t have a correct non-paginated ES implementation. Do you see another way around that?",
+      "parentUuid": "0a2f5292_fff1f189",
+      "revId": "7d0fd17395a2e0c5cca347f82c27ebcd8a29d6b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "edf7a3ce_4ea74095",
         "filename": "src/test/java/com/google/gerrit/elasticsearch/ElasticV7QueryGroupsTest.java",
         "patchSetId": 5
