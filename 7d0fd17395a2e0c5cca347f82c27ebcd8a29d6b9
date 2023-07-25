@@ -103,6 +103,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "02910385_334490db",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-07-25T00:26:30Z",
+      "side": 1,
+      "message": "\u003e \u003e @kaushik.lingarkar@linaro.org have you tried implementing the PIT on ElasticSearch to have a consistent and non-paginated view of the results?\n\u003e \n\u003e I think PIT would be a consistent and PAGINATED view of the results. At least, that\u0027s how we\u0027ve done it in the change we have for it here: https://gerrit-review.googlesource.com/c/modules/index-elasticsearch/+/341414\n\u003e \nThat\u0027s right. We will have to paginate even with PIT because the Low Level Rest Client only allows responses up-to a certain size (100MB, if I can recall) by default. The limit can possibly be changed, but may result in ES cluster instability.\n\n\u003e There\u0027s a performance overhead to using PIT, so that change allows disabling it still.\n\u003e \n\u003e I think unless you have a dataset that\u0027s smaller than `index.max_result_window`, you can\u0027t have a correct non-paginated ES implementation. Do you see another way around that?",
+      "parentUuid": "1da0c72b_a53e5610",
+      "revId": "7d0fd17395a2e0c5cca347f82c27ebcd8a29d6b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "edf7a3ce_4ea74095",
         "filename": "src/test/java/com/google/gerrit/elasticsearch/ElasticV7QueryGroupsTest.java",
         "patchSetId": 5
