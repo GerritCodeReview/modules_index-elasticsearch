@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "55442c87_0efaf44f",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-26T14:39:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2f39140_8b325127",
+      "revId": "ed42d64a8052321f1c15c6caeef6c531c4135a9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "51367fc4_65f256ab",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-07-26T14:34:46Z",
       "side": 1,
       "message": "Use AbstractDemonTest",
+      "revId": "ed42d64a8052321f1c15c6caeef6c531c4135a9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "714b3b19_978f87b9",
+        "filename": "src/test/java/com/google/gerrit/elasticsearch/ElasticPaginationTypeTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-26T14:39:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51367fc4_65f256ab",
       "revId": "ed42d64a8052321f1c15c6caeef6c531c4135a9b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
