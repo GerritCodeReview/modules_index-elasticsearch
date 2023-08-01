@@ -33,6 +33,24 @@
       "message": "Have you tried following the path that is done in `AbstractQuery*Test` (e.g. in [1]) in `index-elasticsearch` library so that changing Gerrit core could be avoided?\n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/heads/stable-3.6/javatests/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
       "revId": "55a2ad23d64ce9d844a5a349323f65f1d3758a73",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e91b5585_804cc929",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-08-01T08:31:06Z",
+      "side": 1,
+      "message": "Yes that is exactly as it was done in patchset 8. Mind having a look? On that approach that we don\u0027t need the change in gerrit core, but we won\u0027t be using the AbstractDeamonTest.",
+      "parentUuid": "057663d7_8ec7ec83",
+      "revId": "55a2ad23d64ce9d844a5a349323f65f1d3758a73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
