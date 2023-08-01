@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ad0f5f7_e7c5458b",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-08-01T09:21:27Z",
+      "side": 0,
+      "message": "I don\u0027t think we should remove this line, unrelated, but also inconsistent with the rest of the document.",
+      "revId": "beda74a6745e5a4d6cc0e35ad9bbaa298b9f52b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
