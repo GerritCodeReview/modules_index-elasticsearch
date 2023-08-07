@@ -16,6 +16,29 @@
       "message": "Here is an alternative to change 379474 - the idea is to not load module when `index.paginationType\u003dNONE` is detected and throw the `ProvisionException`, WDYT?",
       "revId": "a22c6fd0aaea1b45a6f5ebf96acf6b8c368ba70b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16616f2f_bcb211d9",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-07T09:24:57Z",
+      "side": 1,
+      "message": "Gerrit will not start",
+      "range": {
+        "startLine": 20,
+        "startChar": 49,
+        "endLine": 20,
+        "endChar": 70
+      },
+      "revId": "a22c6fd0aaea1b45a6f5ebf96acf6b8c368ba70b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

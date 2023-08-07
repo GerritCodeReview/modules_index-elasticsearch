@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee98ebc3_cfb45310",
+        "filename": "src/test/java/com/google/gerrit/elasticsearch/ElasticConfigurationTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-07T09:24:57Z",
+      "side": 0,
+      "message": "This DRY should also be mentioned in the commit message.",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 63
+      },
+      "revId": "c746f31de8100d4dce1ad8a17f957449b5517613",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
