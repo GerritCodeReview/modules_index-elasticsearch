@@ -90,7 +90,8 @@ junit_tests(
         exclude = ["src/test/java/**/Elastic*Query*" + SUFFIX],
     ),
     tags = ["elastic"],
-    deps = PLUGIN_TEST_DEPS + [
+    deps = ELASTICSEARCH_DEPS + PLUGIN_TEST_DEPS + [
+        ":elasticsearch_test_utils",
         ":index-elasticsearch__plugin",
     ],
 )
