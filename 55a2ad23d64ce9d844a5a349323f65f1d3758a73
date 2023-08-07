@@ -70,6 +70,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0de4227a_2f030b68",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-08-07T07:11:32Z",
+      "side": 1,
+      "message": "Check change 382034 for an alternative solution",
+      "revId": "55a2ad23d64ce9d844a5a349323f65f1d3758a73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d698202b_865e4b74",
