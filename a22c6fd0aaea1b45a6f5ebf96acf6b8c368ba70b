@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad177c26_5ae8779b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-08-07T10:49:52Z",
+      "side": 1,
+      "message": "Would either remove this or add [this comment](https://gerrit-review.googlesource.com/c/modules/index-elasticsearch/+/379474/comments/f1f90f64_e56d9c8c) as reference, pointing to [this change](https://gerrit-review.googlesource.com/c/modules/index-elasticsearch/+/341414) for further reference.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 22
+      },
+      "revId": "a22c6fd0aaea1b45a6f5ebf96acf6b8c368ba70b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "a9539ded_87c15524",
