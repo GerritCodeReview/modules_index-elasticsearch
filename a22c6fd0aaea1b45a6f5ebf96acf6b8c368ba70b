@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9539ded_87c15524",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-08-07T07:11:05Z",
+      "side": 1,
+      "message": "Here is an alternative to change 379474 - the idea is to not load module when `index.paginationType\u003dNONE` is detected and throw the `ProvisionException`, WDYT?",
+      "revId": "a22c6fd0aaea1b45a6f5ebf96acf6b8c368ba70b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
