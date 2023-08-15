@@ -25,6 +25,7 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.index.IndexConfig;
 import com.google.inject.ProvisionException;
 import java.util.Arrays;
 import org.apache.http.HttpHost;
@@ -35,7 +36,7 @@ public class ElasticConfigurationTest {
   @Test
   public void singleServerNoOtherConfig() throws Exception {
     Config cfg = newConfig();
-    ElasticConfiguration esCfg = new ElasticConfiguration(cfg);
+    ElasticConfiguration esCfg = newElasticConfig(cfg);
     assertHosts(esCfg, "http://elastic:1234");
     assertThat(esCfg.username).isNull();
     assertThat(esCfg.password).isNull();
@@ -46,7 +47,7 @@ public class ElasticConfigurationTest {
   public void serverWithoutPortSpecified() throws Exception {
     Config cfg = new Config();
     cfg.setString(SECTION_ELASTICSEARCH, null, KEY_SERVER, "http://elastic");
-    ElasticConfiguration esCfg = new ElasticConfiguration(cfg);
+    ElasticConfiguration esCfg = newElasticConfig(cfg);
     assertHosts(esCfg, "http://elastic:9200");
   }
 
@@ -54,7 +55,7 @@ public class ElasticConfigurationTest {
   public void prefix() throws Exception {
     Config cfg = newConfig();
     cfg.setString(SECTION_ELASTICSEARCH, null, KEY_PREFIX, "myprefix");
-    ElasticConfiguration esCfg = new ElasticConfiguration(cfg);
+    ElasticConfiguration esCfg = newElasticConfig(cfg);
     assertThat(esCfg.prefix).isEqualTo("myprefix");
   }
 
@@ -63,7 +64,7 @@ public class ElasticConfigurationTest {
     Config cfg = newConfig();
     cfg.setString(SECTION_ELASTICSEARCH, null, KEY_USERNAME, "myself");
     cfg.setString(SECTION_ELASTICSEARCH, null, KEY_PASSWORD, "s3kr3t");
-    ElasticConfiguration esCfg = new ElasticConfiguration(cfg);
+    ElasticConfiguration esCfg = newElasticConfig(cfg);
     assertThat(esCfg.username).isEqualTo("myself");
     assertThat(esCfg.password).isEqualTo("s3kr3t");
   }
@@ -72,7 +73,7 @@ public class ElasticConfigurationTest {
   public void withAuthenticationPasswordOnlyUsesDefaultUsername() throws Exception {
     Config cfg = newConfig();
     cfg.setString(SECTION_ELASTICSEARCH, null, KEY_PASSWORD, "s3kr3t");
-    ElasticConfiguration esCfg = new ElasticConfiguration(cfg);
+    ElasticConfiguration esCfg = newElasticConfig(cfg);
     assertThat(esCfg.username).isEqualTo(DEFAULT_USERNAME);
     assertThat(esCfg.password).isEqualTo("s3kr3t");
   }
@@ -85,20 +86,20 @@ public class ElasticConfigurationTest {
         null,
         KEY_SERVER,
         ImmutableList.of("http://elastic1:1234", "http://elastic2:1234"));
-    ElasticConfiguration esCfg = new ElasticConfiguration(cfg);
+    ElasticConfiguration esCfg = newElasticConfig(cfg);
     assertHosts(esCfg, "http://elastic1:1234", "http://elastic2:1234");
   }
 
   @Test
   public void noServers() throws Exception {
-    assertProvisionException(new Config());
+    assertProvisionException(new Config(), "No valid Elasticsearch servers configured");
   }
 
   @Test
   public void singleServerInvalid() throws Exception {
     Config cfg = new Config();
     cfg.setString(SECTION_ELASTICSEARCH, null, KEY_SERVER, "foo");
-    assertProvisionException(cfg);
+    assertProvisionException(cfg, "No valid Elasticsearch servers configured");
   }
 
   @Test
@@ -106,8 +107,16 @@ public class ElasticConfigurationTest {
     Config cfg = new Config();
     cfg.setStringList(
         SECTION_ELASTICSEARCH, null, KEY_SERVER, ImmutableList.of("http://elastic1:1234", "foo"));
-    ElasticConfiguration esCfg = new ElasticConfiguration(cfg);
+    ElasticConfiguration esCfg = newElasticConfig(cfg);
     assertHosts(esCfg, "http://elastic1:1234");
+  }
+
+  @Test
+  public void unsupportedPaginationTypeNone() {
+    Config cfg = new Config();
+    cfg.setString("index", null, "paginationType", "NONE");
+    assertProvisionException(
+        cfg, "The 'index.paginationType = NONE' configuration is not supported by Elasticsearch");
   }
 
   private static Config newConfig() {
@@ -116,14 +125,17 @@ public class ElasticConfigurationTest {
     return config;
   }
 
+  private static ElasticConfiguration newElasticConfig(Config cfg) {
+    return new ElasticConfiguration(cfg, IndexConfig.fromConfig(cfg).build());
+  }
+
   private void assertHosts(ElasticConfiguration cfg, Object... hostURIs) throws Exception {
     assertThat(Arrays.asList(cfg.getHosts()).stream().map(HttpHost::toURI).collect(toList()))
         .containsExactly(hostURIs);
   }
 
-  private void assertProvisionException(Config cfg) {
-    ProvisionException thrown =
-        assertThrows(ProvisionException.class, () -> new ElasticConfiguration(cfg));
-    assertThat(thrown).hasMessageThat().contains("No valid Elasticsearch servers configured");
+  private void assertProvisionException(Config cfg, String msg) {
+    ProvisionException thrown = assertThrows(ProvisionException.class, () -> newElasticConfig(cfg));
+    assertThat(thrown).hasMessageThat().contains(msg);
   }
 }

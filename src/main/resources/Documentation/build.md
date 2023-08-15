@@ -20,7 +20,7 @@ git clone https://gerrit.googlesource.com/gerrit
 git clone https://gerrit.googlesource.com/modules/index-elasticsearch
 cd gerrit/plugins
 ln -s ../../index-elasticsearch index-elasticsearch
-ln -sf ../../external_plugin_deps.bzl .
+ln -sf ../../index-elasticsearch/external_plugin_deps.bzl .
 ```
 
 From the Gerrit source tree issue the command `bazelisk build plugins/index-elasticsearch`.
