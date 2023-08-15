@@ -18,6 +18,8 @@ import static com.google.common.base.MoreObjects.firstNonNull;
 
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.index.IndexConfig;
+import com.google.gerrit.index.PaginationType;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.ProvisionException;
@@ -70,7 +72,12 @@ public class ElasticConfiguration {
   final String prefix;
 
   @Inject
-  ElasticConfiguration(@GerritServerConfig Config cfg) {
+  ElasticConfiguration(@GerritServerConfig Config cfg, IndexConfig indexConfig) {
+    if (PaginationType.NONE == indexConfig.paginationType()) {
+      throw new ProvisionException(
+          "The 'index.paginationType = NONE' configuration is not supported by Elasticsearch");
+    }
+
     this.cfg = cfg;
     this.password = cfg.getString(SECTION_ELASTICSEARCH, null, KEY_PASSWORD);
     this.username =
