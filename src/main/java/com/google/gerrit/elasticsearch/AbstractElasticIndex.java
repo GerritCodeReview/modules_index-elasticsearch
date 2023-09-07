@@ -284,7 +284,11 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
           String.format("Expected %s, but was: %s", ContentType.APPLICATION_JSON, contentType));
       String responseStr = EntityUtils.toString(response.getEntity());
       JsonObject responseJson = (JsonObject) new JsonParser().parse(responseStr);
-      return responseJson.get("errors").getAsBoolean();
+      boolean hasErrors = responseJson.get("errors").getAsBoolean();
+      if (hasErrors) {
+        logger.atSevere().log("Response with errors: %s", responseJson);
+      }
+      return hasErrors;
     } catch (IOException e) {
       throw new StorageException(e);
     }
