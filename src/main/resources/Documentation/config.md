@@ -22,8 +22,7 @@ in `ProvisionException`).
 
 ## Section elasticsearch
 
-WARNING: Support for Elasticsearch is still experimental and is not recommended for production
-use. For compatibility information, please refer to the [project homepage](https://www.gerritcodereview.com/elasticsearch.html).
+For compatibility information, please refer to the [project homepage](https://www.gerritcodereview.com/elasticsearch.html).
 
 Note that when Gerrit is configured to use Elasticsearch, the Elasticsearch
 server(s) must be reachable during the site initialization.
