@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa062bcf_1f5eeaa3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-10-27T23:22:56Z",
+      "side": 1,
+      "message": "```\nINFO: Elapsed time: 403.274s, Critical Path: 281.10s\nINFO: 199 processes: 82 disk cache hit, 22 internal, 43 linux-sandbox, 4 local, 48 worker.\nINFO: Build completed successfully, 199 total actions\n//plugins/index-elasticsearch:elasticsearch_query_accounts_test_V7       PASSED in 49.0s\n//plugins/index-elasticsearch:elasticsearch_query_changes_test_V7        PASSED in 244.1s\n//plugins/index-elasticsearch:elasticsearch_query_groups_test_V7         PASSED in 37.8s\n//plugins/index-elasticsearch:elasticsearch_query_projects_test_V7       PASSED in 33.2s\n//plugins/index-elasticsearch:index-elasticsearch_tests                  PASSED in 0.6s\n\nExecuted 5 out of 5 tests: 5 tests pass.\n```",
+      "revId": "5b03669c0fd23d87cc5e90e44367264dc9de9e32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
