@@ -52,6 +52,8 @@ import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.options.AutoFlush;
+import com.google.gerrit.server.logging.Metadata;
+import com.google.gerrit.server.logging.TraceContext;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -282,7 +284,11 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
           String.format("Expected %s, but was: %s", ContentType.APPLICATION_JSON, contentType));
       String responseStr = EntityUtils.toString(response.getEntity());
       JsonObject responseJson = (JsonObject) new JsonParser().parse(responseStr);
-      return responseJson.get("errors").getAsBoolean();
+      boolean hasErrors = responseJson.get("errors").getAsBoolean();
+      if (hasErrors) {
+        logger.atSevere().log("Response with errors: %s", responseJson);
+      }
+      return hasErrors;
     } catch (IOException e) {
       throw new StorageException(e);
     }
@@ -354,7 +360,15 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     for (Map.Entry<String, String> entry : params.entrySet()) {
       request.addParameter(entry.getKey(), entry.getValue());
     }
-    try {
+    try (TraceContext.TraceTimer traceTimer =
+        TraceContext.newTimer(
+            "Elasticsearch perform request",
+            Metadata.builder()
+                .indexName(indexName)
+                .operationName(
+                    String.format(
+                        "method:%s uri:%s payload:%s params:%s", method, uri, payload, params))
+                .build())) {
       return client.get().performRequest(request);
     } catch (IOException e) {
       throw new StorageException(e);
