@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2e8cb37_896842ef",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-10-27T23:22:26Z",
+      "side": 1,
+      "message": "```\nINFO: Build completed successfully, 199 total actions\n//plugins/index-elasticsearch:elasticsearch_query_accounts_test_V7       PASSED in 57.6s\n//plugins/index-elasticsearch:elasticsearch_query_changes_test_V7        PASSED in 249.4s\n//plugins/index-elasticsearch:elasticsearch_query_groups_test_V7         PASSED in 36.2s\n//plugins/index-elasticsearch:elasticsearch_query_projects_test_V7       PASSED in 32.4s\n//plugins/index-elasticsearch:index-elasticsearch_tests                  PASSED in 0.6s\n\nExecuted 5 out of 5 tests: 5 tests pass.\nINFO: Build completed successfully, 199 total actions\n```",
+      "revId": "6db3b04bfed4e2d7213f2ae6fdb6a42eb5b5bda6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
