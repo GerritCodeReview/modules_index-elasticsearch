@@ -39,6 +39,8 @@ public class ElasticQueryBuilder {
       return or(p);
     } else if (p instanceof NotPredicate) {
       return not(p);
+    } else if (p instanceof Predicate.Any) {
+      return QueryBuilders.matchAllQuery();
     } else if (p instanceof IndexPredicate) {
       return fieldQuery((IndexPredicate<T>) p);
     } else if (p instanceof PostFilterPredicate) {
