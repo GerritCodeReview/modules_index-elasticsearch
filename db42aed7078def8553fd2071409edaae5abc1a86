@@ -16,6 +16,23 @@
       "message": "Verified, that the build succeeds.",
       "revId": "db42aed7078def8553fd2071409edaae5abc1a86",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80ff3b00_2b6ce719",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3231667
+      },
+      "writtenOn": "2023-12-18T15:59:10Z",
+      "side": 1,
+      "message": "39831de3f503db7a6ecb2972c6786e019ab67973",
+      "revId": "db42aed7078def8553fd2071409edaae5abc1a86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [
