@@ -1,0 +1,11 @@
+{
+  "checks": {
+    "gerritforge:index-elasticsearch-code-style": {
+      "state": "RUNNING",
+      "url": "https://gerrit-ci.gerritforge.com/job/module-index-elasticsearch-verifier/job/77%252F399077%252F2/1/console",
+      "started": "2024-01-02T06:32:36Z",
+      "created": "2024-01-02T06:32:36Z",
+      "updated": "2024-01-02T06:32:36Z"
+    }
+  }
+}
