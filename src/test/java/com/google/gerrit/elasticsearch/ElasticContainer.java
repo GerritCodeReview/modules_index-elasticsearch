@@ -44,12 +44,15 @@ public class ElasticContainer extends ElasticsearchContainer {
     switch (version) {
       case V7_16:
         return image.withTag("7.16.2");
+      case V8_9:
+        return image.withTag("8.9.2");
     }
     throw new IllegalStateException("No tests for version: " + version.name());
   }
 
   private ElasticContainer(ElasticVersion version) {
     super(getImageName(version));
+    withEnv("action.destructive_requires_name", "false");
   }
 
   @Override
