@@ -14,68 +14,11 @@
 
 package com.google.gerrit.elasticsearch;
 
-import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.testing.GerritJUnit.assertThrows;
-
-import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.extensions.api.groups.GroupApi;
-import com.google.gerrit.server.query.group.AbstractQueryGroupsTest;
-import com.google.gerrit.testing.ConfigSuite;
-import com.google.inject.Injector;
-import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
-import org.eclipse.jgit.lib.Config;
-import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Test;
 
-public class ElasticV7QueryGroupsTest extends AbstractQueryGroupsTest {
-  @ConfigSuite.Default
-  public static Config defaultConfig() {
-    return ElasticTestUtils.createConfig();
-  }
-
-  @ConfigSuite.Config
-  public static Config searchAfterPaginationType() {
-    Config config = defaultConfig();
-    config.setString("index", null, "paginationType", "SEARCH_AFTER");
-    return config;
-  }
-
-  private static ElasticContainer container;
-  private static CloseableHttpAsyncClient client;
-
+public class ElasticV7QueryGroupsTest extends ElasticAbstractQueryGroupsTest {
   @BeforeClass
   public static void startIndexService() {
-    container = ElasticContainer.createAndStart(ElasticVersion.V7_16);
-    client = ElasticTestUtils.createHttpAsyncClient(container);
-    client.start();
-  }
-
-  @AfterClass
-  public static void stopElasticsearchServer() {
-    if (container != null) {
-      container.stop();
-    }
-  }
-
-  @Override
-  protected void initAfterLifecycleStart() throws Exception {
-    super.initAfterLifecycleStart();
-    ElasticTestUtils.createAllIndexes(injector);
-  }
-
-  @Override
-  protected Injector createInjector() {
-    return ElasticTestUtils.createInjector(config, testName, container);
-  }
-
-  @Test
-  public void testErrorResponseFromGroupIndex() throws Exception {
-    GroupApi group = gApi.groups().create("test");
-    group.index();
-
-    ElasticTestUtils.closeIndex(client, container, testName);
-    StorageException thrown = assertThrows(StorageException.class, () -> group.index());
-    assertThat(thrown).hasMessageThat().contains("Failed to replace group");
+    startIndexService(ElasticVersion.V7_16);
   }
 }

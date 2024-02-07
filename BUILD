@@ -64,6 +64,20 @@ TYPES = [
 
 SUFFIX = "sTest.java"
 
+ABSTRACT_ELASTICSEARCH_TESTS = {i: "Elastic*Query" + i.capitalize() + SUFFIX for i in TYPES}
+
+[java_library(
+    name = "abstract_elasticsearch_query_%ss_test" % name,
+    testonly = True,
+    srcs = glob(["src/test/java/com/google/gerrit/elasticsearch/" + src]),
+    visibility = ["//visibility:public"],
+    deps = ELASTICSEARCH_DEPS + PLUGIN_TEST_DEPS + [
+        QUERY_TESTS_DEP % name,
+        ":elasticsearch_test_utils",
+        ":index-elasticsearch__plugin",
+    ],
+) for name, src in ABSTRACT_ELASTICSEARCH_TESTS.items()]
+
 ELASTICSEARCH_TESTS_V7 = {i: "ElasticV7Query" + i.capitalize() + SUFFIX for i in TYPES}
 
 [junit_tests(
@@ -79,8 +93,28 @@ ELASTICSEARCH_TESTS_V7 = {i: "ElasticV7Query" + i.capitalize() + SUFFIX for i in
         QUERY_TESTS_DEP % name,
         ":elasticsearch_test_utils",
         ":index-elasticsearch__plugin",
+        ":abstract_elasticsearch_query_%ss_test" % name,
     ],
 ) for name, src in ELASTICSEARCH_TESTS_V7.items()]
+
+ELASTICSEARCH_TESTS_V8 = {i: "ElasticV8Query" + i.capitalize() + SUFFIX for i in TYPES}
+
+[junit_tests(
+    name = "elasticsearch_query_%ss_test_V8" % name,
+    size = "enormous",
+    srcs = ["src/test/java/com/google/gerrit/elasticsearch/" + src],
+    tags = [
+        "docker",
+        "elastic",
+        "exclusive",
+    ],
+    deps = ELASTICSEARCH_DEPS + PLUGIN_TEST_DEPS + [
+        QUERY_TESTS_DEP % name,
+        ":elasticsearch_test_utils",
+        ":index-elasticsearch__plugin",
+        ":abstract_elasticsearch_query_%ss_test" % name,
+    ],
+) for name, src in ELASTICSEARCH_TESTS_V8.items()]
 
 junit_tests(
     name = "index-elasticsearch_tests",
