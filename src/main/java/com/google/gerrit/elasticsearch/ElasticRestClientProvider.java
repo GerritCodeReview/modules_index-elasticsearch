@@ -22,14 +22,17 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import org.apache.http.Header;
 import org.apache.http.HttpStatus;
 import org.apache.http.StatusLine;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.config.RequestConfig;
+import org.apache.http.entity.ContentType;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
+import org.apache.http.message.BasicHeader;
 import org.elasticsearch.client.Request;
 import org.elasticsearch.client.Response;
 import org.elasticsearch.client.RestClient;
@@ -129,6 +132,8 @@ class ElasticRestClientProvider implements Provider<RestClient>, LifecycleListen
 
   private RestClient build() {
     RestClientBuilder builder = RestClient.builder(cfg.getHosts());
+    builder.setDefaultHeaders(
+        new Header[] {new BasicHeader("Accept", ContentType.APPLICATION_JSON.toString())});
     setConfiguredTimeouts(builder);
     setConfiguredCredentialsIfAny(builder);
     return builder.build();
