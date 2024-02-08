@@ -25,7 +25,6 @@ import com.google.gerrit.testing.GerritTestName;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import com.google.inject.Injector;
 import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
-import org.apache.http.impl.nio.client.HttpAsyncClients;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.junit.After;
@@ -53,7 +52,7 @@ public class ElasticV7QueryChangesTest extends AbstractQueryChangesTest {
   @BeforeClass
   public static void startIndexService() {
     container = ElasticContainer.createAndStart(ElasticVersion.V7_16);
-    client = HttpAsyncClients.createDefault();
+    client = ElasticTestUtils.createHttpAsyncClient(container);
     client.start();
   }
 
