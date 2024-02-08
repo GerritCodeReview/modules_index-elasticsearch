@@ -39,16 +39,17 @@ public class ElasticContainer extends ElasticsearchContainer {
     return container;
   }
 
-  private static String getImageName(ElasticVersion version) {
+  private static DockerImageName getImageName(ElasticVersion version) {
+    DockerImageName image = DockerImageName.parse("docker.elastic.co/elasticsearch/elasticsearch");
     switch (version) {
       case V7_16:
-        return "docker.elastic.co/elasticsearch/elasticsearch:7.16.2";
+        return image.withTag("7.16.2");
     }
     throw new IllegalStateException("No tests for version: " + version.name());
   }
 
   private ElasticContainer(ElasticVersion version) {
-    super(DockerImageName.parse(getImageName(version)));
+    super(getImageName(version));
   }
 
   @Override
