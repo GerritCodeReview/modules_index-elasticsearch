@@ -23,7 +23,6 @@ import com.google.gerrit.server.query.group.AbstractQueryGroupsTest;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Injector;
 import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
-import org.apache.http.impl.nio.client.HttpAsyncClients;
 import org.eclipse.jgit.lib.Config;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -48,7 +47,7 @@ public class ElasticV7QueryGroupsTest extends AbstractQueryGroupsTest {
   @BeforeClass
   public static void startIndexService() {
     container = ElasticContainer.createAndStart(ElasticVersion.V7_16);
-    client = HttpAsyncClients.createDefault();
+    client = ElasticTestUtils.createHttpAsyncClient(container);
     client.start();
   }
 

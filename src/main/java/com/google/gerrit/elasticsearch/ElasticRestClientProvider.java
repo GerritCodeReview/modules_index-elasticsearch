@@ -155,8 +155,13 @@ class ElasticRestClientProvider implements Provider<RestClient>, LifecycleListen
       credentialsProvider.setCredentials(
           AuthScope.ANY, new UsernamePasswordCredentials(username, password));
       builder.setHttpClientConfigCallback(
-          (HttpAsyncClientBuilder httpClientBuilder) ->
-              httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider));
+          (HttpAsyncClientBuilder httpClientBuilder) -> {
+            httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider);
+            configureHttpClientBuilder(httpClientBuilder);
+            return httpClientBuilder;
+          });
     }
   }
+
+  protected void configureHttpClientBuilder(HttpAsyncClientBuilder httpClientBuilder) {}
 }
