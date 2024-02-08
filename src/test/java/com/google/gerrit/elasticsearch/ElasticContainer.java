@@ -58,6 +58,7 @@ public class ElasticContainer extends ElasticsearchContainer {
   }
 
   public HttpHost getHttpHost() {
-    return new HttpHost(getContainerIpAddress(), getMappedPort(ELASTICSEARCH_DEFAULT_PORT));
+    String protocol = caCertAsBytes().isPresent() ? "https://" : "http://";
+    return HttpHost.create(protocol + getHttpHostAddress());
   }
 }
