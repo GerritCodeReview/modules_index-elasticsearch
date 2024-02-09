@@ -14,6 +14,7 @@
 
 package com.google.gerrit.elasticsearch;
 
+import static com.google.common.truth.Truth.assertWithMessage;
 import static java.util.concurrent.TimeUnit.MINUTES;
 
 import com.google.gerrit.index.IndexDefinition;
@@ -27,9 +28,12 @@ import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
 import java.util.Collection;
 import java.util.UUID;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
+import org.apache.http.util.EntityUtils;
 import org.eclipse.jgit.lib.Config;
 
 public final class ElasticTestUtils {
@@ -89,17 +93,24 @@ public final class ElasticTestUtils {
   public static void closeIndex(
       CloseableHttpAsyncClient client, ElasticContainer container, GerritTestName testName)
       throws Exception {
-    client
-        .execute(
-            new HttpPost(
-                String.format(
-                    "http://%s:%d/%s*/_close",
-                    container.getHttpHost().getHostName(),
-                    container.getHttpHost().getPort(),
-                    testName.getSanitizedMethodName())),
-            HttpClientContext.create(),
-            null)
-        .get(5, MINUTES);
+    HttpResponse response =
+        client
+            .execute(
+                new HttpPost(
+                    String.format(
+                        "http://%s:%d/%s*/_close",
+                        container.getHttpHost().getHostName(),
+                        container.getHttpHost().getPort(),
+                        testName.getSanitizedMethodName())),
+                HttpClientContext.create(),
+                null)
+            .get(5, MINUTES);
+    int statusCode = response.getStatusLine().getStatusCode();
+    assertWithMessage(
+            "response status code should be %s, but was %s. Full response was %s",
+            HttpStatus.SC_OK, statusCode, EntityUtils.toString(response.getEntity()))
+        .that(statusCode)
+        .isEqualTo(HttpStatus.SC_OK);
   }
 
   private ElasticTestUtils() {
