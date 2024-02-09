@@ -53,8 +53,6 @@ java_library(
 
 QUERY_TESTS_DEP = "//javatests/com/google/gerrit/server/query/%s:abstract_query_tests"
 
-ACCOUNT_QUERY_TESTS_DEP = "//javatests/com/google/gerrit/server/query/account:abstract_query_tests"
-
 TYPES = [
     "account",
     "change",
