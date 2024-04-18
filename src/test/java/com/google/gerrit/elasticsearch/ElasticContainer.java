@@ -15,8 +15,6 @@
 package com.google.gerrit.elasticsearch;
 
 import com.google.common.flogger.FluentLogger;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.file.Path;
 import org.apache.http.HttpHost;
 import org.slf4j.Logger;
@@ -34,21 +32,6 @@ public class ElasticContainer extends ElasticsearchContainer {
   public static ElasticContainer createAndStart(ElasticVersion version) {
     ElasticContainer container = new ElasticContainer(version);
     try {
-      String hostname = System.getenv("DOCKER_HOST");
-      if (hostname != null) {
-        try {
-          hostname = new URI(hostname).getHost();
-          logger.atInfo().log("Using hostname from DOCKER_HOST: %s", hostname);
-        } catch (URISyntaxException e) {
-          logger.atWarning().log(
-              "Failed to parse DOCKER_HOST environment variable value (%s). Continuing as if unset.",
-              hostname);
-        }
-      }
-      if (hostname == null) {
-        hostname = container.getHost();
-        logger.atInfo().log("Using hostname from container.getHost(): %s", hostname);
-      }
       Path certs = Path.of("/usr/share/elasticsearch/config/certs");
       String customizedCertPath = certs.resolve("http_ca_customized.crt").toString();
       String sslKeyPath = certs.resolve("elasticsearch.key").toString();
@@ -77,7 +60,7 @@ public class ElasticContainer extends ElasticsearchContainer {
                               + " -out "
                               + sslCrtPath
                               + " -days 365 -nodes -subj \"/CN="
-                              + hostname
+                              + container.getHost()
                               + "\";"
                               + "openssl x509 -outform der -in "
                               + sslCrtPath
