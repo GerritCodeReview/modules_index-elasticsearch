@@ -15,11 +15,13 @@
 package com.google.gerrit.elasticsearch;
 
 import com.google.common.flogger.FluentLogger;
+import java.nio.file.Path;
 import org.apache.http.HttpHost;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testcontainers.containers.ContainerLaunchException;
 import org.testcontainers.elasticsearch.ElasticsearchContainer;
+import org.testcontainers.images.builder.Transferable;
 import org.testcontainers.utility.DockerImageName;
 
 /* Helper class for running ES integration tests in docker container */
@@ -30,6 +32,51 @@ public class ElasticContainer extends ElasticsearchContainer {
   public static ElasticContainer createAndStart(ElasticVersion version) {
     ElasticContainer container = new ElasticContainer(version);
     try {
+      Path certs = Path.of("/usr/share/elasticsearch/config/certs");
+      String customizedCertPath = certs.resolve("http_ca_customized.crt").toString();
+      String sslKeyPath = certs.resolve("elasticsearch.key").toString();
+      String sslCrtPath = certs.resolve("elasticsearch.crt").toString();
+      container =
+          (ElasticContainer)
+              container
+                  .withPassword(ElasticsearchContainer.ELASTICSEARCH_DEFAULT_PASSWORD)
+                  .withEnv("xpack.security.enabled", "true")
+                  .withEnv("xpack.security.http.ssl.enabled", "true")
+                  .withEnv("xpack.security.http.ssl.key", sslKeyPath)
+                  .withEnv("xpack.security.http.ssl.certificate", sslCrtPath)
+                  .withEnv("xpack.security.http.ssl.certificate_authorities", customizedCertPath)
+                  // Create our own cert so that the gerrit-ci docker hostname
+                  // matches the certificate subject. Otherwise we get an error like:
+                  // Host name '10.0.1.1' does not match the certificate subject provided by the
+                  // peer (CN=4932da9bab1d)
+                  .withCopyToContainer(
+                      Transferable.of(
+                          "#!/bin/bash\n"
+                              + "mkdir -p "
+                              + certs.toString()
+                              + ";"
+                              + "openssl req -x509 -newkey rsa:4096 -keyout "
+                              + sslKeyPath
+                              + " -out "
+                              + sslCrtPath
+                              + " -days 365 -nodes -subj \"/CN="
+                              + container.getHost()
+                              + "\";"
+                              + "openssl x509 -outform der -in "
+                              + sslCrtPath
+                              + " -out "
+                              + customizedCertPath
+                              + "; chown -R elasticsearch "
+                              + certs.toString(),
+                          555),
+                      "/usr/share/elasticsearch/generate-certs.sh")
+                  // because we need to generate the certificates before Elasticsearch starts, the
+                  // entry command has to be adjusted accordingly
+                  .withCommand(
+                      "sh",
+                      "-c",
+                      "/usr/share/elasticsearch/generate-certs.sh && /usr/local/bin/docker-entrypoint.sh")
+                  .withCertPath(customizedCertPath);
       container.start();
     } catch (ContainerLaunchException e) {
       logger.atSevere().log(
@@ -39,16 +86,20 @@ public class ElasticContainer extends ElasticsearchContainer {
     return container;
   }
 
-  private static String getImageName(ElasticVersion version) {
+  private static DockerImageName getImageName(ElasticVersion version) {
+    DockerImageName image = DockerImageName.parse("docker.elastic.co/elasticsearch/elasticsearch");
     switch (version) {
       case V7_16:
-        return "docker.elastic.co/elasticsearch/elasticsearch:7.16.2";
+        return image.withTag("7.16.2");
+      case V8_9:
+        return image.withTag("8.9.2");
     }
     throw new IllegalStateException("No tests for version: " + version.name());
   }
 
   private ElasticContainer(ElasticVersion version) {
-    super(DockerImageName.parse(getImageName(version)));
+    super(getImageName(version));
+    withEnv("action.destructive_requires_name", "false");
   }
 
   @Override
@@ -57,6 +108,7 @@ public class ElasticContainer extends ElasticsearchContainer {
   }
 
   public HttpHost getHttpHost() {
-    return new HttpHost(getContainerIpAddress(), getMappedPort(ELASTICSEARCH_DEFAULT_PORT));
+    String protocol = caCertAsBytes().isPresent() ? "https://" : "http://";
+    return HttpHost.create(protocol + getHttpHostAddress());
   }
 }
