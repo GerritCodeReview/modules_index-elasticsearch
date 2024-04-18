@@ -16,6 +16,24 @@
       "message": "There\u0027s an example for how to setup SSL certs with custom commands in https://github.com/testcontainers/testcontainers-java/pull/7991/files#diff-a6f3081bf09c2a39c5a6337b2d9754d7d51ed63f6ce655ad0661832163d0926aR379\n\nWe should be able to use that to create certs with a SAN that works with gerritforge CI.",
       "revId": "260898fb67df37f2abe4d573d2f347e79d964d32",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "12fe4b89_e015d936",
+        "filename": "src/test/java/com/google/gerrit/elasticsearch/ElasticContainer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-04-18T19:44:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5882da4b_98f02b90",
+      "revId": "260898fb67df37f2abe4d573d2f347e79d964d32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
