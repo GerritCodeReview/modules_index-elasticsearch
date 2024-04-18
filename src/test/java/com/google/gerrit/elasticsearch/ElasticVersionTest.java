@@ -24,6 +24,10 @@ public class ElasticVersionTest {
   public void supportedVersion() throws Exception {
     assertThat(ElasticVersion.forVersion("7.16.0")).isEqualTo(ElasticVersion.V7_16);
     assertThat(ElasticVersion.forVersion("7.16.1")).isEqualTo(ElasticVersion.V7_16);
+
+    assertThat(ElasticVersion.forVersion("8.9.0")).isEqualTo(ElasticVersion.V8_9);
+    assertThat(ElasticVersion.forVersion("8.9.1")).isEqualTo(ElasticVersion.V8_9);
+    assertThat(ElasticVersion.forVersion("8.9.2")).isEqualTo(ElasticVersion.V8_9);
   }
 
   @Test
