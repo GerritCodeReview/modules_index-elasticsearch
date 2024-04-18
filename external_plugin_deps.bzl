@@ -8,19 +8,19 @@ def external_plugin_deps():
     )
 
     # Ensure artifacts compatibility by selecting them from the Bill Of Materials
-    # https://search.maven.org/artifact/org.testcontainers/testcontainers/1.17.5/pom
-    TESTCONTAINERS_VERSION = "1.17.5"
+    # https://search.maven.org/artifact/org.testcontainers/testcontainers/1.19.7/pom
+    TESTCONTAINERS_VERSION = "1.19.7"
 
     maven_jar(
         name = "testcontainers",
         artifact = "org.testcontainers:testcontainers:" + TESTCONTAINERS_VERSION,
-        sha1 = "7c5ad975fb789ecd09b1ee5f72907f48a300bc61",
+        sha1 = "2dd7b1497fc444755582b0efc88636c4d299601f",
     )
 
     maven_jar(
         name = "testcontainers-elasticsearch",
         artifact = "org.testcontainers:elasticsearch:" + TESTCONTAINERS_VERSION,
-        sha1 = "060895f2fc6640ab4a6c383bc98c5c39ef644fbb",
+        sha1 = "8cd9f4ae67c9299143eb718541ff544b66273283",
     )
 
     maven_jar(
@@ -29,36 +29,36 @@ def external_plugin_deps():
         sha1 = "92edc22a9ab2f3e17c9bf700aaee377d50e8b530",
     )
 
-    DOCKER_JAVA_VERS = "3.2.13"
+    DOCKER_JAVA_VERS = "3.3.6"
 
     maven_jar(
         name = "docker-java-api",
         artifact = "com.github.docker-java:docker-java-api:" + DOCKER_JAVA_VERS,
-        sha1 = "5817ef8f770cb7e740d590090bf352df9491f3c1",
+        sha1 = "8e152880bfe595c81a25501e21a6d7b1d4df97be",
     )
 
     maven_jar(
         name = "docker-java-transport",
         artifact = "com.github.docker-java:docker-java-transport:" + DOCKER_JAVA_VERS,
-        sha1 = "e9d308d1822181a9d48c99739f5eca014ec89199",
+        sha1 = "0d536d16a297f9139b833955390a3d581e336e67",
     )
 
     maven_jar(
         name = "docker-java-transport-zerodep",
         artifact = "com.github.docker-java:docker-java-transport-zerodep:" + DOCKER_JAVA_VERS,
-        sha1 = "4cbc2c09d6c264767a39624066987ed4a152bc68",
+        sha1 = "c9cde0239ce03376f6dfd0465bd461853af22196",
     )
 
     # Match version used in docker-java-transport
-    # https://search.maven.org/artifact/com.github.docker-java/docker-java-transport/3.2.12/pom
+    # https://search.maven.org/artifact/com.github.docker-java/docker-java-transport/3.3.6/pom
     maven_jar(
         name = "jna",
-        artifact = "net.java.dev.jna:jna:5.8.0",
-        sha1 = "3551d8d827e54858214107541d3aff9c615cb615",
+        artifact = "net.java.dev.jna:jna:5.13.0",
+        sha1 = "1200e7ebeedbe0d10062093f32925a912020e747",
     )
 
     # Match jackson.version from docker-java
-    # https://search.maven.org/artifact/com.github.docker-java/docker-java-parent/3.2.12/pom
+    # https://search.maven.org/artifact/com.github.docker-java/docker-java-parent/3.3.6/pom
     maven_jar(
         name = "jackson-annotations",
         artifact = "com.fasterxml.jackson.core:jackson-annotations:2.10.3",

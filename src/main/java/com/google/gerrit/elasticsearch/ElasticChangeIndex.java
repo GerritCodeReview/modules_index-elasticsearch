@@ -17,6 +17,7 @@ package com.google.gerrit.elasticsearch;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.elasticsearch.ElasticMapping.Mapping;
 import com.google.gerrit.elasticsearch.bulk.BulkRequest;
 import com.google.gerrit.elasticsearch.bulk.IndexRequest;
@@ -52,6 +53,8 @@ import org.elasticsearch.client.Response;
 /** Secondary index implementation using Elasticsearch. */
 class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     implements ChangeIndex {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   static class ChangeMapping {
     final Mapping changes;
     final Mapping openChanges;
@@ -98,6 +101,17 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
   public void replace(ChangeData cd) {
     BulkRequest bulk =
         new IndexRequest(getId(cd), indexName).add(new UpdateRequest<>(schema, cd, skipFields));
+
+    if (logger.atFine().isEnabled()) {
+      String metaRevision = null;
+      try {
+        metaRevision = cd.metaRevisionOrThrow().name();
+      } catch (Exception ignored) {
+      }
+      logger.atFine().log(
+          "Indexing: change: %s, status: %s, meta revision: %s",
+          cd.change().currentPatchSetId(), cd.change().getStatus(), metaRevision);
+    }
 
     String uri = getURI(BULK);
     Response response = postRequestWithRefreshParam(uri, bulk);
