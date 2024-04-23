@@ -14,32 +14,49 @@
 
 package com.google.gerrit.elasticsearch;
 
+import static com.google.common.truth.Truth.assertWithMessage;
 import static java.util.concurrent.TimeUnit.MINUTES;
+import static org.testcontainers.elasticsearch.ElasticsearchContainer.ELASTICSEARCH_DEFAULT_PASSWORD;
 
 import com.google.gerrit.index.IndexDefinition;
 import com.google.gerrit.server.LibModuleType;
 import com.google.gerrit.testing.GerritTestName;
 import com.google.gerrit.testing.InMemoryModule;
 import com.google.gerrit.testing.IndexConfig;
+import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
 import java.util.Collection;
 import java.util.UUID;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
+import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
+import org.apache.http.impl.nio.client.HttpAsyncClients;
+import org.apache.http.util.EntityUtils;
 import org.eclipse.jgit.lib.Config;
 
 public final class ElasticTestUtils {
+  private static final String ELASTIC_USERNAME = "elastic";
+  private static final String ELASTIC_PASSWORD = ELASTICSEARCH_DEFAULT_PASSWORD;
+
   public static void configure(Config config, ElasticContainer container, String prefix) {
-    String hostname = container.getHttpHost().getHostName();
-    int port = container.getHttpHost().getPort();
     config.setString("index", null, "type", "elasticsearch");
-    config.setString("elasticsearch", null, "server", "http://" + hostname + ":" + port);
+    config.setString("elasticsearch", null, "server", container.getHttpHost().toURI());
     config.setString("elasticsearch", null, "prefix", prefix);
     config.setInt("index", null, "maxLimit", 10000);
+    if (container.caCertAsBytes().isPresent()) {
+      config.setString("elasticsearch", null, "username", ELASTIC_USERNAME);
+      config.setString("elasticsearch", null, "password", ELASTIC_PASSWORD);
+    }
   }
 
   public static void createAllIndexes(Injector injector) {
@@ -76,6 +93,20 @@ public final class ElasticTestUtils {
         "com.google.gerrit.elasticsearch.ElasticIndexModule");
   }
 
+  public static class ElasticContainerTestModule extends AbstractModule {
+    private final ElasticContainer container;
+
+    ElasticContainerTestModule(ElasticContainer container) {
+      this.container = container;
+    }
+
+    @Override
+    protected void configure() {
+      bind(ElasticRestClientProvider.class).to(ElasticContainerRestClientProvider.class);
+      bind(ElasticContainer.class).toInstance(container);
+    }
+  }
+
   public static Injector createInjector(
       Config config, GerritTestName testName, ElasticContainer container) {
     Config elasticsearchConfig = new Config(config);
@@ -83,23 +114,42 @@ public final class ElasticTestUtils {
     InMemoryModule.setDefaults(elasticsearchConfig);
     String indicesPrefix = testName.getSanitizedMethodName();
     ElasticTestUtils.configure(elasticsearchConfig, container, indicesPrefix);
-    return Guice.createInjector(new InMemoryModule(elasticsearchConfig));
+    return Guice.createInjector(
+        new ElasticContainerTestModule(container), new InMemoryModule(elasticsearchConfig));
+  }
+
+  public static CloseableHttpAsyncClient createHttpAsyncClient(ElasticContainer container) {
+    HttpAsyncClientBuilder builder = HttpAsyncClients.custom();
+    if (container.caCertAsBytes().isPresent()) {
+      CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+      credentialsProvider.setCredentials(
+          AuthScope.ANY, new UsernamePasswordCredentials(ELASTIC_USERNAME, ELASTIC_PASSWORD));
+      builder
+          .setSSLContext(container.createSslContextFromCa())
+          .setDefaultCredentialsProvider(credentialsProvider);
+    }
+    return builder.build();
   }
 
   public static void closeIndex(
       CloseableHttpAsyncClient client, ElasticContainer container, GerritTestName testName)
       throws Exception {
-    client
-        .execute(
-            new HttpPost(
-                String.format(
-                    "http://%s:%d/%s*/_close",
-                    container.getHttpHost().getHostName(),
-                    container.getHttpHost().getPort(),
-                    testName.getSanitizedMethodName())),
-            HttpClientContext.create(),
-            null)
-        .get(5, MINUTES);
+    HttpResponse response =
+        client
+            .execute(
+                new HttpPost(
+                    String.format(
+                        "%s/%s*/_close",
+                        container.getHttpHost().toURI(), testName.getSanitizedMethodName())),
+                HttpClientContext.create(),
+                null)
+            .get(5, MINUTES);
+    int statusCode = response.getStatusLine().getStatusCode();
+    assertWithMessage(
+            "response status code should be %s, but was %s. Full response was %s",
+            HttpStatus.SC_OK, statusCode, EntityUtils.toString(response.getEntity()))
+        .that(statusCode)
+        .isEqualTo(HttpStatus.SC_OK);
   }
 
   private ElasticTestUtils() {
