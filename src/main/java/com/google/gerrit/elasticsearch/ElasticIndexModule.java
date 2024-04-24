@@ -15,6 +15,7 @@
 package com.google.gerrit.elasticsearch;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.index.project.ProjectIndex;
 import com.google.gerrit.server.ModuleImpl;
@@ -25,7 +26,6 @@ import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.gerrit.server.index.options.AutoFlush;
 import com.google.inject.Inject;
-import java.util.Map;
 
 @ModuleImpl(name = AbstractIndexModule.INDEX_MODULE)
 public class ElasticIndexModule extends AbstractIndexModule {
@@ -35,12 +35,12 @@ public class ElasticIndexModule extends AbstractIndexModule {
 
   @VisibleForTesting
   public static ElasticIndexModule singleVersionWithExplicitVersions(
-      Map<String, Integer> versions, int threads, boolean slave) {
+      ImmutableMap<String, Integer> versions, int threads, boolean slave) {
     return new ElasticIndexModule(versions, threads, slave, AutoFlush.ENABLED);
   }
 
   public static ElasticIndexModule singleVersionWithExplicitVersions(
-      Map<String, Integer> versions, int threads, boolean slave, AutoFlush autoFlush) {
+      ImmutableMap<String, Integer> versions, int threads, boolean slave, AutoFlush autoFlush) {
     return new ElasticIndexModule(versions, threads, slave, autoFlush);
   }
 
@@ -50,7 +50,10 @@ public class ElasticIndexModule extends AbstractIndexModule {
   }
 
   protected ElasticIndexModule(
-      Map<String, Integer> singleVersions, int threads, boolean slave, AutoFlush autoFlush) {
+      ImmutableMap<String, Integer> singleVersions,
+      int threads,
+      boolean slave,
+      AutoFlush autoFlush) {
     super(singleVersions, threads, slave);
     this.autoFlush = autoFlush;
   }

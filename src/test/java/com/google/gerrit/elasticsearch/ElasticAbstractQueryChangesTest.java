@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.query.change.AbstractQueryChangesTest;
 import com.google.gerrit.testing.ConfigSuite;
@@ -83,9 +84,9 @@ public abstract class ElasticAbstractQueryChangesTest extends AbstractQueryChang
 
   @Test
   public void testErrorResponseFromChangeIndex() throws Exception {
-    String repository = "repo";
-    TestRepository<Repository> repo = createAndOpenProject(repository);
-    Change c = insert(repository, newChangeWithStatus(repo, Change.Status.NEW));
+    Project.NameKey project = Project.nameKey("repo");
+    TestRepository<Repository> repo = createAndOpenProject(project);
+    Change c = insert(project, newChangeWithStatus(repo, Change.Status.NEW));
     gApi.changes().id(c.getChangeId()).index();
 
     ElasticTestUtils.closeIndex(client, container, testName);
