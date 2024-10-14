@@ -70,20 +70,20 @@ def external_plugin_deps():
     # org.apache.httpcomponents dependencies in core.
     maven_jar(
         name = "elasticsearch-rest-client",
-        artifact = "org.elasticsearch.client:elasticsearch-rest-client:8.3.2",
-        sha1 = "bb5cb3dbd82ea75a6d49b9011ca5b1d125b30f00",
+        artifact = "org.elasticsearch.client:elasticsearch-rest-client:8.15.2",
+        sha1 = "ac92c1b9a542982b9a12683b608989e1a99e864c",
     )
 
     # elasticsearch-rest-client explicitly depends on this version
     maven_jar(
         name = "httpasyncclient",
-        artifact = "org.apache.httpcomponents:httpasyncclient:4.1.4",
-        sha1 = "f3a3240681faae3fa46b573a4c7e50cec9db0d86",
+        artifact = "org.apache.httpcomponents:httpasyncclient:4.1.5",
+        sha1 = "cd18227f1eb8e9a263286c1d7362ceb24f6f9b32",
     )
 
     # elasticsearch-rest-client explicitly depends on this version
     maven_jar(
         name = "httpcore-nio",
-        artifact = "org.apache.httpcomponents:httpcore-nio:4.4.12",
-        sha1 = "84cd29eca842f31db02987cfedea245af020198b",
+        artifact = "org.apache.httpcomponents:httpcore-nio:4.4.16",
+        sha1 = "cd21c80a9956be48c4c1cfd2f594ba02857d0927",
     )
