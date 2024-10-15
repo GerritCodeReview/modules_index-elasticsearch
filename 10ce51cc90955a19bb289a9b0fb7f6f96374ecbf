@@ -16,6 +16,24 @@
       "message": "The lib module provides a check on startup whether the version of the elasticsearch server is being supported. Could you ensure that that check is still up-to-date with the client update? As far as I understand [1], we might loose ES 7.x compatibility but should gain forward compatibility.\n\n[1] https://www.elastic.co/guide/en/elasticsearch/client/java-api-client/current/introduction.html#_elasticsearch_server_compatibility_policy",
       "revId": "10ce51cc90955a19bb289a9b0fb7f6f96374ecbf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d90ab16_5ada49bb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-10-15T13:44:22Z",
+      "side": 1,
+      "message": "Where is that check ?\n\nApparently this update doesn\u0027t break support for ElasticSearch 7.x.\nThe tests using ElasticSearch docker images via testcontainers ran successfully against ElasticSearch versions 7.16.2 and 7.8.2.\nWith I1fd61d05aaefa75177ab8f373eabd982b36e6132 also against 7.17.24 and 8.15.2.",
+      "parentUuid": "1f4220c6_9dbb1b2d",
+      "revId": "10ce51cc90955a19bb289a9b0fb7f6f96374ecbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
