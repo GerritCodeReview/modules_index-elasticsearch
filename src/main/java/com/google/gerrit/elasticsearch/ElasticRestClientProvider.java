@@ -162,5 +162,6 @@ class ElasticRestClientProvider implements Provider<RestClient>, LifecycleListen
     }
   }
 
-  protected void configureHttpClientBuilder(HttpAsyncClientBuilder httpClientBuilder) {}
+  protected void configureHttpClientBuilder(
+      @SuppressWarnings("unused") HttpAsyncClientBuilder httpClientBuilder) {}
 }
