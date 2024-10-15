@@ -34,6 +34,24 @@
       "parentUuid": "1f4220c6_9dbb1b2d",
       "revId": "10ce51cc90955a19bb289a9b0fb7f6f96374ecbf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af876c17_12ec7e9b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-10-15T20:30:44Z",
+      "side": 1,
+      "message": "There\u0027s no check since we\u0027re using the [Java Low Level REST Client](https://www.elastic.co/guide/en/elasticsearch/client/java-api-client/current/java-rest-low.html) not the [Java API client](https://www.elastic.co/guide/en/elasticsearch/client/java-api-client/current/introduction.html).\n\nThe low-level REST client [says](https://www.elastic.co/guide/en/elasticsearch/client/java-api-client/current/java-rest-low-usage-maven.html):\n\u003e There is no relation between the client version and the Elasticsearch version that the client can communicate with. The low-level REST client is compatible with all Elasticsearch versions.",
+      "parentUuid": "4d90ab16_5ada49bb",
+      "revId": "10ce51cc90955a19bb289a9b0fb7f6f96374ecbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
