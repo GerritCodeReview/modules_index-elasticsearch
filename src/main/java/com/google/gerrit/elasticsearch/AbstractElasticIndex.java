@@ -471,7 +471,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
               searchAfter = hit.getAsJsonArray("sort");
             }
             JsonArray finalSearchAfter = searchAfter;
-            return new ListResultSet<T>(results.build()) {
+            return new ListResultSet<>(results.build()) {
               @Override
               public Object searchAfter() {
                 return finalSearchAfter;
