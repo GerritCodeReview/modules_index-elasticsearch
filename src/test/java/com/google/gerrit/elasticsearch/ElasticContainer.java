@@ -27,7 +27,6 @@ import org.testcontainers.utility.DockerImageName;
 /* Helper class for running ES integration tests in docker container */
 public class ElasticContainer extends ElasticsearchContainer {
   private static FluentLogger logger = FluentLogger.forEnclosingClass();
-  private static final int ELASTICSEARCH_DEFAULT_PORT = 9200;
 
   public static ElasticContainer createAndStart(ElasticVersion version) {
     @SuppressWarnings("resource")
