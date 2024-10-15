@@ -30,6 +30,7 @@ public class ElasticContainer extends ElasticsearchContainer {
   private static final int ELASTICSEARCH_DEFAULT_PORT = 9200;
 
   public static ElasticContainer createAndStart(ElasticVersion version) {
+    @SuppressWarnings("resource")
     ElasticContainer container = new ElasticContainer(version);
     try {
       Path certs = Path.of("/usr/share/elasticsearch/config/certs");
