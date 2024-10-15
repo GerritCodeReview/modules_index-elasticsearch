@@ -18,8 +18,8 @@ import com.google.common.base.Joiner;
 import java.util.regex.Pattern;
 
 public enum ElasticVersion {
-  V7_16("7.16.*"),
-  V8_9("8.9.*");
+  V7_17("7.17.*"),
+  V8_15("8.15.*");
 
   private final String version;
   private final Pattern pattern;
