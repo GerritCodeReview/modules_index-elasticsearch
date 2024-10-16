@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e76c264_af389862",
+        "filename": "src/main/java/com/google/gerrit/elasticsearch/ElasticVersion.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-10-16T06:25:13Z",
+      "side": 1,
+      "message": "This is the check I meant in my comment for the parent change. The lib module will not start, if you use an ES version other than the one defined in L20ff. If I have understood Nasser correctly older minor version would however be supported. Should we then not allow to use them? Especially to avoid that users have to update ES in sync with the module?",
+      "revId": "f42bf9768de1c8184f00f89c4b5ac0fcfd3a8100",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
