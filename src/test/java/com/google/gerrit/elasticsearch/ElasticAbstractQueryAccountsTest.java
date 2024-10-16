@@ -18,8 +18,10 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.server.index.account.AccountIndexDefinition;
 import com.google.gerrit.server.query.account.AbstractQueryAccountsTest;
 import com.google.gerrit.testing.ConfigSuite;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
 import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
 import org.eclipse.jgit.lib.Config;
@@ -55,6 +57,8 @@ public abstract class ElasticAbstractQueryAccountsTest extends AbstractQueryAcco
     }
   }
 
+  @Inject private AccountIndexDefinition accountIndexDefinition;
+
   @Override
   protected void initAfterLifecycleStart() throws Exception {
     super.initAfterLifecycleStart();
@@ -74,5 +78,11 @@ public abstract class ElasticAbstractQueryAccountsTest extends AbstractQueryAcco
     StorageException thrown =
         assertThrows(StorageException.class, () -> gApi.accounts().self().index());
     assertThat(thrown).hasMessageThat().contains("Failed to replace account");
+  }
+
+  @Test
+  public void testNumCount() throws Exception {
+    assertThat(accountIndexDefinition.getIndexCollection().getSearchIndex().numDocs())
+        .isGreaterThan(-1);
   }
 }
