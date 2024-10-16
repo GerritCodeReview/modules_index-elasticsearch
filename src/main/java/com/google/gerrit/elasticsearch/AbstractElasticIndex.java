@@ -75,6 +75,7 @@ import java.util.function.Function;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
 import org.apache.http.StatusLine;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.nio.entity.NStringEntity;
@@ -86,6 +87,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   protected static final String BULK = "_bulk";
+  protected static final String COUNT = "_count";
   protected static final String MAPPINGS = "mappings";
   protected static final String ORDER = "order";
   protected static final String DESC_SORT_ORDER = "desc";
@@ -187,6 +189,27 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   @Override
   public void markReady(boolean ready) {
     IndexUtils.setReady(sitePaths, indexNameRaw, schema.getVersion(), ready);
+  }
+
+  @Override
+  public int numDocs() {
+    String uri = getURI(COUNT);
+    Response response = performRequest(HttpGet.METHOD_NAME, uri);
+    int statusCode = response.getStatusLine().getStatusCode();
+    if (statusCode != HttpStatus.SC_OK) {
+      throw new StorageException(
+          String.format(
+              "Request to get number of %s index documents failed: %s",
+              indexName, response.getStatusLine().getReasonPhrase()));
+    }
+    String content;
+    try {
+      content = getContent(response);
+      return JsonParser.parseString(content).getAsJsonObject().get("count").getAsInt();
+    } catch (IOException e) {
+      throw new StorageException(
+          String.format("Request to get number of %s index documents failed", indexName), e);
+    }
   }
 
   @Override
