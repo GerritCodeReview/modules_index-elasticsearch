@@ -19,6 +19,6 @@ import org.junit.BeforeClass;
 public class ElasticV8QueryProjectsTest extends ElasticAbstractQueryProjectsTest {
   @BeforeClass
   public static void startIndexService() {
-    startIndexService(ElasticVersion.V8_15);
+    startIndexService(ElasticVersion.V8);
   }
 }
