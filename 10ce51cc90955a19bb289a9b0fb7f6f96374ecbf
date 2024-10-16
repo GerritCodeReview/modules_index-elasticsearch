@@ -70,6 +70,24 @@
       "parentUuid": "af876c17_12ec7e9b",
       "revId": "10ce51cc90955a19bb289a9b0fb7f6f96374ecbf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ffbb59a6_846f6815",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-10-16T11:18:11Z",
+      "side": 1,
+      "message": "pushed Ia14678200a9b92bbe195b176321e34e2bba7b92d relaxing the version check to allow any 7.x and 8.x version",
+      "parentUuid": "7fc40e15_35294cb0",
+      "revId": "10ce51cc90955a19bb289a9b0fb7f6f96374ecbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [
