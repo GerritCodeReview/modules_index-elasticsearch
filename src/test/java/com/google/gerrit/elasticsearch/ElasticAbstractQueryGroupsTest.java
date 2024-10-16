@@ -19,8 +19,10 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.groups.GroupApi;
+import com.google.gerrit.server.index.group.GroupIndexDefinition;
 import com.google.gerrit.server.query.group.AbstractQueryGroupsTest;
 import com.google.gerrit.testing.ConfigSuite;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
 import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
 import org.eclipse.jgit.lib.Config;
@@ -56,6 +58,8 @@ public abstract class ElasticAbstractQueryGroupsTest extends AbstractQueryGroups
     }
   }
 
+  @Inject private GroupIndexDefinition groupIndexDefinition;
+
   @Override
   protected void initAfterLifecycleStart() throws Exception {
     super.initAfterLifecycleStart();
@@ -75,5 +79,11 @@ public abstract class ElasticAbstractQueryGroupsTest extends AbstractQueryGroups
     ElasticTestUtils.closeIndex(client, container, testName);
     StorageException thrown = assertThrows(StorageException.class, () -> group.index());
     assertThat(thrown).hasMessageThat().contains("Failed to replace group");
+  }
+
+  @Test
+  public void testNumCount() throws Exception {
+    assertThat(groupIndexDefinition.getIndexCollection().getSearchIndex().numDocs())
+        .isGreaterThan(-1);
   }
 }

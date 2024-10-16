@@ -110,7 +110,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
           cd.change().currentPatchSetId(), cd.change().getStatus(), metaRevision);
     }
 
-    String uri = getURI(BULK);
+    String uri = getURI(REQ_BULK);
     Response response = postRequestWithRefreshParam(uri, bulk);
     int statusCode = response.getStatusLine().getStatusCode();
     if (hasErrors(response) || statusCode != HttpStatus.SC_OK) {

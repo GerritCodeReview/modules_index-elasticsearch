@@ -79,7 +79,7 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
         new IndexRequest(getId(as), indexName)
             .add(new UpdateRequest<>(schema, as, ImmutableSet.of()));
 
-    String uri = getURI(BULK);
+    String uri = getURI(REQ_BULK);
     Response response = postRequestWithRefreshParam(uri, bulk);
     int statusCode = response.getStatusLine().getStatusCode();
     if (hasErrors(response) || statusCode != HttpStatus.SC_OK) {

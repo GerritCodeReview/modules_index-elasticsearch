@@ -75,6 +75,7 @@ import java.util.function.Function;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
 import org.apache.http.StatusLine;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.nio.entity.NStringEntity;
@@ -85,13 +86,14 @@ import org.elasticsearch.client.Response;
 abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  protected static final String BULK = "_bulk";
+  protected static final String REQ_BULK = "_bulk";
+  protected static final String REQ_COUNT = "_count";
+  protected static final String REQ_SEARCH = "_search";
   protected static final String MAPPINGS = "mappings";
   protected static final String ORDER = "order";
   protected static final String DESC_SORT_ORDER = "desc";
   protected static final String ASC_SORT_ORDER = "asc";
   protected static final String UNMAPPED_TYPE = "unmapped_type";
-  protected static final String SEARCH = "_search";
   protected static final String SETTINGS = "settings";
 
   static byte[] decodeBase64(String base64String) {
@@ -190,8 +192,29 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   }
 
   @Override
+  public int numDocs() {
+    String uri = getURI(REQ_COUNT);
+    Response response = performRequest(HttpGet.METHOD_NAME, uri);
+    int statusCode = response.getStatusLine().getStatusCode();
+    if (statusCode != HttpStatus.SC_OK) {
+      throw new StorageException(
+          String.format(
+              "Request to get number of %s index documents failed: %s",
+              indexName, response.getStatusLine().getReasonPhrase()));
+    }
+    String content;
+    try {
+      content = getContent(response);
+      return JsonParser.parseString(content).getAsJsonObject().get("count").getAsInt();
+    } catch (IOException e) {
+      throw new StorageException(
+          String.format("Request to get number of %s index documents failed", indexName), e);
+    }
+  }
+
+  @Override
   public void delete(K id) {
-    String uri = getURI(BULK);
+    String uri = getURI(REQ_BULK);
     Response response = postRequestWithRefreshParam(uri, getDeleteActions(id));
     int statusCode = response.getStatusLine().getStatusCode();
     if (statusCode != HttpStatus.SC_OK) {
@@ -424,7 +447,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
     private <T> ResultSet<T> readImpl(Function<JsonObject, T> mapper) {
       try {
-        String uri = getURI(SEARCH);
+        String uri = getURI(REQ_SEARCH);
         JsonArray searchAfter = null;
         Response response =
             performRequest(HttpPost.METHOD_NAME, uri, search, Collections.emptyMap());

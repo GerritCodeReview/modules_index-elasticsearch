@@ -19,8 +19,10 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.projects.ProjectApi;
+import com.google.gerrit.server.index.project.ProjectIndexDefinition;
 import com.google.gerrit.server.query.project.AbstractQueryProjectsTest;
 import com.google.gerrit.testing.ConfigSuite;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
 import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
 import org.eclipse.jgit.lib.Config;
@@ -56,6 +58,8 @@ public abstract class ElasticAbstractQueryProjectsTest extends AbstractQueryProj
     }
   }
 
+  @Inject private ProjectIndexDefinition projectIndexDefinition;
+
   @Override
   protected void initAfterLifecycleStart() throws Exception {
     super.initAfterLifecycleStart();
@@ -75,5 +79,11 @@ public abstract class ElasticAbstractQueryProjectsTest extends AbstractQueryProj
     ElasticTestUtils.closeIndex(client, container, testName);
     StorageException thrown = assertThrows(StorageException.class, () -> project.index(false));
     assertThat(thrown).hasMessageThat().contains("Failed to replace project");
+  }
+
+  @Test
+  public void testNumCount() throws Exception {
+    assertThat(projectIndexDefinition.getIndexCollection().getSearchIndex().numDocs())
+        .isGreaterThan(-1);
   }
 }

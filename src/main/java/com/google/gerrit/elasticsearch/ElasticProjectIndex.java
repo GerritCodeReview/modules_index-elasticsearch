@@ -81,7 +81,7 @@ public class ElasticProjectIndex extends AbstractElasticIndex<Project.NameKey, P
         new IndexRequest(projectState.getProject().getName(), indexName)
             .add(new UpdateRequest<>(schema, projectState, ImmutableSet.of()));
 
-    String uri = getURI(BULK);
+    String uri = getURI(REQ_BULK);
     Response response = postRequestWithRefreshParam(uri, bulk);
     int statusCode = response.getStatusLine().getStatusCode();
     if (hasErrors(response) || statusCode != HttpStatus.SC_OK) {

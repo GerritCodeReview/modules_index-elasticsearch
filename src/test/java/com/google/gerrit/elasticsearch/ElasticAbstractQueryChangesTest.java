@@ -20,9 +20,11 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.server.index.change.ChangeIndexDefinition;
 import com.google.gerrit.server.query.change.AbstractQueryChangesTest;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.GerritTestName;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
 import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
 import org.eclipse.jgit.junit.TestRepository;
@@ -63,6 +65,7 @@ public abstract class ElasticAbstractQueryChangesTest extends AbstractQueryChang
   }
 
   @Rule public final GerritTestName testName = new GerritTestName();
+  @Inject private ChangeIndexDefinition changeIndexDefinition;
 
   @After
   public void closeIndex() throws Exception {
@@ -95,5 +98,11 @@ public abstract class ElasticAbstractQueryChangesTest extends AbstractQueryChang
             StorageException.class,
             () -> gApi.changes().id(c.getProject().get(), c.getChangeId()).index());
     assertThat(thrown).hasMessageThat().contains("Failed to reindex change");
+  }
+
+  @Test
+  public void testNumCount() throws Exception {
+    assertThat(changeIndexDefinition.getIndexCollection().getSearchIndex().numDocs())
+        .isGreaterThan(-1);
   }
 }
