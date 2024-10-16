@@ -9,12 +9,12 @@
       "updated": "2024-10-16T12:46:03Z"
     },
     "gerritforge:index-elasticsearch-code-style": {
-      "state": "RUNNING",
+      "state": "SUCCESSFUL",
       "url": "https://gerrit-ci.gerritforge.com/job/module-index-elasticsearch-verifier/job/07%252F439607%252F5/3/console",
       "started": "2024-10-16T12:48:13Z",
-      "finished": "2024-10-16T12:24:52Z",
+      "finished": "2024-10-16T12:48:17Z",
       "created": "2024-10-16T12:03:01Z",
-      "updated": "2024-10-16T12:48:13Z"
+      "updated": "2024-10-16T12:48:17Z"
     }
   }
 }
