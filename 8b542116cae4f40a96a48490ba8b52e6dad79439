@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "873e9963_ccc88661",
+        "filename": "src/test/java/com/google/gerrit/elasticsearch/ElasticAbstractQueryAccountsTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-10-18T11:04:10Z",
+      "side": 1,
+      "message": "`testNumDocs`",
+      "range": {
+        "startLine": 84,
+        "startChar": 14,
+        "endLine": 84,
+        "endChar": 26
+      },
+      "revId": "8b542116cae4f40a96a48490ba8b52e6dad79439",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c075ab96_c2b5b437",
+        "filename": "src/test/java/com/google/gerrit/elasticsearch/ElasticAbstractQueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-10-18T11:04:10Z",
+      "side": 1,
+      "message": "`testNumDocs`",
+      "range": {
+        "startLine": 104,
+        "startChar": 14,
+        "endLine": 104,
+        "endChar": 26
+      },
+      "revId": "8b542116cae4f40a96a48490ba8b52e6dad79439",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "146425d4_f45a0a25",
+        "filename": "src/test/java/com/google/gerrit/elasticsearch/ElasticAbstractQueryGroupsTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-10-18T11:04:10Z",
+      "side": 1,
+      "message": "`testNumDocs`",
+      "range": {
+        "startLine": 85,
+        "startChar": 14,
+        "endLine": 85,
+        "endChar": 26
+      },
+      "revId": "8b542116cae4f40a96a48490ba8b52e6dad79439",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4576084b_8b6678e8",
+        "filename": "src/test/java/com/google/gerrit/elasticsearch/ElasticAbstractQueryProjectsTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-10-18T11:04:10Z",
+      "side": 1,
+      "message": "`testNumDocs`",
+      "range": {
+        "startLine": 85,
+        "startChar": 14,
+        "endLine": 85,
+        "endChar": 26
+      },
+      "revId": "8b542116cae4f40a96a48490ba8b52e6dad79439",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
