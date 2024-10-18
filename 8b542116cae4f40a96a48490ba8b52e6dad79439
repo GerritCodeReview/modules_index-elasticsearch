@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b919620_fc381bc3",
+        "filename": "src/test/java/com/google/gerrit/elasticsearch/ElasticAbstractQueryAccountsTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-10-18T12:31:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "873e9963_ccc88661",
+      "range": {
+        "startLine": 84,
+        "startChar": 14,
+        "endLine": 84,
+        "endChar": 26
+      },
+      "revId": "8b542116cae4f40a96a48490ba8b52e6dad79439",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c075ab96_c2b5b437",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-10-18T11:04:10Z",
       "side": 1,
       "message": "`testNumDocs`",
+      "range": {
+        "startLine": 104,
+        "startChar": 14,
+        "endLine": 104,
+        "endChar": 26
+      },
+      "revId": "8b542116cae4f40a96a48490ba8b52e6dad79439",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "952a8e43_61e039a5",
+        "filename": "src/test/java/com/google/gerrit/elasticsearch/ElasticAbstractQueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-10-18T12:31:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c075ab96_c2b5b437",
       "range": {
         "startLine": 104,
         "startChar": 14,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "934525b4_49242b56",
+        "filename": "src/test/java/com/google/gerrit/elasticsearch/ElasticAbstractQueryGroupsTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-10-18T12:31:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "146425d4_f45a0a25",
+      "range": {
+        "startLine": 85,
+        "startChar": 14,
+        "endLine": 85,
+        "endChar": 26
+      },
+      "revId": "8b542116cae4f40a96a48490ba8b52e6dad79439",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4576084b_8b6678e8",
@@ -83,6 +155,30 @@
       "writtenOn": "2024-10-18T11:04:10Z",
       "side": 1,
       "message": "`testNumDocs`",
+      "range": {
+        "startLine": 85,
+        "startChar": 14,
+        "endLine": 85,
+        "endChar": 26
+      },
+      "revId": "8b542116cae4f40a96a48490ba8b52e6dad79439",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be7e95bb_a323b95a",
+        "filename": "src/test/java/com/google/gerrit/elasticsearch/ElasticAbstractQueryProjectsTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-10-18T12:31:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4576084b_8b6678e8",
       "range": {
         "startLine": 85,
         "startChar": 14,
