@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dbaed314_24eb6b5d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-10-21T14:44:37Z",
+      "side": 1,
+      "message": "Since this won\u0027t be in 3.10, can you move this change to the end of your series? Then we can create a stable-3.10 branch from the current end (change 439608).",
+      "revId": "656d4be38b592615a675998da7627e531504515c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fc6461f4_6b821477",
         "filename": "src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
         "patchSetId": 5
