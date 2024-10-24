@@ -116,8 +116,7 @@ class ElasticRestClientProvider implements Provider<RestClient>, LifecycleListen
         throw new FailedToGetVersion(statusLine);
       }
       String version =
-          new JsonParser()
-              .parse(AbstractElasticIndex.getContent(response))
+          JsonParser.parseString(AbstractElasticIndex.getContent(response))
               .getAsJsonObject()
               .get("version")
               .getAsJsonObject()
@@ -163,5 +162,6 @@ class ElasticRestClientProvider implements Provider<RestClient>, LifecycleListen
     }
   }
 
-  protected void configureHttpClientBuilder(HttpAsyncClientBuilder httpClientBuilder) {}
+  protected void configureHttpClientBuilder(
+      @SuppressWarnings("unused") HttpAsyncClientBuilder httpClientBuilder) {}
 }
