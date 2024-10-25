@@ -16,6 +16,24 @@
       "message": "I think we can use this getter instead of casting? We already do this on L321 and other places.\n\n```suggestion\n      JsonObject responseJson \u003d JsonParser.parseString(responseStr).getAsJsonObject();\n```",
       "revId": "93d3b3ade53adc80deb25febc18fe41eb4a1f0c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2840319_2353d195",
+        "filename": "src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-10-25T21:09:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1986c6f8_80a31299",
+      "revId": "93d3b3ade53adc80deb25febc18fe41eb4a1f0c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
