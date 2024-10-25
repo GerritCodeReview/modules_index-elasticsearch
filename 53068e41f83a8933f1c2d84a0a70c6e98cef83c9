@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41bb8522_a29253a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-10-25T20:16:22Z",
+      "side": 1,
+      "message": "Looks like CI is going to fail on the merge unless you re-order this to come before the merge.",
+      "revId": "53068e41f83a8933f1c2d84a0a70c6e98cef83c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
