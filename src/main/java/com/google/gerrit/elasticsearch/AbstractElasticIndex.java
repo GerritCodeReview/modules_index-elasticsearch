@@ -289,7 +289,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
           contentType.toString().equalsIgnoreCase(ContentType.APPLICATION_JSON.toString()),
           String.format("Expected %s, but was: %s", ContentType.APPLICATION_JSON, contentType));
       String responseStr = EntityUtils.toString(response.getEntity());
-      JsonObject responseJson = (JsonObject) new JsonParser().parse(responseStr);
+      JsonObject responseJson = JsonParser.parseString(responseStr).getAsJsonObject();
       boolean hasErrors = responseJson.get("errors").getAsBoolean();
       if (hasErrors) {
         logger.atSevere().log("Response with errors: %s", responseJson);
@@ -318,7 +318,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   }
 
   protected String getSearch(SearchSourceBuilder searchSource, JsonArray sortArray) {
-    JsonObject search = new JsonParser().parse(searchSource.toString()).getAsJsonObject();
+    JsonObject search = JsonParser.parseString(searchSource.toString()).getAsJsonObject();
     search.add("sort", sortArray);
     return gson.toJson(search);
   }
@@ -432,7 +432,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
         if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
           String content = getContent(response);
           JsonObject obj =
-              new JsonParser().parse(content).getAsJsonObject().getAsJsonObject("hits");
+              JsonParser.parseString(content).getAsJsonObject().getAsJsonObject("hits");
           if (obj.get("hits") != null) {
             JsonArray json = obj.getAsJsonArray("hits");
             ImmutableList.Builder<T> results = ImmutableList.builderWithExpectedSize(json.size());
@@ -448,7 +448,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
               searchAfter = hit.getAsJsonArray("sort");
             }
             JsonArray finalSearchAfter = searchAfter;
-            return new ListResultSet<T>(results.build()) {
+            return new ListResultSet<>(results.build()) {
               @Override
               public Object searchAfter() {
                 return finalSearchAfter;
