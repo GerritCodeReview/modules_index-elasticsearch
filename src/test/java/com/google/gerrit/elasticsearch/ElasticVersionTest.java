@@ -22,12 +22,25 @@ import org.junit.Test;
 public class ElasticVersionTest {
   @Test
   public void supportedVersion() throws Exception {
-    assertThat(ElasticVersion.forVersion("7.17.0")).isEqualTo(ElasticVersion.V7_17);
-    assertThat(ElasticVersion.forVersion("7.17.1")).isEqualTo(ElasticVersion.V7_17);
+    assertThat(ElasticVersion.forVersion("7.0.0-alpha1")).isEqualTo(ElasticVersion.V7);
+    assertThat(ElasticVersion.forVersion("7.0.0-beta1")).isEqualTo(ElasticVersion.V7);
+    assertThat(ElasticVersion.forVersion("7.0.0-rc2")).isEqualTo(ElasticVersion.V7);
+    assertThat(ElasticVersion.forVersion("7.0.10")).isEqualTo(ElasticVersion.V7);
+    assertThat(ElasticVersion.forVersion("7.16.0")).isEqualTo(ElasticVersion.V7);
+    assertThat(ElasticVersion.forVersion("7.16.1")).isEqualTo(ElasticVersion.V7);
+    assertThat(ElasticVersion.forVersion("7.17.0")).isEqualTo(ElasticVersion.V7);
+    assertThat(ElasticVersion.forVersion("7.17.1")).isEqualTo(ElasticVersion.V7);
 
-    assertThat(ElasticVersion.forVersion("8.15.0")).isEqualTo(ElasticVersion.V8_15);
-    assertThat(ElasticVersion.forVersion("8.15.1")).isEqualTo(ElasticVersion.V8_15);
-    assertThat(ElasticVersion.forVersion("8.15.2")).isEqualTo(ElasticVersion.V8_15);
+    assertThat(ElasticVersion.forVersion("8.0.0-alpha1")).isEqualTo(ElasticVersion.V8);
+    assertThat(ElasticVersion.forVersion("8.0.0-beta1")).isEqualTo(ElasticVersion.V8);
+    assertThat(ElasticVersion.forVersion("8.0.0-rc2")).isEqualTo(ElasticVersion.V8);
+    assertThat(ElasticVersion.forVersion("8.0.10")).isEqualTo(ElasticVersion.V8);
+    assertThat(ElasticVersion.forVersion("8.9.0")).isEqualTo(ElasticVersion.V8);
+    assertThat(ElasticVersion.forVersion("8.9.1")).isEqualTo(ElasticVersion.V8);
+    assertThat(ElasticVersion.forVersion("8.9.2")).isEqualTo(ElasticVersion.V8);
+    assertThat(ElasticVersion.forVersion("8.15.0")).isEqualTo(ElasticVersion.V8);
+    assertThat(ElasticVersion.forVersion("8.15.1")).isEqualTo(ElasticVersion.V8);
+    assertThat(ElasticVersion.forVersion("8.15.2")).isEqualTo(ElasticVersion.V8);
   }
 
   @Test

@@ -27,9 +27,9 @@ import org.testcontainers.utility.DockerImageName;
 /* Helper class for running ES integration tests in docker container */
 public class ElasticContainer extends ElasticsearchContainer {
   private static FluentLogger logger = FluentLogger.forEnclosingClass();
-  private static final int ELASTICSEARCH_DEFAULT_PORT = 9200;
 
   public static ElasticContainer createAndStart(ElasticVersion version) {
+    @SuppressWarnings("resource")
     ElasticContainer container = new ElasticContainer(version);
     try {
       Path certs = Path.of("/usr/share/elasticsearch/config/certs");
@@ -89,9 +89,9 @@ public class ElasticContainer extends ElasticsearchContainer {
   private static DockerImageName getImageName(ElasticVersion version) {
     DockerImageName image = DockerImageName.parse("docker.elastic.co/elasticsearch/elasticsearch");
     switch (version) {
-      case V7_17:
+      case V7:
         return image.withTag("7.17.24");
-      case V8_15:
+      case V8:
         return image.withTag("8.15.2");
     }
     throw new IllegalStateException("No tests for version: " + version.name());
