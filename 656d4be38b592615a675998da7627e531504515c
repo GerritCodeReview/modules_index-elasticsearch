@@ -99,6 +99,30 @@
       },
       "revId": "656d4be38b592615a675998da7627e531504515c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba31400a_b6d92fdd",
+        "filename": "src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-10-26T21:06:42Z",
+      "side": 1,
+      "message": "reverted this, since it caused multiple tests to fail",
+      "parentUuid": "d4b4d2d2_9c4e147a",
+      "range": {
+        "startLine": 198,
+        "startChar": 0,
+        "endLine": 204,
+        "endChar": 5
+      },
+      "revId": "656d4be38b592615a675998da7627e531504515c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
