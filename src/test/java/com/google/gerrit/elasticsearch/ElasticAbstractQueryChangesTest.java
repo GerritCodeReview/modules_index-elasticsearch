@@ -90,11 +90,13 @@ public abstract class ElasticAbstractQueryChangesTest extends AbstractQueryChang
     Project.NameKey project = Project.nameKey("repo");
     TestRepository<Repository> repo = createAndOpenProject(project);
     Change c = insert(project, newChangeWithStatus(repo, Change.Status.NEW));
-    gApi.changes().id(c.getChangeId()).index();
+    gApi.changes().id(c.getProject().get(), c.getChangeId()).index();
 
     ElasticTestUtils.closeIndex(client, container, testName);
     StorageException thrown =
-        assertThrows(StorageException.class, () -> gApi.changes().id(c.getChangeId()).index());
+        assertThrows(
+            StorageException.class,
+            () -> gApi.changes().id(c.getProject().get(), c.getChangeId()).index());
     assertThat(thrown).hasMessageThat().contains("Failed to reindex change");
   }
 
