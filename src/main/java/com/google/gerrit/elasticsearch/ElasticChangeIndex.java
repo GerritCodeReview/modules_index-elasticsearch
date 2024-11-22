@@ -19,11 +19,14 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.elasticsearch.ElasticMapping.Mapping;
+import com.google.gerrit.elasticsearch.builders.QueryBuilder;
+import com.google.gerrit.elasticsearch.builders.SearchSourceBuilder;
 import com.google.gerrit.elasticsearch.bulk.BulkRequest;
 import com.google.gerrit.elasticsearch.bulk.IndexRequest;
 import com.google.gerrit.elasticsearch.bulk.UpdateRequest;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.entities.converter.ChangeProtoConverter;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.QueryOptions;
@@ -40,6 +43,7 @@ import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.options.AutoFlush;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.ChangePredicates;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -190,5 +194,25 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     }
 
     return cd;
+  }
+
+  @Override
+  public void deleteAllForProject(NameKey project) {
+    QueryBuilder qb;
+    try {
+      qb = queryBuilder.toQueryBuilder(ChangePredicates.project(project));
+    } catch (QueryParseException e) {
+      throw new IllegalStateException("Failed to build project query.", e);
+    }
+    String payload = new SearchSourceBuilder(client.adapter()).query(qb).toString();
+    String uri = getURI(DELETE_BY_QUERY);
+    Response response = postRequestWithRefreshParam(uri, payload);
+    int statusCode = response.getStatusLine().getStatusCode();
+    if (statusCode != HttpStatus.SC_OK) {
+      throw new StorageException(
+          String.format(
+              "Failed to delete changes in project %s from index %s: %s",
+              project, indexName, statusCode));
+    }
   }
 }

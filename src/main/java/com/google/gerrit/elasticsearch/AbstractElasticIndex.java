@@ -88,6 +88,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
   protected static final String BULK = "_bulk";
   protected static final String COUNT = "_count";
+  protected static final String DELETE_BY_QUERY = "_delete_by_query";
   protected static final String MAPPINGS = "mappings";
   protected static final String ORDER = "order";
   protected static final String DESC_SORT_ORDER = "desc";
