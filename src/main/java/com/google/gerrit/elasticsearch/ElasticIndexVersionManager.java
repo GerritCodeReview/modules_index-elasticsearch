@@ -52,7 +52,7 @@ public class ElasticIndexVersionManager extends VersionManager {
         sitePaths,
         listeners,
         defs,
-        VersionManager.getOnlineUpgrade(cfg),
+        VersionManager.shouldPerformOnlineUpgrade(cfg),
         cfg.getBoolean("index", "reuseExistingDocuments", false));
     this.versionDiscovery = versionDiscovery;
     prefix = Strings.nullToEmpty(cfg.getString("elasticsearch", null, "prefix"));
