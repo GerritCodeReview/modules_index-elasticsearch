@@ -75,7 +75,8 @@ public class ElasticContainer extends ElasticsearchContainer {
                   .withCommand(
                       "sh",
                       "-c",
-                      "/usr/share/elasticsearch/generate-certs.sh && /usr/local/bin/docker-entrypoint.sh")
+                      "/usr/share/elasticsearch/generate-certs.sh &&"
+                          + " /usr/local/bin/docker-entrypoint.sh")
                   .withCertPath(customizedCertPath);
       container.start();
     } catch (ContainerLaunchException e) {
