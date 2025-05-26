@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4b8b490_ea37a0a9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3726875
+      },
+      "writtenOn": "2025-05-26T20:50:54Z",
+      "side": 1,
+      "message": "def greeting(name):\nprint(\"Hello, \" + name)\nUse a Module\n\nImport the module named mymodule, and call the greeting function:\nBonnes pratiques GitHub pour MDN\nLes tickets GitHub (ou issues en anglais) sont utilisés afin de tracer l\u0027ensemble des tâches à réaliser et qui ont un résultat attendu clair. Si vous avez trouvé un bug avec le contenu ou la plateforme, regardez si ce problème n\u0027a pas déjà été remonté sur le dépôt correspondant. Si ça n\u0027est pas le cas, n\u0027hésitez pas à rédiger un nouveau ticket en utilisant le modèle disponible sur le début",
+      "revId": "4c6e6644903b605857d9fdc3a1055eee48979eff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
