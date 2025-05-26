@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c66cd88_6155b5ca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3726875
+      },
+      "writtenOn": "2025-05-26T20:44:29Z",
+      "side": 1,
+      "message": "Kindly review please post it on Microsoft partners community",
+      "revId": "e9aec58e359e1556a8909788197cb8691bfcbe0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
