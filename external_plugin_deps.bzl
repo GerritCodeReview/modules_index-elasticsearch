@@ -70,8 +70,8 @@ def external_plugin_deps():
     # org.apache.httpcomponents dependencies in core.
     maven_jar(
         name = "elasticsearch-rest-client",
-        artifact = "org.elasticsearch.client:elasticsearch-rest-client:8.15.2",
-        sha1 = "ac92c1b9a542982b9a12683b608989e1a99e864c",
+        artifact = "org.elasticsearch.client:elasticsearch-rest-client:8.18.1",
+        sha1 = "45f65088c3a356119dc63988a3a26c9cc0716e47",
     )
 
     # elasticsearch-rest-client explicitly depends on this version
