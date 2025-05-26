@@ -53,8 +53,10 @@ class ElasticIndexVersionDiscovery {
       throw new IOException(message);
     }
 
-    return JsonParser.parseString(AbstractElasticIndex.getContent(response)).getAsJsonObject()
-        .entrySet().stream()
+    return JsonParser.parseString(AbstractElasticIndex.getContent(response))
+        .getAsJsonObject()
+        .entrySet()
+        .stream()
         .map(e -> e.getKey().replace(name, ""))
         .collect(toList());
   }
