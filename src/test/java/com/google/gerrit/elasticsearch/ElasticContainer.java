@@ -91,9 +91,9 @@ public class ElasticContainer extends ElasticsearchContainer {
     DockerImageName image = DockerImageName.parse("docker.elastic.co/elasticsearch/elasticsearch");
     switch (version) {
       case V7:
-        return image.withTag("7.17.24");
+        return image.withTag("7.17.28");
       case V8:
-        return image.withTag("8.15.2");
+        return image.withTag("8.18.1");
     }
     throw new IllegalStateException("No tests for version: " + version.name());
   }
