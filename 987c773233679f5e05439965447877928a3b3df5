@@ -16,6 +16,24 @@
       "message": "So we start supporting ES 9 then?",
       "revId": "987c773233679f5e05439965447877928a3b3df5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b992d117_f8279bf7",
+        "filename": "external_plugin_deps.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-06-04T09:28:40Z",
+      "side": 1,
+      "message": "not sure yet, for ES 9 we need to enhance the tests to cover ES 9 server\n\nhttps://www.elastic.co/docs/reference/elasticsearch/clients/java\nsays:\n\nElasticsearch language clients are only backwards compatible with default distributions and without guarantees made.\n\nNot sure what this means, at least our tests against ES 7 and 8 succeed with the ES 9 client",
+      "parentUuid": "05b61e57_0523246e",
+      "revId": "987c773233679f5e05439965447877928a3b3df5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
