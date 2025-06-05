@@ -85,6 +85,7 @@ ELASTICSEARCH_TESTS_V7 = {i: "ElasticV7Query" + i.capitalize() + SUFFIX for i in
     tags = [
         "docker",
         "elastic",
+        "elastic_V7",
         "exclusive",
     ],
     deps = ELASTICSEARCH_DEPS + PLUGIN_TEST_DEPS + [
@@ -104,6 +105,7 @@ ELASTICSEARCH_TESTS_V8 = {i: "ElasticV8Query" + i.capitalize() + SUFFIX for i in
     tags = [
         "docker",
         "elastic",
+        "elastic_V8",
         "exclusive",
     ],
     deps = ELASTICSEARCH_DEPS + PLUGIN_TEST_DEPS + [
