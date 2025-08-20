@@ -11,6 +11,8 @@ gerrit_plugin(
     name = "index-elasticsearch",
     srcs = glob(["src/main/java/**/*.java"]),
     deps = [
+        "//java/com/google/gerrit/entities/converter:converters",
+        "//java/com/google/gerrit/entities/converter:proto_converter",
         "@elasticsearch-rest-client//jar",
         "@httpasyncclient//jar",
         "@httpcore-nio//jar",
