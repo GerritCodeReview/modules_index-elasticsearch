@@ -32,6 +32,7 @@ import org.apache.http.client.config.RequestConfig;
 import org.apache.http.entity.ContentType;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
+import org.apache.http.impl.nio.reactor.IOReactorConfig;
 import org.apache.http.message.BasicHeader;
 import org.elasticsearch.client.Request;
 import org.elasticsearch.client.Response;
@@ -140,7 +141,14 @@ class ElasticRestClientProvider implements Provider<RestClient>, LifecycleListen
 
   protected HttpAsyncClientBuilder configureHttpClientBuilder(
       HttpAsyncClientBuilder httpClientBuilder) {
-    return setConfiguredCredentialsIfAny(httpClientBuilder);
+    return setConfiguredCredentialsIfAny(httpClientBuilder)
+        .setDefaultIOReactorConfig(
+            IOReactorConfig.custom()
+                .setIoThreadCount(
+                    Math.min(
+                        Runtime.getRuntime().availableProcessors(),
+                        RestClientBuilder.DEFAULT_MAX_CONN_TOTAL / 2))
+                .build());
   }
 
   private RestClientBuilder setConfiguredTimeouts(RestClientBuilder builder) {
