@@ -32,6 +32,7 @@ import org.apache.http.client.config.RequestConfig;
 import org.apache.http.entity.ContentType;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
+import org.apache.http.impl.nio.reactor.IOReactorConfig;
 import org.apache.http.message.BasicHeader;
 import org.elasticsearch.client.Request;
 import org.elasticsearch.client.Response;
@@ -131,11 +132,23 @@ class ElasticRestClientProvider implements Provider<RestClient>, LifecycleListen
 
   private RestClient build() {
     RestClientBuilder builder = RestClient.builder(cfg.getHosts());
-    builder.setDefaultHeaders(
-        new Header[] {new BasicHeader("Accept", ContentType.APPLICATION_JSON.toString())});
     setConfiguredTimeouts(builder);
-    setConfiguredCredentialsIfAny(builder);
-    return builder.build();
+    return builder
+        .setDefaultHeaders(
+            new Header[] {new BasicHeader("Accept", ContentType.APPLICATION_JSON.toString())})
+        .setHttpClientConfigCallback(
+            httpClientBuilder -> {
+              setConfiguredCredentialsIfAny(httpClientBuilder);
+              configureHttpClientBuilder(httpClientBuilder);
+              return httpClientBuilder.setDefaultIOReactorConfig(
+                  IOReactorConfig.custom()
+                      .setIoThreadCount(
+                          Math.min(
+                              Runtime.getRuntime().availableProcessors(),
+                              RestClientBuilder.DEFAULT_MAX_CONN_TOTAL / 2))
+                      .build());
+            })
+        .build();
   }
 
   private void setConfiguredTimeouts(RestClientBuilder builder) {
@@ -146,19 +159,14 @@ class ElasticRestClientProvider implements Provider<RestClient>, LifecycleListen
                 .setSocketTimeout(cfg.socketTimeout));
   }
 
-  private void setConfiguredCredentialsIfAny(RestClientBuilder builder) {
+  private void setConfiguredCredentialsIfAny(HttpAsyncClientBuilder httpClientBuilder) {
     String username = cfg.username;
     String password = cfg.password;
     if (username != null && password != null) {
       CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
       credentialsProvider.setCredentials(
           AuthScope.ANY, new UsernamePasswordCredentials(username, password));
-      builder.setHttpClientConfigCallback(
-          (HttpAsyncClientBuilder httpClientBuilder) -> {
-            httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider);
-            configureHttpClientBuilder(httpClientBuilder);
-            return httpClientBuilder;
-          });
+      httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider);
     }
   }
 
