@@ -70,6 +70,30 @@
       },
       "revId": "c65075161fb8736ec21456947c6452ebed2d0f13",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f50db3c0_6479cbf2",
+        "filename": "src/main/java/com/google/gerrit/elasticsearch/ElasticRestClientProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-09-24T18:06:28Z",
+      "side": 1,
+      "message": "I actually decided to do a refactor as a parent of this change. It makes this change even simpler.",
+      "parentUuid": "d3a93878_f37b19fa",
+      "range": {
+        "startLine": 143,
+        "startChar": 39,
+        "endLine": 143,
+        "endChar": 64
+      },
+      "revId": "c65075161fb8736ec21456947c6452ebed2d0f13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
