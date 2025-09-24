@@ -131,37 +131,36 @@ class ElasticRestClientProvider implements Provider<RestClient>, LifecycleListen
 
   private RestClient build() {
     RestClientBuilder builder = RestClient.builder(cfg.getHosts());
-    builder.setDefaultHeaders(
-        new Header[] {new BasicHeader("Accept", ContentType.APPLICATION_JSON.toString())});
-    setConfiguredTimeouts(builder);
-    setConfiguredCredentialsIfAny(builder);
-    return builder.build();
+    return setConfiguredTimeouts(builder)
+        .setDefaultHeaders(
+            new Header[] {new BasicHeader("Accept", ContentType.APPLICATION_JSON.toString())})
+        .setHttpClientConfigCallback(this::configureHttpClientBuilder)
+        .build();
   }
 
-  private void setConfiguredTimeouts(RestClientBuilder builder) {
-    builder.setRequestConfigCallback(
+  protected HttpAsyncClientBuilder configureHttpClientBuilder(
+      HttpAsyncClientBuilder httpClientBuilder) {
+    return setConfiguredCredentialsIfAny(httpClientBuilder);
+  }
+
+  private RestClientBuilder setConfiguredTimeouts(RestClientBuilder builder) {
+    return builder.setRequestConfigCallback(
         (RequestConfig.Builder requestConfigBuilder) ->
             requestConfigBuilder
                 .setConnectTimeout(cfg.connectTimeout)
                 .setSocketTimeout(cfg.socketTimeout));
   }
 
-  private void setConfiguredCredentialsIfAny(RestClientBuilder builder) {
+  private HttpAsyncClientBuilder setConfiguredCredentialsIfAny(
+      HttpAsyncClientBuilder httpClientBuilder) {
     String username = cfg.username;
     String password = cfg.password;
     if (username != null && password != null) {
       CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
       credentialsProvider.setCredentials(
           AuthScope.ANY, new UsernamePasswordCredentials(username, password));
-      builder.setHttpClientConfigCallback(
-          (HttpAsyncClientBuilder httpClientBuilder) -> {
-            httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider);
-            configureHttpClientBuilder(httpClientBuilder);
-            return httpClientBuilder;
-          });
+      return httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider);
     }
+    return httpClientBuilder;
   }
-
-  protected void configureHttpClientBuilder(
-      @SuppressWarnings("unused") HttpAsyncClientBuilder httpClientBuilder) {}
 }

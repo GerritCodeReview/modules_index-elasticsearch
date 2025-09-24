@@ -29,9 +29,12 @@ class ElasticContainerRestClientProvider extends ElasticRestClientProvider {
   }
 
   @Override
-  protected void configureHttpClientBuilder(HttpAsyncClientBuilder httpClientBuilder) {
+  protected HttpAsyncClientBuilder configureHttpClientBuilder(
+      HttpAsyncClientBuilder httpClientBuilder) {
+    super.configureHttpClientBuilder(httpClientBuilder);
     if (container.caCertAsBytes().isPresent()) {
-      httpClientBuilder.setSSLContext(container.createSslContextFromCa());
+      return httpClientBuilder.setSSLContext(container.createSslContextFromCa());
     }
+    return httpClientBuilder;
   }
 }
