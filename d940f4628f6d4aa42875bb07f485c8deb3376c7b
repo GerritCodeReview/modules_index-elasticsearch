@@ -51,6 +51,23 @@
       "message": "515341: doc: Fix formatting in rest-api-changes.txt | https://gerrit-review.googlesource.com/c/gerrit/+/515341",
       "revId": "d940f4628f6d4aa42875bb07f485c8deb3376c7b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e208493f_d95fecc2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4392635
+      },
+      "writtenOn": "2025-10-03T20:57:32Z",
+      "side": 1,
+      "message": "https://support.google.com/googleplay/thread/377903139?hl\u003den",
+      "revId": "d940f4628f6d4aa42875bb07f485c8deb3376c7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [
