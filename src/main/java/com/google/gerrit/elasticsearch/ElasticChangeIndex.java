@@ -189,7 +189,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
 
     for (SchemaField<ChangeData, ?> field : getSchema().getSchemaFields().values()) {
       if (fields.contains(field.getName()) && source.get(field.getName()) != null) {
-        field.setIfPossible(cd, new ElasticStoredValue(source.get(field.getName())));
+        var unused = field.setIfPossible(cd, new ElasticStoredValue(source.get(field.getName())));
       }
     }
 

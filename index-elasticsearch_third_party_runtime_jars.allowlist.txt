@@ -1,0 +1,4 @@
+elasticsearch-rest-client
+httpasyncclient
+httpcore-nio
+jackson-core
