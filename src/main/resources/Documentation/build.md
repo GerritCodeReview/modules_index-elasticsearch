@@ -7,31 +7,100 @@ compatible with all ES versions. See the [LLRC
 docs](https://www.elastic.co/guide/en/elasticsearch/client/java-api-client/8.15/java-rest-low-usage-maven.html)
 for more information.
 
-## Build in Gerrit tree
+Two build modes are supported: Standalone and in Gerrit tree. The standalone build mode is
+recommended, as this mode doesn't require the Gerrit tree to exist locally.
 
-Create a symbolic link of the repository source to the Gerrit source
-tree plugins/index-elasticsearch directory, and the external_plugin_deps.bzl
-dependencies linked to plugins/external_plugin_deps.bzl.
+### Packaged runtime JAR allowlist test
 
-Example:
+This plugin tracks the set of third-party runtime JARs that are bundled into the plugin JAR.
+A deterministic, version-agnostic manifest is generated from the plugin’s runtime classpath and
+compared against the checked-in allowlist:
 
-```sh
-git clone https://gerrit.googlesource.com/gerrit
-git clone https://gerrit.googlesource.com/modules/index-elasticsearch
-cd gerrit/plugins
-ln -s ../../index-elasticsearch index-elasticsearch
-ln -sf ../../index-elasticsearch/external_plugin_deps.bzl .
+`@PLUGIN@_third_party_runtime_jars.allowlist.txt`
+
+This acts as a guardrail to detect unintended changes to the packaged runtime dependency set.
+
+To run the check (standalone or in Gerrit tree):
+
+```bash
+bazelisk test //:@PLUGIN@_dependency_allowlist_test
 ```
 
-From the Gerrit source tree issue the command `bazelisk build plugins/index-elasticsearch`.
+#### Updating the allowlist
 
-Example:
+If the test fails because the packaged third-party JAR set changed, the plugin’s bundled runtime
+dependencies have changed.
 
-```sh
-bazelisk build plugins/index-elasticsearch
+If the change is expected and has been reviewed, refresh the allowlist:
+
+```bash
+bazelisk build //:@PLUGIN@_third_party_runtime_jars.allowlist.txt
+cp bazel-bin/@PLUGIN@_third_party_runtime_jars.allowlist.txt \
+  @PLUGIN@_third_party_runtime_jars.allowlist.txt
 ```
 
-The libModule jar file is created under `bazel-bin/plugins/index-elasticsearch/index-elasticsearch.jar`
+Commit the updated allowlist along with the dependency change.
+
+### Build standalone
+
+Clone the plugin:
+
+```
+  git clone https://gerrit.googlesource.com/plugins/@PLUGIN@
+  cd @PLUGIN@
+```
+
+Issue the command:
+
+```
+  bazel build :all
+```
+
+The output is created in
+
+```
+  bazel-bin/@PLUGIN@.jar
+```
+
+### Build in Gerrit tree
+
+Clone or link this plugin to the plugins directory of Gerrit's source tree, and issue the command:
+
+```
+  git clone https://gerrit.googlesource.com/gerrit
+  git clone https://gerrit.googlesource.com/plugins/@PLUGIN@
+  cd gerrit/plugins
+  ln -s ../../@PLUGIN@ .
+```
+
+Then link the plugin's module fragment into Gerrit's `plugins` directory, replacing the
+placeholder file provided by Gerrit. This fragment exposes the plugin's Bazel module and its
+external dependencies to the Gerrit root module when building in-tree.
+
+```
+  cd gerrit/plugins
+  rm external_plugin_deps.MODULE.bazel
+  ln -s @PLUGIN@/external_plugin_deps.MODULE.bazel .
+```
+
+From the Gerrit source tree run:
+
+```
+  bazel build plugins/@PLUGIN@
+```
+
+The output is created in:
+
+```
+  bazel-bin/plugins/@PLUGIN@/@PLUGIN@.jar
+```
+
+To execute the tests run either of:
+
+```
+  bazel test plugins/@PLUGIN@/...
+  bazel test --test_tag_filters=@PLUGIN@ //...
+```
 
 ## Integration test
 
@@ -42,7 +111,7 @@ to this module.
 To run only the tests provided by this plugin:
 
 ```sh
-bazelisk test plugins/index-elasticsearch/...
+bazelisk test plugins/@PLUGIN@/...
 ```
 
 Gerrit acceptance tests allow the execution with an alternate implementation of
