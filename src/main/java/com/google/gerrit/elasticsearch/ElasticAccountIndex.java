@@ -28,7 +28,7 @@ import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.index.IndexDir;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.account.AccountField;
 import com.google.gerrit.server.index.account.AccountIndex;
@@ -39,6 +39,7 @@ import com.google.gson.JsonObject;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
+import java.nio.file.Path;
 import java.util.Set;
 import org.apache.http.HttpStatus;
 import org.elasticsearch.client.Response;
@@ -62,12 +63,12 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
   @Inject
   ElasticAccountIndex(
       ElasticConfiguration cfg,
-      SitePaths sitePaths,
+      @IndexDir Path indexDir,
       Provider<AccountCache> accountCache,
       ElasticRestClientProvider client,
       AutoFlush autoFlush,
       @Assisted Schema<AccountState> schema) {
-    super(cfg, sitePaths, schema, client, ACCOUNTS, autoFlush, AccountIndex.ENTITY_TO_KEY);
+    super(cfg, indexDir, schema, client, ACCOUNTS, autoFlush, AccountIndex.ENTITY_TO_KEY);
     this.accountCache = accountCache;
     this.mapping = new AccountMapping(schema, client.adapter());
     this.schema = schema;

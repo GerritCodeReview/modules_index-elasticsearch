@@ -28,7 +28,7 @@ import com.google.gerrit.index.query.DataSource;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.account.GroupCache;
-import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.index.IndexDir;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.group.GroupField;
 import com.google.gerrit.server.index.group.GroupIndex;
@@ -39,6 +39,7 @@ import com.google.gson.JsonObject;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
+import java.nio.file.Path;
 import java.util.Set;
 import org.apache.http.HttpStatus;
 import org.elasticsearch.client.Response;
@@ -62,12 +63,12 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, I
   @Inject
   ElasticGroupIndex(
       ElasticConfiguration cfg,
-      SitePaths sitePaths,
+      @IndexDir Path indexDir,
       Provider<GroupCache> groupCache,
       ElasticRestClientProvider client,
       AutoFlush autoFlush,
       @Assisted Schema<InternalGroup> schema) {
-    super(cfg, sitePaths, schema, client, GROUPS, autoFlush, GroupIndex.ENTITY_TO_KEY);
+    super(cfg, indexDir, schema, client, GROUPS, autoFlush, GroupIndex.ENTITY_TO_KEY);
     this.groupCache = groupCache;
     this.mapping = new GroupMapping(schema, client.adapter());
     this.schema = schema;

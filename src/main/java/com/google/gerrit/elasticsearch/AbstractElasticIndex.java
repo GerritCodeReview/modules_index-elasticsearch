@@ -48,7 +48,7 @@ import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.ResultSet;
 import com.google.gerrit.proto.Protos;
-import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.index.IndexDir;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.options.AutoFlush;
 import com.google.gerrit.server.logging.Metadata;
@@ -66,6 +66,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.nio.file.Path;
 import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.List;
@@ -134,7 +135,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
   private final ElasticConfiguration config;
   private final Schema<V> schema;
-  private final SitePaths sitePaths;
+  private final Path indexDir;
   private final String indexNameRaw;
   private final Map<String, String> refreshParam;
 
@@ -146,14 +147,14 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
   AbstractElasticIndex(
       ElasticConfiguration config,
-      SitePaths sitePaths,
+      @IndexDir Path indexDir,
       Schema<V> schema,
       ElasticRestClientProvider client,
       String indexName,
       AutoFlush autoFlush,
       Function<V, K> valueToKeyFunction) {
     this.config = config;
-    this.sitePaths = sitePaths;
+    this.indexDir = indexDir;
     this.schema = schema;
     this.gson = new GsonBuilder().setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES).create();
     this.queryBuilder = new ElasticQueryBuilder();
@@ -189,7 +190,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
   @Override
   public void markReady(boolean ready) {
-    IndexUtils.setReady(sitePaths, indexNameRaw, schema.getVersion(), ready);
+    IndexUtils.setReady(indexDir, indexNameRaw, schema.getVersion(), ready);
   }
 
   @Override

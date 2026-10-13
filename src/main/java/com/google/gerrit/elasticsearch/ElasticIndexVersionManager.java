@@ -23,12 +23,14 @@ import com.google.gerrit.index.Schema;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.GerritIndexStatus;
+import com.google.gerrit.server.index.IndexDir;
 import com.google.gerrit.server.index.OnlineUpgradeListener;
 import com.google.gerrit.server.index.VersionManager;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Collection;
 import java.util.List;
 import java.util.TreeMap;
@@ -45,11 +47,13 @@ public class ElasticIndexVersionManager extends VersionManager {
   ElasticIndexVersionManager(
       @GerritServerConfig Config cfg,
       SitePaths sitePaths,
+      @IndexDir Path indexDir,
       PluginSetContext<OnlineUpgradeListener> listeners,
       Collection<IndexDefinition<?, ?, ?>> defs,
       ElasticIndexVersionDiscovery versionDiscovery) {
     super(
         sitePaths,
+        indexDir,
         listeners,
         defs,
         VersionManager.shouldPerformOnlineUpgrade(cfg),
