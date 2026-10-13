@@ -8,6 +8,7 @@ import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.pgm.init.api.Section;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.index.IndexDir;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.inject.Inject;
@@ -20,17 +21,19 @@ public class InitElasticSearchIndex implements InitStep {
   private final ConsoleUI ui;
   private final Section index;
   private final SitePaths site;
+  private final Path indexDir;
   private final InitFlags initFlags;
   private final Section gerrit;
   private final Section.Factory sections;
 
   @Inject
   InitElasticSearchIndex(
-      ConsoleUI ui, Section.Factory sections, SitePaths site, InitFlags initFlags) {
+      ConsoleUI ui, Section.Factory sections, SitePaths site, @IndexDir Path indexDir, InitFlags initFlags) {
     this.ui = ui;
     this.index = sections.get("index", null);
     this.gerrit = sections.get("gerrit", null);
     this.site = site;
+    this.indexDir = indexDir;
     this.initFlags = initFlags;
     this.sections = sections;
   }
@@ -49,7 +52,7 @@ public class InitElasticSearchIndex implements InitStep {
 
     if ((site.isNew || isEmptySite()) && type.isLucene()) {
       for (SchemaDefinitions<?> def : IndexModule.ALL_SCHEMA_DEFS) {
-        IndexUtils.setReady(site, def.getName(), def.getLatest().getVersion(), true);
+        IndexUtils.setReady(indexDir, def.getName(), def.getLatest().getVersion(), true);
       }
     } else {
       String message =

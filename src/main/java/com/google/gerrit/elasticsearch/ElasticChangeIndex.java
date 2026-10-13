@@ -37,7 +37,7 @@ import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.change.MergeabilityComputationBehavior;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.index.IndexDir;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndex;
@@ -49,6 +49,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import java.nio.file.Path;
 import java.util.Set;
 import org.apache.http.HttpStatus;
 import org.eclipse.jgit.lib.Config;
@@ -83,12 +84,12 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
   ElasticChangeIndex(
       ElasticConfiguration cfg,
       ChangeData.Factory changeDataFactory,
-      SitePaths sitePaths,
+      @IndexDir Path indexDir,
       ElasticRestClientProvider clientBuilder,
       @GerritServerConfig Config gerritConfig,
       AutoFlush autoFlush,
       @Assisted Schema<ChangeData> schema) {
-    super(cfg, sitePaths, schema, clientBuilder, CHANGES, autoFlush, ChangeIndex.ENTITY_TO_KEY);
+    super(cfg, indexDir, schema, clientBuilder, CHANGES, autoFlush, ChangeIndex.ENTITY_TO_KEY);
     this.changeDataFactory = changeDataFactory;
     this.schema = schema;
     this.mapping = new ChangeMapping(schema, client.adapter());
@@ -189,7 +190,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
 
     for (SchemaField<ChangeData, ?> field : getSchema().getSchemaFields().values()) {
       if (fields.contains(field.getName()) && source.get(field.getName()) != null) {
-        field.setIfPossible(cd, new ElasticStoredValue(source.get(field.getName())));
+        var unused = field.setIfPossible(cd, new ElasticStoredValue(source.get(field.getName())));
       }
     }
 
