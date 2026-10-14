@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88d0a7bc_6d98db42",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-10-14T09:11:23Z",
+      "side": 1,
+      "message": "Overriding V-1, since it is resolved by the followup change.",
+      "revId": "c7417f9007d0b28168eeeccbf8fa26cb7d76784b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
