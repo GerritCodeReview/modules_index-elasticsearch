@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3db7f5f_42948975",
+        "filename": ".bazelversion",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-16T08:22:07Z",
+      "side": 1,
+      "message": "9.3.0, to match gerrit core?",
+      "revId": "57bbea03318b2a4d51a23e393370e2e48006bb17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
