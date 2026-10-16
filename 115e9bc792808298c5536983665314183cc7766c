@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8eec3159_00971e4e",
+        "filename": "BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-10-16T07:59:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6cdad89d_629a23c6",
+      "revId": "115e9bc792808298c5536983665314183cc7766c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4653b33b_c0fd30b9",
@@ -31,6 +49,30 @@
       "writtenOn": "2026-10-15T04:30:52Z",
       "side": 1,
       "message": "This doesn\u0027t exist in standalone build.",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 40
+      },
+      "revId": "115e9bc792808298c5536983665314183cc7766c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "931236dc_9ed438a2",
+        "filename": "BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-10-16T07:59:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4653b33b_c0fd30b9",
       "range": {
         "startLine": 36,
         "startChar": 0,
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ce9cbc7_9495c20e",
+        "filename": "BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-10-16T07:59:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c6c89fe_bc2b8c62",
+      "range": {
+        "startLine": 45,
+        "startChar": 8,
+        "endLine": 46,
+        "endChar": 70
+      },
+      "revId": "115e9bc792808298c5536983665314183cc7766c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bbd83380_bbc27ae2",
@@ -77,6 +143,30 @@
       "writtenOn": "2026-10-15T04:30:52Z",
       "side": 1,
       "message": "7.2 fixed a critical bug and should be used.",
+      "range": {
+        "startLine": 5,
+        "startChar": 52,
+        "endLine": 5,
+        "endChar": 53
+      },
+      "revId": "115e9bc792808298c5536983665314183cc7766c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7281f9c9_ccdf417a",
+        "filename": "MODULE.bazel",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-10-16T07:59:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bbd83380_bbc27ae2",
       "range": {
         "startLine": 5,
         "startChar": 52,
@@ -110,6 +200,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "364f5146_c4513a8f",
+        "filename": "MODULE.bazel",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-10-16T07:59:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c963bcbb_8096be00",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 0
+      },
+      "revId": "115e9bc792808298c5536983665314183cc7766c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c2f269fd_97f62df8",
@@ -133,6 +247,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "97fd1da7_37e0be2e",
+        "filename": "MODULE.bazel",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-10-16T07:59:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c2f269fd_97f62df8",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 26
+      },
+      "revId": "115e9bc792808298c5536983665314183cc7766c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "760a90bd_23765abc",
@@ -146,6 +284,30 @@
       "writtenOn": "2026-10-15T04:30:52Z",
       "side": 1,
       "message": "Could we exclude `commons-logging:commons-logging`?\n\nGerrit already supplies the Commons Logging API through `jcl-over-slf4j`. The resulting plugin duplicates five classes, including `LogFactory`. The dependency-overlap test misses this because the two artifacts have different names.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 15
+      },
+      "revId": "115e9bc792808298c5536983665314183cc7766c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad21a3a4_b956efd5",
+        "filename": "index-elasticsearch_third_party_runtime_jars.allowlist.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-10-16T07:59:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "760a90bd_23765abc",
       "range": {
         "startLine": 1,
         "startChar": 0,

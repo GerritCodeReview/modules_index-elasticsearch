@@ -16,6 +16,24 @@
       "message": "src/main/resources/Documentation/build.md still instructs users to link removed external_plugin_deps.bzl:\n\n```\n✔ ~/projects/index-elasticsearch [:115e9bc|✔]\n06:23 $ rg external_plugin_deps.bzl\nsrc/main/resources/Documentation/build.md\n13:tree plugins/index-elasticsearch directory, and the external_plugin_deps.bzl\n14:dependencies linked to plugins/external_plugin_deps.bzl.\n23:ln -sf ../../index-elasticsearch/external_plugin_deps.bzl .\n```",
       "revId": "c7417f9007d0b28168eeeccbf8fa26cb7d76784b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7037363a_75b3bb35",
+        "filename": "external_plugin_deps.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-10-16T07:59:03Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "d6996b1d_f4b58e76",
+      "revId": "c7417f9007d0b28168eeeccbf8fa26cb7d76784b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
